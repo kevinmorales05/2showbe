@@ -15,6 +15,7 @@ export const typeDefs = `#graphql
     gender: String
     profileImg: String
   }
+  
   #inputs
   input UserInput {
     name: String
@@ -31,11 +32,26 @@ export const typeDefs = `#graphql
     gender: String
     profileImg: String
   }
+  input inputNotification {
+    title: String
+    body: String
+    logo: String
+    urlDynamic: String
+  }
+  #outputs
+  type UpdatedOutput{
+    message: String
+    UpdatedUser: User
+  }
   type Query {
     getUsers: [User]
   }
   type Mutation {
     #Users
     createUser(input: UserInput): String
+    updateUser(input: UserInput): UpdatedOutput
+
+    #Notifications
+    sendNotification(input: inputNotification): String
   }
 `;

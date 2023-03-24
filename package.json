@@ -14,7 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.4.0",
+    "@firebase/messaging": "^0.12.4",
     "dotenv": "^16.0.3",
+    "fcm-node": "^1.6.1",
+    "firebase-admin": "^11.5.0",
     "graphql": "^16.6.0",
     "mongoose": "^6.9.2"
   },
