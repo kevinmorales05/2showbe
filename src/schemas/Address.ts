@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const AddressEventSchema = new Schema({
   city: {
@@ -21,23 +21,26 @@ const AddressEventSchema = new Schema({
   secondStreet: {
     type: String,
   },
-  number: {
+  numberStreet: {
     type: String,
     required: true,
   },
-  reference:{
+  reference: {
     type: String,
-    required: true
+    required: true,
   },
-  lat:{
+  lat: {
     type: String,
-    required: true
+    required: true,
   },
-  long:{
+  long: {
     type: String,
-    required: true
-  }
-  
-
+    required: true,
+  },
+  languages: {
+    type: [String],
+    default: [],
+  },
+  mapsURL: String,
 });
 export const AddressEvent = mongoose.model("AddressEvent", AddressEventSchema);
