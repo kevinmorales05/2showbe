@@ -16,5 +16,5 @@ const userEventSchema = new Schema({
   },
   
   
-});
+}, {timestamps: true});
 export const userEvent = mongoose.model("userEvent", userEventSchema);
