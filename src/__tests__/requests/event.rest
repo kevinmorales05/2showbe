@@ -1,0 +1,50 @@
+@url=http://localhost:4000/
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation Mutation($input: EventInput) {
+  createEvent(input: $input) {
+    eventCategoryID
+    stageID
+    scheduleID
+    eventName
+    artistName
+    shortDescription
+    mainDescription
+    banners
+    videoImg
+    status
+    dateEvent
+    hourEvent
+    urlEvent
+    ticketsAvailable
+    online
+    concertPlacesIMG
+    visitorTeam
+    homeTeam
+    sportType
+  }
+}
+
+{
+  "input": {
+    "eventName": "Billy Idol",
+    "artistName": "Billy idol",
+    "shortDescription": "Music Concert",
+    "mainDescription": "Round Musical",
+    "banners": "billi.png",
+    "videoImg": "billi.png",
+    "dateEvent": "18:00",
+    "status": "null",
+    "hourEvent": "20:00",
+    "urlEvent": "sample.com",
+    "ticketsAvailable": 100,
+    "online": true,
+    "concertPlacesIMG": "sample-img.png",
+    "visitorTeam": null,
+    "homeTeam": null,
+    "sportType": null
+  }
+}
