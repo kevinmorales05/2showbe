@@ -10,7 +10,7 @@ const StageSchema = new Schema(
         // required: true,
       },
     ],
-    eventCategoriesIDs: [
+    eventCategoryID: [
       {
         type: Schema.Types.ObjectId,
         ref: "EventCategory",

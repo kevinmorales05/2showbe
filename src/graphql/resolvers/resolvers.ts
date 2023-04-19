@@ -104,8 +104,9 @@ export const resolvers = {
         return "Error while the user creation";
       }
     },
-    updateUser: async (_, { input }) => {
+    updateUser: async (_, { input }, ctx) => {
       try {
+        ctx.string = "cuca de la Diana";
         const { firebaseID } = input;
         const updatedUser = await User.findOneAndUpdate(
           firebaseID,
@@ -117,11 +118,36 @@ export const resolvers = {
         return;
       }
     },
-    createEvent: async (_, { input }) => {
+    createEvent: async (_, { input }, ctx, info) => {
       try {
-        const event = await new Event(input);
-        event.save();
-        return event;
+        // console.log("interesting: ", _);
+        // console.log("context: ", ctx, "endContext");
+        // console.log("Creating event: ", input);
+        // console.log("infoTag: ", info, "until");
+
+        const eventCategory = await new EventCategory(input.eventCategoryID);
+        await eventCategory.save();
+        console.log("itsno", eventCategory._id.toString());
+        const stage = await new Stage(input.stageID);
+        await stage.save();
+        const schedule = await new Schedule(input.scheduleID);
+        await schedule.save();
+        const parentEvent = await new Event(input.eventProps);
+        await parentEvent.save();
+
+        const id = eventCategory._id.toString();
+        parentEvent.eventCategoryID = parentEvent.eventCategoryID.concat(
+          schedule._id
+        );
+        parentEvent.stageID = parentEvent.stageID.concat(stage._id);
+        parentEvent.scheduleID = parentEvent.scheduleID.concat(schedule._id);
+        await parentEvent.save();
+
+        console.log("eventCategory", eventCategory);
+        console.log("stage", stage);
+        console.log("schedule", schedule);
+        console.log("MassiveEvent", parentEvent);
+        return parentEvent;
       } catch (error) {
         throw new GraphQLError("so" + input);
         middleware.errorMsg("Field name for the event is important", input);

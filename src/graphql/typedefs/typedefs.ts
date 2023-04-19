@@ -15,9 +15,9 @@ export const typeDefs = `#graphql
   mapsURL: String
 }
 type Event {
-  eventCategoryID: [EventCategory]
-  stageID: [Stage]
-  scheduleID: [Schedule]
+  eventCategoryID: EventCategory
+  stageID: Stage
+  scheduleID: Schedule
   eventName: String!
   artistName: String!
   shortDescription: String!
@@ -87,7 +87,7 @@ type Schedule {
 }
 type Stage {
   addressID: [String]
-  eventCategoriesIDs: [String]
+  eventCategoryID: [String]
   name: String!
   description: String!
   longDescription: String!
@@ -157,19 +157,71 @@ input UserInput {
   gender: String
   profileImg: String
 }
+"Definining objects for the inputs EVENT"
+input inputOfEventCategory {
+  name: String
+  shortDescription: String
+  longDescription: String
+  icon: String
+  urlImg: String
+}
 
-input EventInput {
-  eventCategoryID: [String]
-  stageID: [String]
-  scheduleID: [String]
+interface interfaceAddress{
+  city: String!
+  country: String!
+  mainStreet: String!
+  numberStreet: String!
+  state: String
+  secondStreet: String
+  reference: String
+  lat: String
+  long: String
+  languages: [String]
+  mapsURL: String
+}
+
+input inputOfStage {
+  name: String!
+  description: String!
+  longDescription: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  openFrom: String!
+  closeTo: String!
+  daysOpen: [Int]
+  onlineLink: String
+}
+
+input inputOfEventAddress {
+  city: String!
+  country: String!
+  mainStreet: String!
+  numberStreet: String!
+  state: String
+  secondStreet: String
+  reference: String
+  lat: String
+  long: String
+  languages: [String]
+  mapsURL: String
+}
+
+input inputOfSchedule {
+  dayNumber: Int!
+  attendFrom: String!
+  attendTo: String!
+}
+
+input inputOfEventProps {
   eventName: String!
   artistName: String!
   shortDescription: String!
   mainDescription: String!
+  dateEvent: String!
   banners: [String]
   videoImg: String
   status: String
-  dateEvent: String!
   hourEvent: String
   urlEvent: String
   ticketsAvailable: Int
@@ -179,6 +231,15 @@ input EventInput {
   homeTeam: String
   sportType: String
 }
+"Describing EventInput"
+input EventInput {
+  eventCategoryID: inputOfEventCategory
+  stageID: inputOfStage
+  scheduleID: inputOfSchedule
+  eventProps: inputOfEventProps
+}
+
+#separation...............................
 
 input EventTypeOnline {
   online: Boolean
@@ -207,7 +268,7 @@ input EventCategoryInput{
 
 input StageInput {
   addressID: AddressInput
-  eventCategoriesIDs: EventCategoryInput
+  eventCategoryID: EventCategoryInput
   name: String!
   description: String!
   longDescription: String!

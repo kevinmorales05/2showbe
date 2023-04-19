@@ -1,4 +1,5 @@
-@url=http://localhost:4000/
+# check the port only for testing
+@url=http://localhost:4002/
 ###
 POST {{url}}
 Content-Type: application/json
@@ -6,9 +7,15 @@ X-REQUEST-TYPE: GraphQL
 
 mutation Mutation($input: EventInput) {
   createEvent(input: $input) {
-    eventCategoryID
-    stageID
-    scheduleID
+    eventCategoryID {
+      longDescription
+    }
+    stageID {
+     capacity 
+    }
+    scheduleID {
+      attendTo
+    }
     eventName
     artistName
     shortDescription
@@ -30,21 +37,33 @@ mutation Mutation($input: EventInput) {
 
 {
   "input": {
-    "eventName": "Billy Idol",
-    "artistName": "Billy idol",
-    "shortDescription": "Music Concert",
-    "mainDescription": "Round Musical",
-    "banners": "billi.png",
-    "videoImg": "billi.png",
-    "dateEvent": "18:00",
-    "status": "null",
-    "hourEvent": "20:00",
-    "urlEvent": "sample.com",
-    "ticketsAvailable": 100,
-    "online": true,
-    "concertPlacesIMG": "sample-img.png",
-    "visitorTeam": null,
-    "homeTeam": null,
-    "sportType": null
+    "eventCategoryID": {
+      "name": "Concert",
+      "shortDescription": "short",
+      "longDescription": "long",
+      "icon": "icon.png",
+      "urlImg": "url.png"
+    },
+    "stageID": {
+      "name": "Estadio Olimpico",
+      "description": "Concert",
+      "longDescription": "long Concert",
+      "banners": "banner.png",
+      "videoURL": "video.png",
+      "openFrom": "open.png",
+      "closeTo": "close.png"
+    },
+    "scheduleID": {
+      "attendFrom": "08:00",
+      "attendTo": "20:00",
+      "dayNumber": 12
+    },
+    "eventProps": {
+      "eventName": "Concert of Billy Idol",
+      "artistName": "Billy Idol",
+      "shortDescription": "short concert",
+      "mainDescription": "long concert",
+      "dateEvent": "2023"
+    }
   }
 }
