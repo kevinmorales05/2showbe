@@ -21,7 +21,8 @@
     "fcm-node": "^1.6.1",
     "firebase-admin": "^11.5.0",
     "graphql": "^16.6.0",
-    "mongoose": "^6.9.2"
+    "mongoose": "^6.9.2",
+    "mongoose-autopopulate": "^1.0.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.21.4",

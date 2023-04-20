@@ -9,4 +9,12 @@ const eventCategorySchema = new Schema({
   urlImg: String,
 });
 
+eventCategorySchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
 export default model("EventCategory", eventCategorySchema);

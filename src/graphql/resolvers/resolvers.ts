@@ -26,50 +26,66 @@ export const resolvers = {
       return await User.find();
     },
     getEvents: async (_, { input }) => {
-      const schedule = await new Schedule({});
-      const eventC = await new EventCategory({});
-      if (
-        input.online !== null &&
-        (input.online === "online" || input.online === "present")
-      ) {
-        const event = await Event.find({ online: input.online })
-          .populate("eventCategoryID")
-          .populate("stageID")
-          .populate("scheduleID");
-        return event;
-      }
-      const event = await Event.find({})
-        .populate(
-          "eventCategoryID"
-          // , {
-          // name: 1,
-          // shortDescription: 1,
-          // longDescription: 1,
-          // icon: 1,
-          // urlImg: 1,
-          // }
-        )
-        .populate(
-          "stageID"
-          // , {
-          // name: 1,
-          // description: 1,
-          // longDescription: 1,
-          // banners: 1,
-          // videoURL: 1,
-          // capacity: 1,
-          // openFrom: 1,
-          // closeTo: 1,
-          // daysOpen: 1,
-          // onlineLink: 1,
-          // }
-        )
-        .populate(
-          "scheduleID"
-          // , { dayNumber: 1 }
-        )
-        .exec();
-      return event;
+      // const schedule = await new Schedule({});
+      // const eventC = await new EventCategory({});
+      // if (
+      //   input.online !== null &&
+      //   (input.online === "online" || input.online === "present")
+      // ) {
+      //   const event = await Event.find({ online: input.online })
+      //     .populate("eventCategoryID")
+      //     .populate("stageID")
+      //     .populate("scheduleID");
+      //   return event;
+      // }
+
+      const event = await Event.find({}).populate(
+        "eventCategoryID stageID scheduleID"
+      );
+      console.log("there event: ", event);
+      console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
+
+      const data =  [{
+        ...event[0]['_doc'],
+        eventCategoryID: event[0].eventCategoryID[0],
+        stageID: event[0].stageID[0],
+        scheduleID: event[0].scheduleID[0],
+      }];
+      console.log("data: ", data)
+      return data;
+
+      // const event = await Event.find({})
+      //   .populate(
+      //     "eventCategoryID"
+      //     // , {
+      //     // name: 1,
+      //     // shortDescription: 1,
+      //     // longDescription: 1,
+      //     // icon: 1,
+      //     // urlImg: 1,
+      //     // }
+      //   )
+      //   .populate(
+      //     "stageID"
+      //     // , {
+      //     // name: 1,
+      //     // description: 1,
+      //     // longDescription: 1,
+      //     // banners: 1,
+      //     // videoURL: 1,
+      //     // capacity: 1,
+      //     // openFrom: 1,
+      //     // closeTo: 1,
+      //     // daysOpen: 1,
+      //     // onlineLink: 1,
+      //     // }
+      //   )
+      //   .populate(
+      //     "scheduleID"
+      //     // , { dayNumber: 1 }
+      //   )
+      //   .exec();
+      // return event;
     },
     getStages: async (_, { input }) => {
       if (input.city !== null && input.country !== null) {
@@ -126,28 +142,32 @@ export const resolvers = {
         // console.log("infoTag: ", info, "until");
 
         const eventCategory = await new EventCategory(input.eventCategoryID);
-        await eventCategory.save();
-        console.log("itsno", eventCategory._id.toString());
         const stage = await new Stage(input.stageID);
-        await stage.save();
         const schedule = await new Schedule(input.scheduleID);
+        const event = await new Event(input.eventProps);
+        await eventCategory.save();
+        await stage.save();
         await schedule.save();
-        const parentEvent = await new Event(input.eventProps);
-        await parentEvent.save();
+        await event.save();
 
-        const id = eventCategory._id.toString();
-        parentEvent.eventCategoryID = parentEvent.eventCategoryID.concat(
-          schedule._id
-        );
-        parentEvent.stageID = parentEvent.stageID.concat(stage._id);
-        parentEvent.scheduleID = parentEvent.scheduleID.concat(schedule._id);
-        await parentEvent.save();
+        event.eventCategoryID = event.eventCategoryID.concat(eventCategory.id);
+        event.stageID = event.stageID.concat(stage.id);
+        event.scheduleID = event.scheduleID.concat(schedule.id);
+        await event.save();
 
-        console.log("eventCategory", eventCategory);
-        console.log("stage", stage);
-        console.log("schedule", schedule);
-        console.log("MassiveEvent", parentEvent);
-        return parentEvent;
+        const dataToReturn = {
+          ...event["_doc"],
+          eventCategoryID: eventCategory,
+          stageID: stage,
+          scheduleID: schedule,
+        };
+
+        console.log("over there", dataToReturn);
+        // console.log("eventCategory", eventCategory);
+        // console.log("stage", stage);
+        // console.log("schedule", schedule);
+        // console.log("MassiveEvent", event);
+        return dataToReturn;
       } catch (error) {
         throw new GraphQLError("so" + input);
         middleware.errorMsg("Field name for the event is important", input);

@@ -1,11 +1,19 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const ScheduleSchema = new Schema({
+const scheduleSchema = new Schema({
   eventID: [{ type: Schema.Types.ObjectId, ref: "Event" }],
   dayNumber: { type: Number, required: true },
   attendFrom: { type: String, required: true },
   attendTo: { type: String, required: true },
 });
 
-export default model("Schedule", ScheduleSchema);
+scheduleSchema.set("toJSON", {
+  transform: (doc, returnedObj) => {
+    returnedObj.id = returnedObj._id.toString();
+    delete returnedObj._id;
+    delete returnedObj.__v;
+  },
+});
+
+export default model("Schedule", scheduleSchema);

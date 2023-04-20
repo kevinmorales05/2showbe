@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const EventSchema = new Schema(
+const eventSchema = new Schema(
   {
     eventCategoryID: [{ type: Schema.Types.ObjectId, ref: "EventCategory" }],
     stageID: [
@@ -113,4 +113,13 @@ const EventSchema = new Schema(
   },
   { timestamps: true }
 );
-export default model("Event", EventSchema);
+
+eventSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
+export default model("Event", eventSchema);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const StageSchema = new Schema(
+const stageSchema = new Schema(
   {
     addressID: [
       {
@@ -54,4 +54,12 @@ const StageSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("Stage", StageSchema);
+stageSchema.set("toJSON", {
+  transform: (doc, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
+export default model("Stage", stageSchema);
