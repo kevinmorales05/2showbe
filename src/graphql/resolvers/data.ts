@@ -1,6 +1,6 @@
 const categories = [
   {
-    eventID: ["Now", "Cuca"],
+    eventID: ["Now", "some"],
     name: "Now",
     shortDescription: "Now",
     longDescription: "Now",

@@ -2,12 +2,10 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const ticketTypeSchema = new Schema({
-  eventID: [
-    {
+  eventID: {
       type: Schema.Types.ObjectId,
       ref: "Event",
     },
-  ],
   name: {
     type: String,
     required: true,
@@ -31,6 +29,7 @@ const ticketTypeSchema = new Schema({
   ticketsAvailable: {
     type: String,
     required: true,
+    enum: ["yes", "no"]
   },
 });
 

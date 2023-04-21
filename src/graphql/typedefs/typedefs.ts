@@ -36,12 +36,12 @@ type Event {
   sportType: String
 }
 type EventCategory {
-  eventID: [String]
-  name: String
-  shortDescription: String
-  longDescription: String
-  icon: String
-  urlImg: String
+  categoryType: String!
+  name: String!,
+  shortDescription: String!,
+  longDescription: String,
+  icon: String,
+  urlImg: String,
 }
 type EventCost {
   name: String!
@@ -139,7 +139,20 @@ type UserEvent {
   eventID: [String]!
   eventCostID: [String]!
 }
-
+"[API](https://www.apollographql.com/tutorials/side-quest-intermediate-schema-design/04-interfaces)!"
+interface interfaceAddress{
+  city: String!
+  country: String!
+  mainStreet: String!
+  numberStreet: String!
+  state: String
+  secondStreet: String
+  reference: String
+  lat: String
+  long: String
+  languages: [String]
+  mapsURL: String
+}
 "values with *!* are required"
 #inputs
 input UserInput {
@@ -157,52 +170,54 @@ input UserInput {
   gender: String
   profileImg: String
 }
-"Definining objects for the inputs EVENT"
+
+# Start to create Event
+"""[x]
+[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
+"""
 input inputOfEventCategory {
-  name: String
-  shortDescription: String
+  categoryType: String!
+  name: String!
+  shortDescription: String!
   longDescription: String
   icon: String
   urlImg: String
 }
 
-interface interfaceAddress{
-  city: String!
-  country: String!
-  mainStreet: String!
-  numberStreet: String!
-  state: String
-  secondStreet: String
-  reference: String
-  lat: String
-  long: String
-  languages: [String]
-  mapsURL: String
+"[x]**ticketsAvailable**: 'yes' or 'no' "
+input inputOfTicketType {
+  name: String!
+  description: String!
+  section: String!
+  cost: Float!
+  currency: String!
+  ticketsAvailable: String!
 }
 
 input inputOfStage {
+  address: inputOfAddress
   name: String!
   description: String!
   longDescription: String!
+  openFrom: String!
+  closeTo: String!
   banners: [String!]
   videoURL: String
   capacity: Int
-  openFrom: String!
-  closeTo: String!
   daysOpen: [Int]
   onlineLink: String
 }
 
-input inputOfEventAddress {
+input inputOfAddress {
   city: String!
   country: String!
+  state: String!
   mainStreet: String!
   numberStreet: String!
-  state: String
+  reference: String!
+  lat: String!
+  long: String!
   secondStreet: String
-  reference: String
-  lat: String
-  long: String
   languages: [String]
   mapsURL: String
 }
@@ -225,21 +240,22 @@ input inputOfEventProps {
   hourEvent: String
   urlEvent: String
   ticketsAvailable: Int
-  online: Boolean
+  online: String
   concertPlacesIMG: String
   visitorTeam: String
   homeTeam: String
   sportType: String
 }
-"Describing EventInput"
+
 input EventInput {
-  eventCategoryID: inputOfEventCategory
-  stageID: inputOfStage
-  scheduleID: inputOfSchedule
+  eventCategory: inputOfEventCategory
+  ticketType: inputOfTicketType
+  stage: inputOfStage
+  schedule: inputOfSchedule
+  address: inputOfAddress
   eventProps: inputOfEventProps
 }
-
-#separation...............................
+# End to create Event
 
 input EventTypeOnline {
   online: Boolean
@@ -300,7 +316,90 @@ input inputNotification {
   urlDynamic: String
 }
 
-#outputs
+# Output
+# Start Output to create Event
+type outputToEvent {
+  eventCategoryRef: outOfEventCategory
+  ticketTypeRef: outOfTicketType
+  stageRef: outOfStage
+  scheduleRef: outOfSchedule
+  addressRef: outOfAddress
+  eventPropsRef: outOfEventProps
+}
+
+type outOfEventCategory {
+  categoryType: String!
+  name: String!
+  shortDescription: String!
+  longDescription: String
+  icon: String
+  urlImg: String
+}
+
+type outOfTicketType {
+  name: String!
+  description: String!
+  section: String!
+  cost: Float!
+  currency: String!
+  ticketsAvailable: String!
+}
+
+type outOfStage {
+  address: outOfAddress
+  name: String!
+  description: String!
+  longDescription: String!
+  openFrom: String!
+  closeTo: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  daysOpen: [Int]
+  onlineLink: String
+}
+
+type outOfAddress {
+  city: String!
+  country: String!
+  state: String!
+  mainStreet: String!
+  numberStreet: String!
+  reference: String!
+  lat: String!
+  long: String!
+  secondStreet: String
+  languages: [String]
+  mapsURL: String
+}
+
+type outOfSchedule {
+  dayNumber: Int!
+  attendFrom: String!
+  attendTo: String!
+}
+
+type outOfEventProps {
+  eventName: String!
+  artistName: String!
+  shortDescription: String!
+  mainDescription: String!
+  dateEvent: String!
+  banners: [String]
+  videoImg: String
+  status: String
+  hourEvent: String
+  urlEvent: String
+  ticketsAvailable: Int
+  online: String
+  concertPlacesIMG: String
+  visitorTeam: String
+  homeTeam: String
+  sportType: String
+}
+# End Output to create Event
+
+
 type UpdatedOutput {
   message: String
   UpdatedUser: User
@@ -318,16 +417,16 @@ type OutputEventCategory {
 type Query {
   """
   Description for field
-  Supports **multi-line** description for your [API](http://example.com)!
-  ###la cuquita de la Diana rayos
+  Supports **multi-line** description for your 
+  ###
   [x] exit
   [-] exit
   """
   getUsers: [User]
+  getEventCategories: [EventCategory]
   getEvents(input: EventTypeOnline): [Event]
   getStages(input: StageInputByAddress): [Stage]
   "Category by Event only data"
-  getEventCategories: [EventCategory]
   getDetailEvent(input: DetailEventInput): [Event]
 }
 type Mutation {
@@ -336,7 +435,7 @@ type Mutation {
   updateUser(input: UserInput): [UpdatedOutput]
 
   #Events
-  createEvent(input: EventInput): Event
+  createEvent(input: EventInput): outputToEvent
   updateEvent(input: UserInput): [UpdatedOutput]
 
   #Stages

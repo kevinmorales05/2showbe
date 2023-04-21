@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const scheduleSchema = new Schema({
-  eventID: [{ type: Schema.Types.ObjectId, ref: "Event" }],
+  eventID: {type: Schema.Types.ObjectId, ref: "Event" },
   dayNumber: { type: Number, required: true },
   attendFrom: { type: String, required: true },
   attendTo: { type: String, required: true },

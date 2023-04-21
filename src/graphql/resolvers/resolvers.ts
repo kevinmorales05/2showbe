@@ -11,6 +11,7 @@ import Schedule from "../schemas/Schedule.js";
 import EventCategory from "../schemas/EventCategory.js";
 import Address from "../schemas/Address.js";
 import TicketType from "../schemas/TicketType.js";
+import mongoose from "mongoose";
 
 //import {FCM} from 'fcm-node';
 
@@ -25,7 +26,10 @@ export const resolvers = {
     getUsers: async () => {
       return await User.find();
     },
-    getEvents: async (_, { input }) => {
+    getEventCategories: async (_, args, ctx) => {
+      return await EventCategory.find({});
+    },
+    getEvents: async (_, { input }, ctx) => {
       // const schedule = await new Schedule({});
       // const eventC = await new EventCategory({});
       // if (
@@ -39,19 +43,40 @@ export const resolvers = {
       //   return event;
       // }
 
-      const event = await Event.find({}).populate(
-        "eventCategoryID stageID scheduleID"
-      );
-      console.log("there event: ", event);
-      console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
+      // console.log(ctx.valueBetweenResolvers);
 
-      const data =  [{
-        ...event[0]['_doc'],
-        eventCategoryID: event[0].eventCategoryID[0],
-        stageID: event[0].stageID[0],
-        scheduleID: event[0].scheduleID[0],
-      }];
-      console.log("data: ", data)
+      const event = await Event.find({}).populate(
+        "eventCategoryID stageID scheduleID",
+        {
+          toObject: { virtuals: true }, // So `console.log()` and other functions that use `toObject()` include virtuals
+          toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+        }
+      );
+      const eventiso = await Event.find({
+        eventName: "Concert of Billy Idol",
+        count: true,
+      }).populate("show members.$*", {});
+      // console.log("there event: ", event);
+      // console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
+
+      // console.log("which is event: ", event[0].eventByCategory);
+      // console.log("which is eventByCategory: ", event[0].eventByCategory);
+      // console.log("which is eventiso: ", eventiso[0]["show"]);
+      // console.log("which is eventiso: ", eventiso[1].members.get("singer"));
+      // console.log("id", eventiso[0]["show"][0]._id);
+      // const ide = eventiso[0]["show"][0]._id;
+      // console.log("ide: ", ide);
+      console.log("end");
+      // console.log("data: ", event)
+      const data = [
+        {
+          ...event[0]["_doc"],
+          eventCategoryID: event[0].eventCategoryID,
+          stageID: event[0].stageID[0],
+          scheduleID: event[0].scheduleID[0],
+        },
+      ];
+      // console.log("data: ", data);
       return data;
 
       // const event = await Event.find({})
@@ -87,6 +112,7 @@ export const resolvers = {
       //   .exec();
       // return event;
     },
+
     getStages: async (_, { input }) => {
       if (input.city !== null && input.country !== null) {
         const address = await new Address({
@@ -99,7 +125,6 @@ export const resolvers = {
       }
       return await Stage.find({});
     },
-    getEventCategories: async () => data.categories,
     getDetailEvent: async (_, { input }) => {
       if (input !== null) {
         const event = await Event.find({});
@@ -122,7 +147,6 @@ export const resolvers = {
     },
     updateUser: async (_, { input }, ctx) => {
       try {
-        ctx.string = "cuca de la Diana";
         const { firebaseID } = input;
         const updatedUser = await User.findOneAndUpdate(
           firebaseID,
@@ -134,43 +158,53 @@ export const resolvers = {
         return;
       }
     },
-    createEvent: async (_, { input }, ctx, info) => {
+    createEvent: async (_, { input }, ctx) => {
       try {
-        // console.log("interesting: ", _);
-        // console.log("context: ", ctx, "endContext");
-        // console.log("Creating event: ", input);
-        // console.log("infoTag: ", info, "until");
-
-        const eventCategory = await new EventCategory(input.eventCategoryID);
-        const stage = await new Stage(input.stageID);
-        const schedule = await new Schedule(input.scheduleID);
+        console.log(input.schedule)
+        const eventCategory = await new EventCategory(input.eventCategory);
+        const ticketType = await new TicketType(input.ticketType);
+        const stage = await new Stage(input.stage);
+        const schedule = await new Schedule(input.schedule);
+        const address = await new Address(input.address);
         const event = await new Event(input.eventProps);
+
         await eventCategory.save();
+        await ticketType.save();
         await stage.save();
         await schedule.save();
+        await address.save();
         await event.save();
 
-        event.eventCategoryID = event.eventCategoryID.concat(eventCategory.id);
-        event.stageID = event.stageID.concat(stage.id);
-        event.scheduleID = event.scheduleID.concat(schedule.id);
+        // saving reference
+        eventCategory.eventID = event._id;
+        ticketType.eventID = event._id;
+        stage.addressID = stage.id;
+        stage.eventCategoryID = eventCategory._id;
+        schedule.eventID = event._id;
+        event.eventCategoryID = eventCategory.id;
+        event.ticketTypeID = ticketType.id;
+        event.stageID = stage._id;
+        event.scheduleID = schedule._id;
+
+        await eventCategory.save();
+        await ticketType.save();
+        await stage.save();
+        await schedule.save();
+        await address.save();
         await event.save();
 
-        const dataToReturn = {
-          ...event["_doc"],
-          eventCategoryID: eventCategory,
-          stageID: stage,
-          scheduleID: schedule,
+        const out = {
+          eventCategoryRef: eventCategory,
+          ticketTypeRef: ticketType,
+          stageRef: stage,
+          scheduleRef: schedule,
+          addressRef: address,
+          eventPropsRef: event,
         };
-
-        console.log("over there", dataToReturn);
-        // console.log("eventCategory", eventCategory);
-        // console.log("stage", stage);
-        // console.log("schedule", schedule);
-        // console.log("MassiveEvent", event);
-        return dataToReturn;
+        console.log(out);
+        return out;
       } catch (error) {
-        throw new GraphQLError("so" + input);
-        middleware.errorMsg("Field name for the event is important", input);
+        throw new GraphQLError(`Error saving event ${error}`);
       }
     },
     updateEvent: async (_, { input }) => {

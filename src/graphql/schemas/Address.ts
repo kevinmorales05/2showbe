@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const AddressSchema = new Schema({
+const addressSchema = new Schema({
   city: {
     type: String,
     required: true,
@@ -43,4 +43,14 @@ const AddressSchema = new Schema({
   },
   mapsURL: String,
 });
-export default model("Address", AddressSchema);
+
+
+addressSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject.__v;
+  },
+});
+
+
+export default model("Address", addressSchema);

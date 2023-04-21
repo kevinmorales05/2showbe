@@ -1911,6 +1911,13 @@
   resolved "https://registry.npmjs.org/@types/minimatch/-/minimatch-5.1.2.tgz"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
 
+"@types/mongoose-autopopulate@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.npmjs.org/@types/mongoose-autopopulate/-/mongoose-autopopulate-0.10.3.tgz"
+  integrity sha512-I2+/7mjTr30l0NT1PZGJLRkWrOhV/63hG9on7ZM2vVxCtcmFHViMPBQacOsPMweKTXQcXXi7TrPAMq7oIy1l4A==
+  dependencies:
+    mongoose "^6.3.0"
+
 "@types/node-fetch@^2.6.1":
   version "2.6.2"
   resolved "https://repo.huaweicloud.com/repository/npm/@types/node-fetch/-/node-fetch-2.6.2.tgz"
@@ -3874,7 +3881,7 @@ mongoose-autopopulate@^1.0.0:
   resolved "https://registry.npmjs.org/mongoose-autopopulate/-/mongoose-autopopulate-1.0.0.tgz"
   integrity sha512-VWsGb4VqSFqWgS6a7zFTOuUr2+XArrThtX7fjUlzIMPowVxvuS1Zeiif7D0DgXIETLNc+B/0r84kV5A2B7w2UQ==
 
-mongoose@^6.9.2, "mongoose@6.x || 7.x":
+mongoose@^6.3.0, mongoose@^6.9.2, "mongoose@6.x || 7.x":
   version "6.9.2"
   resolved "https://repo.huaweicloud.com/repository/npm/mongoose/-/mongoose-6.9.2.tgz"
   integrity sha512-Yb9rWJhYm+7Yf839QuKx2dXcclbA0GAMxtdDiaedHsOQU+y28cD/8gKYp1wTwwyAjKesqaGfLG4ez7D9lKpwBw==

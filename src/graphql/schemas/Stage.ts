@@ -3,19 +3,12 @@ const { Schema, model } = mongoose;
 
 const stageSchema = new Schema(
   {
-    addressID: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Address",
-        // required: true,
-      },
-    ],
-    eventCategoryID: [
+    addressID:  String,
+    eventCategoryID: 
       {
         type: Schema.Types.ObjectId,
         ref: "EventCategory",
       },
-    ],
     name: {
       type: String,
       required: true,
@@ -28,12 +21,6 @@ const stageSchema = new Schema(
       type: String,
       required: true,
     },
-    banners: {
-      type: [String],
-      required: true,
-    },
-    videoURL: String,
-    capacity: Number,
     openFrom: {
       type: String,
       required: true,
@@ -42,13 +29,18 @@ const stageSchema = new Schema(
       type: String,
       required: true,
     },
+    banners: {
+      type: [String],
+      required: true,
+    },
+    videoURL: String,
+    capacity: Number,
     daysOpen: {
       type: [Number],
       default: [],
     },
     onlineLink: {
       type: String,
-      default: "",
     },
   },
   { timestamps: true }
@@ -60,6 +52,12 @@ stageSchema.set("toJSON", {
     delete returnedObject._id;
     delete returnedObject.__v;
   },
+});
+
+stageSchema.virtual("_addressSchema", {
+  ref: "Stage",
+  localField: "addressID",
+  foreignField: "_id",
 });
 
 export default model("Stage", stageSchema);

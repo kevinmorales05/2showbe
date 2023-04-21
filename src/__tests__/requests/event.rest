@@ -7,44 +7,97 @@ X-REQUEST-TYPE: GraphQL
 
 mutation Mutation($input: EventInput) {
   createEvent(input: $input) {
-    eventCategoryID {
+    eventCategoryRef {
+      categoryType
+      name
+      shortDescription
       longDescription
+      icon
+      urlImg
     }
-    stageID {
-     capacity 
+    ticketTypeRef {
+      name
+      description
+      section
+      cost
+      currency
+      ticketsAvailable
     }
-    scheduleID {
+    stageRef {
+      address {
+        city
+        country
+        state
+        mainStreet
+        numberStreet
+        reference
+        lat
+        long
+        secondStreet
+        languages
+        mapsURL
+      }
+      name
+      description
+      longDescription
+      openFrom
+      closeTo
+      banners
+      videoURL
+      capacity
+      daysOpen
+      onlineLink
+    }
+    scheduleRef {
+      dayNumber
+      attendFrom
       attendTo
     }
-    eventName
-    artistName
-    shortDescription
-    mainDescription
-    banners
-    videoImg
-    status
-    dateEvent
-    hourEvent
-    urlEvent
-    ticketsAvailable
-    online
-    concertPlacesIMG
-    visitorTeam
-    homeTeam
-    sportType
+    addressRef {
+      city
+      country
+      state
+      mainStreet
+      numberStreet
+      reference
+      lat
+      long
+      secondStreet
+      languages
+      mapsURL
+    }
+    eventPropsRef {
+      eventName
+      artistName
+      shortDescription
+      mainDescription
+      dateEvent
+      banners
+      videoImg
+      status
+      hourEvent
+      urlEvent
+      ticketsAvailable
+      online
+      concertPlacesIMG
+      visitorTeam
+      homeTeam
+      sportType
+    }
   }
 }
 
 {
   "input": {
-    "eventCategoryID": {
+    "eventCategory": {
       "name": "Concert",
       "shortDescription": "short",
       "longDescription": "long",
       "icon": "icon.png",
-      "urlImg": "url.png"
+      "urlImg": "url.png",
+      "categoryType": "concert"
     },
-    "stageID": {
+    "stage": {
       "name": "Estadio Olimpico",
       "description": "Concert",
       "longDescription": "long Concert",
@@ -53,7 +106,7 @@ mutation Mutation($input: EventInput) {
       "openFrom": "open.png",
       "closeTo": "close.png"
     },
-    "scheduleID": {
+    "schedule": {
       "attendFrom": "08:00",
       "attendTo": "20:00",
       "dayNumber": 12
@@ -64,6 +117,24 @@ mutation Mutation($input: EventInput) {
       "shortDescription": "short concert",
       "mainDescription": "long concert",
       "dateEvent": "2023"
+    },
+    "ticketType": {
+      "name": "Gloria Trevi",
+      "description": "Gran concierto Gloria Trave",
+      "section": "L-GENERAL",
+      "cost": 22.99,
+      "currency": "USD",
+      "ticketsAvailable": "yes"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Vicentina",
+      "numberStreet": "23oe-2",
+      "reference": "Frente a las menestras del Negro",
+      "lat": "82938293823",
+      "long": "23982938293823"
     }
   }
 }

@@ -1,20 +1,40 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Types } from "mongoose";
+
+interface IEvent {
+  eventByCategory?: any;
+  eventCategoryID?: Types.ObjectId;
+  stageID?: Types.ObjectId;
+  scheduleID?: Types.ObjectId;
+  eventName: string;
+  artistName: string;
+  shortDescription: string;
+  mainDescription: string;
+  banners?: [string];
+  videoImg?: string;
+  status?: string;
+  dateEvent: string;
+  hourEvent?: string;
+  urlEvent?: string;
+  ticketsAvailable?: number;
+  online?: boolean;
+  concertPlacesIMG?: string;
+  visitorTeam?: string;
+  homeTeam?: string;
+  sportType?: string;
+}
 
 const eventSchema = new Schema(
   {
-    eventCategoryID: [{ type: Schema.Types.ObjectId, ref: "EventCategory" }],
-    stageID: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Stage",
-      },
-    ],
-    scheduleID: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Schedule",
-      },
-    ],
+    eventCategoryID: String,
+    ticketTypeID: String,
+    stageID: {
+      type: Schema.Types.ObjectId,
+      ref: "Stage",
+    },
+    scheduleID: {
+      type: Schema.Types.ObjectId,
+      ref: "Schedule",
+    },
     eventName: {
       type: String,
       required: true,
@@ -59,6 +79,7 @@ const eventSchema = new Schema(
     },
     online: {
       type: String,
+      default: "present",
       enum: ["online", "present"],
     },
     concertPlacesIMG: {
@@ -110,9 +131,33 @@ const eventSchema = new Schema(
     //   required: true,
     //   trim: true,
     // },
+
+    // testing Map
+    // members: {
+    //   type: Map,
+    //   of: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "EventCategory"
+    //   }
+    // implementation in the Event could be
+    // members: {
+    //   singer: eventCategory.id,
+    //   guitarrist: eventCategory.id,
+    // },
+    // }
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+eventSchema.virtual("_eventCategory", {
+  ref: "EventCategory",
+  localField: "eventCategoryID",
+  foreignField: "categoryType",
+});
 
 eventSchema.set("toJSON", {
   transform: (document, returnedObject) => {
