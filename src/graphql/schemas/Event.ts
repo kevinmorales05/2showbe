@@ -1,4 +1,5 @@
 import { Schema, model, Types } from "mongoose";
+import EventCategory from "./EventCategory.js";
 
 interface IEvent {
   eventByCategory?: any;
@@ -25,8 +26,8 @@ interface IEvent {
 
 const eventSchema = new Schema(
   {
-    eventCategoryID: String,
-    ticketTypeID: String,
+    eventCategoryID: { type: Schema.Types.ObjectId, ref: "EventCategory" },
+    ticketTypeID: { type: Schema.Types.ObjectId, ref: "TicketType" },
     stageID: {
       type: Schema.Types.ObjectId,
       ref: "Stage",
@@ -79,8 +80,8 @@ const eventSchema = new Schema(
     },
     online: {
       type: String,
-      default: "present",
-      enum: ["online", "present"],
+      default: "presential",
+      enum: ["online", "presential"],
     },
     concertPlacesIMG: {
       type: String,
@@ -148,21 +149,27 @@ const eventSchema = new Schema(
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    // toJSON: { virtuals: true },
+    // toObject: { virtuals: true },
   }
 );
 
-eventSchema.virtual("_eventCategory", {
-  ref: "EventCategory",
-  localField: "eventCategoryID",
-  foreignField: "categoryType",
-});
+// eventSchema.virtual("typeeventCategory", {
+//   ref: "EventCategory",
+//   localField: "_id",
+//   foreignField: "eventID",
+// });
+
+// eventSchema.virtual("typeticketType", {
+//   ref: "TicketType",
+//   localField: "_id",
+//   foreignField: "eventID",
+// });
 
 eventSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
+    // delete returnedObject._id;
     delete returnedObject.__v;
   },
 });

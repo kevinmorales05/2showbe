@@ -11,13 +11,43 @@ import Schedule from "../schemas/Schedule.js";
 import EventCategory from "../schemas/EventCategory.js";
 import Address from "../schemas/Address.js";
 import TicketType from "../schemas/TicketType.js";
-import mongoose from "mongoose";
-
+import simple from "../../__tests__/simple.js";
 //import {FCM} from 'fcm-node';
 
 //     let serverKey = process.env.SERVER_KEY;
 
 // let fcm = new FCM(serverKey);
+
+// enum ETypeOfEvent {
+//   SOCCER = "SOCCER",
+//   SPORTS = "SPORTS",
+//   MUSEUM = "MUSEUM",
+//   PARK = "PARK",
+//   SOCIALEVENT = "SOCIALEVENT",
+//   CONCERT = "CONCERT",
+//   TEATHER = "TEATHER",
+//   CARS = "CARS",
+// }
+
+enum ETypeOfEvent {
+  SOCCER,
+  SPORTS,
+  MUSEUM,
+  PARK,
+  SOCIALEVENT,
+  CONCERT,
+  TEATHER,
+  CARS,
+}
+type TTypeOfEvent = keyof typeof ETypeOfEvent;
+//        ^?
+
+enum ETypeOfOnline {
+  ONLINE,
+  PRESENTIAL,
+}
+type TTypeOfOnline = keyof typeof ETypeOfEvent;
+//        ^?
 
 const optsDB = { runValidators: true, context: "query", new: true };
 
@@ -30,89 +60,73 @@ export const resolvers = {
       return await EventCategory.find({});
     },
     getEvents: async (_, { input }, ctx) => {
-      // const schedule = await new Schedule({});
-      // const eventC = await new EventCategory({});
-      // if (
-      //   input.online !== null &&
-      //   (input.online === "online" || input.online === "present")
-      // ) {
-      //   const event = await Event.find({ online: input.online })
-      //     .populate("eventCategoryID")
-      //     .populate("stageID")
-      //     .populate("scheduleID");
-      //   return event;
-      // }
+      try {
+        const typeOfModality: TTypeOfOnline = input.typeOfModality;
+        const categoryOfEvent: TTypeOfEvent = input.categoryOfEvent;
 
-      // console.log(ctx.valueBetweenResolvers);
+        console.log(categoryOfEvent, typeOfModality);
+        const enumOnliKeys = Object.keys(ETypeOfOnline).filter((v) =>
+          isNaN(Number(v))
+        );
+        const enumCateKeys = Object.keys(ETypeOfEvent).filter((v) =>
+          isNaN(Number(v))
+        );
+        
+        if (enumOnliKeys.includes(typeOfModality)) {
+          const event = await Event.find({
+            online: typeOfModality.toLowerCase(),
+          }).populate("eventCategoryID ticketTypeID stageID scheduleID");
 
-      const event = await Event.find({}).populate(
-        "eventCategoryID stageID scheduleID",
-        {
-          toObject: { virtuals: true }, // So `console.log()` and other functions that use `toObject()` include virtuals
-          toJSON: { virtuals: true }, // So `res.json()` and other `JSON.stringify()` functions include virtuals
+          if (enumCateKeys.includes(categoryOfEvent)) {
+            const out = event.filter(
+              async (item) =>
+                (await item.eventCategoryID?.categoryType) ===
+                categoryOfEvent.toString()
+            );
+            return out;
+          }
+
+          return event;
+        } else {
+          throw new GraphQLError(
+            `unknown input type: ${JSON.stringify(input)}`,
+            {
+              extensions: { code: "BAD_USER_INPUT", http: { status: 400 } },
+            }
+          );
         }
-      );
-      const eventiso = await Event.find({
-        eventName: "Concert of Billy Idol",
-        count: true,
-      }).populate("show members.$*", {});
-      // console.log("there event: ", event);
-      // console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
 
-      // console.log("which is event: ", event[0].eventByCategory);
-      // console.log("which is eventByCategory: ", event[0].eventByCategory);
-      // console.log("which is eventiso: ", eventiso[0]["show"]);
-      // console.log("which is eventiso: ", eventiso[1].members.get("singer"));
-      // console.log("id", eventiso[0]["show"][0]._id);
-      // const ide = eventiso[0]["show"][0]._id;
-      // console.log("ide: ", ide);
-      console.log("end");
-      // console.log("data: ", event)
-      const data = [
-        {
-          ...event[0]["_doc"],
-          eventCategoryID: event[0].eventCategoryID,
-          stageID: event[0].stageID[0],
-          scheduleID: event[0].scheduleID[0],
-        },
-      ];
+        // console.log("total", event)
+
+        // const eventiso = await Event.find({
+        //   eventName: "Concert of Billy Idol",
+        // }).populate("show members.$*", {});
+        // console.log("there event: ", event);
+        // console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
+
+        // console.log("which is event: ", event[0].eventByCategory);
+        // console.log("which is eventByCategory: ", event[0].eventByCategory);
+        // console.log("which is eventiso: ", eventiso[0]["show"]);
+        // console.log("which is eventiso: ", eventiso[1].members.get("singer"));
+        // console.log("id", eventiso[0]["show"][0]._id);
+        // const ide = eventiso[0]["show"][0]._id;
+        // console.log("ide: ", ide);
+        // console.log("end");
+        // const data = [
+        //   {
+        //     ...event[0]["_doc"],
+        //     eventCategoryID: event[0].eventCategoryID,
+        //     stageID: event[0].stageID[0],
+        //     scheduleID: event[0].scheduleID[0],
+        //   },
+        // ];
+
+        return [simple.data];
+      } catch (err) {
+        console.error(err);
+      }
       // console.log("data: ", data);
-      return data;
-
-      // const event = await Event.find({})
-      //   .populate(
-      //     "eventCategoryID"
-      //     // , {
-      //     // name: 1,
-      //     // shortDescription: 1,
-      //     // longDescription: 1,
-      //     // icon: 1,
-      //     // urlImg: 1,
-      //     // }
-      //   )
-      //   .populate(
-      //     "stageID"
-      //     // , {
-      //     // name: 1,
-      //     // description: 1,
-      //     // longDescription: 1,
-      //     // banners: 1,
-      //     // videoURL: 1,
-      //     // capacity: 1,
-      //     // openFrom: 1,
-      //     // closeTo: 1,
-      //     // daysOpen: 1,
-      //     // onlineLink: 1,
-      //     // }
-      //   )
-      //   .populate(
-      //     "scheduleID"
-      //     // , { dayNumber: 1 }
-      //   )
-      //   .exec();
-      // return event;
     },
-
     getStages: async (_, { input }) => {
       if (input.city !== null && input.country !== null) {
         const address = await new Address({
@@ -160,7 +174,7 @@ export const resolvers = {
     },
     createEvent: async (_, { input }, ctx) => {
       try {
-        console.log(input.schedule)
+        console.log(input.schedule);
         const eventCategory = await new EventCategory(input.eventCategory);
         const ticketType = await new TicketType(input.ticketType);
         const stage = await new Stage(input.stage);
@@ -178,11 +192,11 @@ export const resolvers = {
         // saving reference
         eventCategory.eventID = event._id;
         ticketType.eventID = event._id;
-        stage.addressID = stage.id;
+        stage.addressID = address._id;
         stage.eventCategoryID = eventCategory._id;
         schedule.eventID = event._id;
-        event.eventCategoryID = eventCategory.id;
-        event.ticketTypeID = ticketType.id;
+        event.eventCategoryID = eventCategory._id;
+        event.ticketTypeID = ticketType._id;
         event.stageID = stage._id;
         event.scheduleID = schedule._id;
 
@@ -204,7 +218,12 @@ export const resolvers = {
         console.log(out);
         return out;
       } catch (error) {
-        throw new GraphQLError(`Error saving event ${error}`);
+        throw new GraphQLError(`Error saving event ${error}`, {
+          extensions: {
+            code: "BAD_USER_INPUT",
+            http: { status: 400 },
+          },
+        });
       }
     },
     updateEvent: async (_, { input }) => {

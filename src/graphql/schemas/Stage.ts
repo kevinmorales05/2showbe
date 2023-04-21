@@ -3,12 +3,14 @@ const { Schema, model } = mongoose;
 
 const stageSchema = new Schema(
   {
-    addressID:  String,
-    eventCategoryID: 
-      {
-        type: Schema.Types.ObjectId,
-        ref: "EventCategory",
-      },
+    addressID: {
+      type: Schema.Types.ObjectId,
+      ref: "Address"
+    },
+    eventCategoryID: {
+      type: Schema.Types.ObjectId,
+      ref: "EventCategory",
+    },
     name: {
       type: String,
       required: true,

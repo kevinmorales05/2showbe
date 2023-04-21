@@ -318,7 +318,7 @@ input inputNotification {
 
 # Output
 # Start Output to create Event
-type outputToEvent {
+type outCreateEvent {
   eventCategoryRef: outOfEventCategory
   ticketTypeRef: outOfTicketType
   stageRef: outOfStage
@@ -399,6 +399,55 @@ type outOfEventProps {
 }
 # End Output to create Event
 
+# START MAIN QUERIES
+# Start to get Events
+enum categoryOfEvent {
+  SOCCER
+  SPORTS
+  MUSEUM
+  PARK
+  SOCIALEVENT
+  CONCERT
+  TEATHER
+  CARS
+}
+enum enumTypeOfModality {
+  ONLINE
+  PRESENTIAL
+}
+input inputOfGetEvent {
+  categoryOfEvent: categoryOfEvent
+  typeOfModality: enumTypeOfModality
+}
+# End to get Events
+
+#START OUTPUTS
+type outGetEvents {
+  eventCategoryID: outOfEventCategory
+  ticketTypeID: outOfTicketType
+  stageID: outOfStage
+  scheduleID: outOfSchedule
+  eventName: String!
+  artistName: String!
+  shortDescription: String!
+  mainDescription: String!
+  dateEvent: String!
+  banners: [String]
+  videoImg: String
+  status: String
+  hourEvent: String
+  urlEvent: String
+  ticketsAvailable: Int
+  online: String
+  concertPlacesIMG: String
+  visitorTeam: String
+  homeTeam: String
+  sportType: String
+}
+#END OUTPUTS
+
+# END MAIN QUERIES
+
 
 type UpdatedOutput {
   message: String
@@ -415,19 +464,15 @@ type OutputEventCategory {
 }
 
 type Query {
-  """
-  Description for field
-  Supports **multi-line** description for your 
-  ###
-  [x] exit
-  [-] exit
-  """
   getUsers: [User]
+  
   getEventCategories: [EventCategory]
-  getEvents(input: EventTypeOnline): [Event]
+  getEvents(input: inputOfGetEvent): [outGetEvents]
+
   getStages(input: StageInputByAddress): [Stage]
   "Category by Event only data"
   getDetailEvent(input: DetailEventInput): [Event]
+
 }
 type Mutation {
   #Users
@@ -435,7 +480,7 @@ type Mutation {
   updateUser(input: UserInput): [UpdatedOutput]
 
   #Events
-  createEvent(input: EventInput): outputToEvent
+  createEvent(input: EventInput): outCreateEvent
   updateEvent(input: UserInput): [UpdatedOutput]
 
   #Stages

@@ -1,4 +1,4 @@
-{
+const dataTest = {
     "data": {
       "createEvent": {
         "eventCategoryRef": {
@@ -62,7 +62,7 @@
           "hourEvent": null,
           "urlEvent": null,
           "ticketsAvailable": null,
-          "online": "present",
+          "online": "presential",
           "concertPlacesIMG": null,
           "visitorTeam": null,
           "homeTeam": null,
@@ -71,3 +71,4 @@
       }
     }
   }
+  export default dataTest
