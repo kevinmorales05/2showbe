@@ -29,7 +29,7 @@ type Event {
   hourEvent: String
   urlEvent: String
   ticketsAvailable: Int
-  online: Boolean
+  online: String
   concertPlacesIMG: String
   visitorTeam: String
   homeTeam: String
@@ -122,7 +122,7 @@ type TicketType {
 type User {
   name: String!
   lastName: String!
-  firebaseID: [String]!
+  firebaseID: String!
   email: String!
   status: Boolean
   birthday: String
@@ -172,11 +172,10 @@ input UserInput {
 }
 
 # Start to create Event
-"""[x]
-[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
+"""[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
 """
 input inputOfEventCategory {
-  categoryType: String!
+  categoryType: categoryOfEvent!
   name: String!
   shortDescription: String!
   longDescription: String
@@ -257,6 +256,39 @@ input EventInput {
 }
 # End to create Event
 
+# Start to create Stage
+input intputOfCreateStage {
+  eventCategory: inputOfEventCategory
+  address: inputOfAddress
+  stageParams: inputOfStage
+}
+type outputOfCreateStage{
+  eventCategory: outputOfEventCategory
+  address: outOfAddress
+  stageParams: outOfStageParams
+}
+type outputOfEventCategory{
+  name: String
+  shortDescription: String
+  longDescription: String
+  icon: String
+  urlImg: String
+}
+type outOfStageParams {
+  name: String!
+  description: String!
+  longDescription: String!
+  openFrom: String!
+  closeTo: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  daysOpen: [Int]
+  onlineLink: String
+}
+
+# End to create Stage
+
 input EventTypeOnline {
   online: Boolean
 }
@@ -296,10 +328,7 @@ input StageInput {
   daysOpen: [Int]
   onlineLink: String
 }
-input StageInputByAddress {
-  city: String
-  country: String
-}
+
 input DetailEventInput {
   costs: String
   typeTicket: String
@@ -399,7 +428,59 @@ type outOfEventProps {
 }
 # End Output to create Event
 
+# Start to create Event to User
+"To create a ticket is necessary to find an searchEvent with the param: **search** by **name** and user by **name**" 
+input inUser{
+  name: String!
+  lastName: String!
+  firebaseID: String!
+  email: String!
+  status: Boolean
+  birthday: String
+  role: String
+  telephone: String
+  fullAddress: String
+  country: String
+  city: String
+  gender: String
+  profileImg: String
+}
+input inTicketProps {
+  buyDate: String!
+  type: String
+  ticketCode: String
+  seatName: String
+  status: String
+  isReserved: Boolean
+}
+"To create a ticket is necessary to find an event with the param: **search** by **name** and User by **name** for the moment name" 
+input inSearchEvent {
+  name: String
+  eventID: String
+}
+input inputOfCreateTicket{
+searchUser: inUser
+searchEvent: inSearchEvent
+ticketProps: inTicketProps
+}
+type outOfTicketAvailable {
+  userID: String
+  eventID: String
+  ticketTypeID: String
+  buyDate: String!
+  type: String
+  ticketCode: String
+  seatName: String
+  status: String
+  isReserved: Boolean
+}
+# End to create Event to User
+
+
+
 # START MAIN QUERIES
+# ----
+# INPUTS
 # Start to get Events
 enum categoryOfEvent {
   SOCCER
@@ -420,6 +501,47 @@ input inputOfGetEvent {
   typeOfModality: enumTypeOfModality
 }
 # End to get Events
+
+#  Start to get Events by User
+input inOfGetEventByUser {
+  name: String!
+  firebaseID: String
+}
+input inputOfGetEventByUser {
+  user: inOfGetEventByUser
+}
+type outGetEventByUser {
+  user: User
+  event: Event
+  eventCost: EventCost
+}
+#  End to get Events by User
+
+# Start to get Stage By Address
+input inputOfGetStagesByAddress {
+  city: String
+  country: String
+}
+type outputOfGetStages {
+  addressID: outOfAddress
+  eventCategoryID: outOfEventCategory
+  name: String!
+  description: String!
+  longDescription: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  openFrom: String!
+  closeTo: String!
+  daysOpen: [Int]
+  onlineLink: String
+}
+# End to get Stage By Address
+
+
+
+# ----
+# END INPUTS
 
 #START OUTPUTS
 type outGetEvents {
@@ -466,19 +588,15 @@ type OutputEventCategory {
 type Query {
   getUsers: [User]
   
+  #Get Events
   getEventCategories: [EventCategory]
-  getEvents(offset: Int, limit: Int, input: inputOfGetEvent): [outGetEvents]   
-  
-  # @rest(
-  #   endpoint:"http://localhost:4000/customers?page=$after&per_page=$first"
-  #   pagination: {
-  #       type: NEXT_CURSOR
-  #       setters: [{field:"nextCursor" path: "meta.next"}]
-  #     }
-  #   )
 
-  getStages(input: StageInputByAddress): [Stage]
-  "Category by Event only data"
+  getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]   
+
+  getEventByUser(input: inputOfGetEventByUser, offset: Int, limit: Int): outGetEventByUser 
+
+  getStages(input: inputOfGetStagesByAddress, offset: Int, limit: Int): [outputOfGetStages]
+
   getDetailEvent(input: DetailEventInput): [Event]
 
 }
@@ -492,10 +610,10 @@ type Mutation {
   updateEvent(input: UserInput): [UpdatedOutput]
 
   #Stages
-  createStage(input: StageInput): [Stage]
+  createStage(input: intputOfCreateStage): outputOfCreateStage
 
   #Assing Ticket to User
-  createTicketToUser(input: UserInput): TicketType 
+  createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable 
 
   #Update State
   updateState(input: StateInput): Event

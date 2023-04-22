@@ -51,15 +51,22 @@ const stageSchema = new Schema(
 stageSchema.set("toJSON", {
   transform: (doc, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
+    // delete returnedObject._id;
     delete returnedObject.__v;
   },
 });
 
-stageSchema.virtual("_addressSchema", {
-  ref: "Stage",
-  localField: "addressID",
-  foreignField: "_id",
-});
+// virtual not working with _id but yes with other field to index
+// stageSchema.virtual("_addressSchema", {
+//   ref: "Stage",
+//   localField: "addressID",
+//   foreignField: "_id",
+// });
+
+// stageSchema.virtual("_eventCategoryID", {
+//   ref: "EventCategory",
+//   foreignField: "_id",
+//   localField: "eventCategoryID",
+// });
 
 export default model("Stage", stageSchema);

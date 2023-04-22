@@ -12,6 +12,7 @@ import EventCategory from "../schemas/EventCategory.js";
 import Address from "../schemas/Address.js";
 import TicketType from "../schemas/TicketType.js";
 import simple from "../../__tests__/simple.js";
+import UserEvent from "../schemas/UserEvent.js";
 //import {FCM} from 'fcm-node';
 
 //     let serverKey = process.env.SERVER_KEY;
@@ -59,11 +60,10 @@ export const resolvers = {
     getEventCategories: async (_, args, ctx) => {
       return await EventCategory.find({});
     },
-    getEvents: async (_, { offset, limit, input }, ctx) => {
+    getEvents: async (_, { offset = 0, limit = 5, input }, ctx) => {
       try {
         const typeOfModality: TTypeOfOnline = input.typeOfModality;
         const categoryOfEvent: TTypeOfEvent = input.categoryOfEvent;
-        console.log(categoryOfEvent, typeOfModality);
 
         const enumOnliKeys = Object.keys(ETypeOfOnline).filter((v) =>
           isNaN(Number(v))
@@ -90,9 +90,6 @@ export const resolvers = {
             }
             return event.slice(0, limit);
           }
-          const newSlice = event.slice(offset, offset + limit);
-          console.log(typeof offset, offset, "---over there---", limit);
-          console.log("newSlice", newSlice);
           return event;
         }
         if (boolCategoryOfEvent) {
@@ -140,8 +137,75 @@ export const resolvers = {
         });
       }
     },
-    getStages: async (_, { input }) => {
-      if (input.city !== null && input.country !== null) {
+    getEventByUser: async (_, { offset = 0, limit = 5, input }) => {
+      // not full implemented  still because of I haven't clearly the USEREVENTS when only exists user
+      const user = await User.find({ user: input.user.name }).populate(
+        "userEventID"
+      );
+      const userEvent = await UserEvent.find().populate("eventID eventCostID");
+      const eventProp = userEvent.map(async (i) => await i?.eventID);
+      const eventCostProp = userEvent.map(async (i) => await i?.eventCostID);
+
+      return {
+        user: user[0],
+        event: eventProp,
+        eventCost: eventCostProp,
+      };
+    },
+    getStages: async (_, { offset = 0, limit = 10, input }) => {
+      const city = input.city !== undefined ? input.city.toLowerCase() : false;
+      const country =
+        input.country !== undefined ? input.country.toLowerCase() : false;
+
+      if (city && country) {
+        const stage = await Stage.find().populate("addressID eventCategoryID");
+        const filteredStage = stage.filter(
+          async (i) =>
+            (await i.addressID?.city.toLowerCase()) === city &&
+            (await i.addressID?.country.toLowerCase()) === country
+        );
+        if (limit !== undefined) {
+          if (offset !== undefined) {
+            return filteredStage.slice(offset, offset + limit);
+          }
+          return filteredStage.slice(0, limit);
+        }
+        return filteredStage;
+      }
+
+      if (city) {
+        const stage = await Stage.find().populate("addressID");
+        const filteredStage = stage.filter(
+          async (i) => (await i.addressID?.city.toLowerCase()) === city
+        );
+        if (limit !== undefined) {
+          if (offset !== undefined) {
+            return filteredStage.slice(offset, offset + limit);
+          }
+          return filteredStage.slice(0, limit);
+        }
+        return filteredStage;
+      }
+
+      if (country) {
+        const stage = await Stage.find().populate("addressID");
+        const filteredStage = stage.filter(
+          async (i) => (await i.addressID?.country.toLowerCase()) === country
+        );
+        if (limit !== undefined) {
+          if (offset !== undefined) {
+            return filteredStage.slice(offset, offset + limit);
+          }
+          return filteredStage.slice(0, limit);
+        }
+        return filteredStage;
+      } else {
+        throw new GraphQLError(`unknown input type: ${JSON.stringify(input)}`, {
+          extensions: { code: "BAD_USER_INPUT", http: { status: 400 } },
+        });
+      }
+
+      if (input !== null && input.country !== null) {
         const address = await new Address({
           city: input.city,
           country: input.country,
@@ -173,6 +237,7 @@ export const resolvers = {
       }
     },
     updateUser: async (_, { input }, ctx) => {
+      // not implementaded yet because is not tested
       try {
         const { firebaseID } = input;
         const updatedUser = await User.findOneAndUpdate(
@@ -187,7 +252,6 @@ export const resolvers = {
     },
     createEvent: async (_, { input }, ctx) => {
       try {
-        console.log(input.schedule);
         const eventCategory = await new EventCategory(input.eventCategory);
         const ticketType = await new TicketType(input.ticketType);
         const stage = await new Stage(input.stage);
@@ -228,7 +292,6 @@ export const resolvers = {
           addressRef: address,
           eventPropsRef: event,
         };
-        console.log(out);
         return out;
       } catch (error) {
         throw new GraphQLError(`Error saving event ${error}`, {
@@ -240,6 +303,7 @@ export const resolvers = {
       }
     },
     updateEvent: async (_, { input }) => {
+      // not implementaded yet because is not tested
       try {
         if (input.eventID !== null) {
           const updatedUser = await User.findOneAndUpdate(
@@ -255,9 +319,32 @@ export const resolvers = {
     },
     createStage: async (_, { input }) => {
       try {
+        const beforeEventCategory = Object.assign({}, input.eventCategory);
+        beforeEventCategory.categoryType =
+          beforeEventCategory.categoryType.toLowerCase();
+
         if (input !== null) {
-          const stage = await new Stage(input);
-          stage.save();
+          const stage = await new Stage(input.stageParams);
+          const eventCategory = await new EventCategory(beforeEventCategory);
+          const address = await new Address(input.address);
+
+          await stage.save();
+          await eventCategory.save();
+          await address.save();
+
+          // saving reference
+          // eventCategory.eventID = event._id;
+          stage.addressID = address._id;
+          stage.eventCategoryID = eventCategory._id;
+
+          await stage.save();
+
+          return {
+            eventCategory: eventCategory,
+            address: address,
+            stageParams: stage,
+          };
+
           return stage;
         }
       } catch (error) {
@@ -265,8 +352,47 @@ export const resolvers = {
       }
     },
     createTicketToUser: async (_, { input }) => {
+      // To create a ticket to a user is necessary check if there's an event
+      console.log("input", input);
+      const { searchEvent, ticketProps, searchUser } = input;
       try {
-        if (input !== null) {
+        const searchToEvent =
+          searchEvent !== undefined ? searchEvent.name : false;
+        const searchToUser = searchUser !== undefined ? searchUser.name : false;
+        console.log(searchToUser, " - ", searchToEvent);
+        if (true && true) {
+          const event = await new Event({ name: searchToEvent });
+          const user = await new User({ name: searchToUser });
+          console.log("event", event.length, event);
+          console.log("user", user.length, user);
+          if (event.length > 0 && user.length > 0) {
+            console.log("over");
+          } else {
+            throw new GraphQLError(
+              `Event or User not found - ${searchEvent} ${searchUser}`,
+              {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                  http: { status: 400 },
+                },
+              }
+            );
+          }
+          return event;
+          console.log("inside");
+        } else {
+          throw new GraphQLError(
+            `Malformet input - ${searchEvent} ${searchUser}`,
+            {
+              extensions: {
+                code: "GRAPHQL_PARSE_FAILED",
+                http: { status: 400 },
+              },
+            }
+          );
+          console.log("end");
+        }
+        if (input !== undefined) {
           const stage = await new TicketType(input);
           stage.save();
           return stage;

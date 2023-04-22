@@ -24,4 +24,12 @@ const userEventSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userEventSchema.set("toJSON", {
+  transform: (doc, returnedObj) => {
+    returnedObj.id = returnedObj._id.toString();
+    delete returnedObj.__v;
+  },
+});
+
 export default model("UserEvent", userEventSchema);

@@ -1,0 +1,136 @@
+# check the port only for testing
+
+#MUTATION
+@url=http://localhost:4000/
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation CreateStage($input: intputOfCreateStage) {
+  createStage(input: $input) {
+    eventCategory {
+      name
+      shortDescription
+      longDescription
+      icon
+      urlImg
+    }
+    address {
+      city
+      country
+      state
+      mainStreet
+      numberStreet
+      reference
+      lat
+      long
+      secondStreet
+      languages
+      mapsURL
+    }
+    stageParams {
+      name
+      description
+      longDescription
+      openFrom
+      closeTo
+      banners
+      videoURL
+      capacity
+      daysOpen
+      onlineLink
+    }
+  }
+}
+
+{
+  "input": {
+    "eventCategory": {
+      "categoryType": "TEATHER",
+      "name": "La funcion de Nicolas",
+      "shortDescription": "Desde un corto periodo de tiempo cuenta la historia de un huerfano atado a su madastra que lucha vilmente para ser libre"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Los olivos",
+      "numberStreet": "oe23-2",
+      "reference": "frente a la casa musical Parra",
+      "lat": "239283923",
+      "long": "23849u23489"
+    },
+    "stageParams": {
+      "address": {
+        "country": "Ecuador",
+        "city": "Quito",
+        "state": "Pichincha",
+        "mainStreet": "Los olivos",
+        "numberStreet": "Oe23-38",
+        "reference": "Frente a la casa musical Parra",
+        "lat": "239283923",
+        "long": "23849u23489"
+      },
+      "name": "Teatro Monumental",
+      "description": "Teatro Publico Monumental",
+      "longDescription": "Abierto para toda clase de publico",
+      "openFrom": "12:00",
+      "closeTo": "22:00",
+      "banners": ["log.png", "other.png"]
+    }
+  }
+}
+
+
+#QUERY
+@url=http://localhost:4000/
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query GetEventCategories($input: inputOfGetStagesByAddress, $offset: Int, $limit: Int) {
+  getStages(input: $input, offset: $offset, limit: $limit) {
+    addressID {
+      city
+      country
+      state
+      mainStreet
+      numberStreet
+      reference
+      lat
+      long
+      secondStreet
+      languages
+      mapsURL
+    }
+    eventCategoryID {
+      categoryType
+      name
+      shortDescription
+      longDescription
+      icon
+      urlImg
+    }
+    name
+    description
+    longDescription
+    banners
+    videoURL
+    capacity
+    openFrom
+    closeTo
+    daysOpen
+    onlineLink
+  }
+}
+
+{
+  "input": {
+    "city": "Quito",
+    "country": "Ecuador"
+  },
+  "offset": 0,
+  "limit": 10
+}
