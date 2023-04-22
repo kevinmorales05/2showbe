@@ -467,7 +467,15 @@ type Query {
   getUsers: [User]
   
   getEventCategories: [EventCategory]
-  getEvents(input: inputOfGetEvent): [outGetEvents]
+  getEvents(offset: Int, limit: Int, input: inputOfGetEvent): [outGetEvents]   
+  
+  # @rest(
+  #   endpoint:"http://localhost:4000/customers?page=$after&per_page=$first"
+  #   pagination: {
+  #       type: NEXT_CURSOR
+  #       setters: [{field:"nextCursor" path: "meta.next"}]
+  #     }
+  #   )
 
   getStages(input: StageInputByAddress): [Stage]
   "Category by Event only data"
@@ -487,7 +495,7 @@ type Mutation {
   createStage(input: StageInput): [Stage]
 
   #Assing Ticket to User
-  createTicketToUser(input: UserInput): TicketType
+  createTicketToUser(input: UserInput): TicketType 
 
   #Update State
   updateState(input: StateInput): Event

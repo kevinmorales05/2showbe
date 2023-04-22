@@ -59,34 +59,73 @@ export const resolvers = {
     getEventCategories: async (_, args, ctx) => {
       return await EventCategory.find({});
     },
-    getEvents: async (_, { input }, ctx) => {
+    getEvents: async (_, { offset, limit, input }, ctx) => {
       try {
         const typeOfModality: TTypeOfOnline = input.typeOfModality;
         const categoryOfEvent: TTypeOfEvent = input.categoryOfEvent;
-
         console.log(categoryOfEvent, typeOfModality);
+
         const enumOnliKeys = Object.keys(ETypeOfOnline).filter((v) =>
           isNaN(Number(v))
         );
         const enumCateKeys = Object.keys(ETypeOfEvent).filter((v) =>
           isNaN(Number(v))
         );
-        
-        if (enumOnliKeys.includes(typeOfModality)) {
+
+        const boolModality = enumOnliKeys.includes(typeOfModality)
+          ? true
+          : false;
+        const boolCategoryOfEvent = enumCateKeys.includes(categoryOfEvent)
+          ? true
+          : false;
+
+        if (boolModality) {
           const event = await Event.find({
             online: typeOfModality.toLowerCase(),
           }).populate("eventCategoryID ticketTypeID stageID scheduleID");
 
-          if (enumCateKeys.includes(categoryOfEvent)) {
-            const out = event.filter(
-              async (item) =>
-                (await item.eventCategoryID?.categoryType) ===
-                categoryOfEvent.toString()
-            );
-            return out;
+          if (limit !== undefined) {
+            if (offset !== undefined) {
+              return event.slice(offset, offset + limit);
+            }
+            return event.slice(0, limit);
           }
-
+          const newSlice = event.slice(offset, offset + limit);
+          console.log(typeof offset, offset, "---over there---", limit);
+          console.log("newSlice", newSlice);
           return event;
+        }
+        if (boolCategoryOfEvent) {
+          const event = await Event.find();
+          const out = event.filter(
+            async (item) =>
+              (await item.eventCategoryID?.categoryType) ===
+              categoryOfEvent.toString()
+          );
+          if (limit !== undefined) {
+            if (offset !== undefined) {
+              return out.slice(offset, offset + limit);
+            }
+            return out.slice(0, limit);
+          }
+          return out;
+        }
+        if (boolModality && boolCategoryOfEvent) {
+          const event = await Event.find({
+            online: typeOfModality.toLowerCase(),
+          }).populate("eventCategoryID ticketTypeID stageID scheduleID");
+          const out = event.filter(
+            async (item) =>
+              (await item.eventCategoryID?.categoryType) ===
+              categoryOfEvent.toString()
+          );
+          if (limit !== undefined) {
+            if (offset !== undefined) {
+              return out.slice(offset, offset + limit);
+            }
+            return out.slice(0, limit);
+          }
+          return out;
         } else {
           throw new GraphQLError(
             `unknown input type: ${JSON.stringify(input)}`,
@@ -95,37 +134,11 @@ export const resolvers = {
             }
           );
         }
-
-        // console.log("total", event)
-
-        // const eventiso = await Event.find({
-        //   eventName: "Concert of Billy Idol",
-        // }).populate("show members.$*", {});
-        // console.log("there event: ", event);
-        // console.log("there eventCategoryID: ", event[0].eventCategoryID[0]);
-
-        // console.log("which is event: ", event[0].eventByCategory);
-        // console.log("which is eventByCategory: ", event[0].eventByCategory);
-        // console.log("which is eventiso: ", eventiso[0]["show"]);
-        // console.log("which is eventiso: ", eventiso[1].members.get("singer"));
-        // console.log("id", eventiso[0]["show"][0]._id);
-        // const ide = eventiso[0]["show"][0]._id;
-        // console.log("ide: ", ide);
-        // console.log("end");
-        // const data = [
-        //   {
-        //     ...event[0]["_doc"],
-        //     eventCategoryID: event[0].eventCategoryID,
-        //     stageID: event[0].stageID[0],
-        //     scheduleID: event[0].scheduleID[0],
-        //   },
-        // ];
-
-        return [simple.data];
       } catch (err) {
-        console.error(err);
+        throw new GraphQLError(`Error: ${JSON.stringify(err)}`, {
+          extensions: { code: "INTERNAL_SERVER_ERROR", http: { status: 400 } },
+        });
       }
-      // console.log("data: ", data);
     },
     getStages: async (_, { input }) => {
       if (input.city !== null && input.country !== null) {
