@@ -13,6 +13,7 @@ import Address from "../schemas/Address.js";
 import TicketType from "../schemas/TicketType.js";
 import simple from "../../__tests__/simple.js";
 import UserEvent from "../schemas/UserEvent.js";
+import TicketAvailable from "../schemas/TicketAvailable.js";
 //import {FCM} from 'fcm-node';
 
 //     let serverKey = process.env.SERVER_KEY;
@@ -360,13 +361,30 @@ export const resolvers = {
           searchEvent !== undefined ? searchEvent.name : false;
         const searchToUser = searchUser !== undefined ? searchUser.name : false;
         console.log(searchToUser, " - ", searchToEvent);
-        if (true && true) {
-          const event = await new Event({ name: searchToEvent });
-          const user = await new User({ name: searchToUser });
-          console.log("event", event.length, event);
+        if (searchToEvent && searchToUser) {
+          const event = await Event.find({ name: searchToEvent }).populate(
+            "ticketTypeID"
+          );
+          const user = await User.find({ name: searchToUser });
           console.log("user", user.length, user);
-          if (event.length > 0 && user.length > 0) {
-            console.log("over");
+          console.log("event", event.length, event);
+          if (
+            event !== undefined &&
+            user !== undefined &&
+            ticketProps !== undefined
+          ) {
+            // saving ticket type
+            const ticketAvailable = await new TicketAvailable({
+              ...ticketProps,
+            });
+            await ticketAvailable.save();
+            ticketAvailable.userID = user[0]._id;
+            ticketAvailable.eventID = event[0]._id;
+            (ticketAvailable.ticketTypeID = event[0].ticketTypeID._id),
+              await ticketAvailable.save();
+
+            console.log("saving", ticketAvailable);
+            return ticketAvailable;
           } else {
             throw new GraphQLError(
               `Event or User not found - ${searchEvent} ${searchUser}`,
@@ -378,8 +396,6 @@ export const resolvers = {
               }
             );
           }
-          return event;
-          console.log("inside");
         } else {
           throw new GraphQLError(
             `Malformet input - ${searchEvent} ${searchUser}`,
@@ -390,19 +406,81 @@ export const resolvers = {
               },
             }
           );
-          console.log("end");
-        }
-        if (input !== undefined) {
-          const stage = await new TicketType(input);
-          stage.save();
-          return stage;
         }
       } catch (error) {
-        throw new GraphQLError("so" + input + error);
+        throw new GraphQLError(error);
       }
     },
-    updateState: async (_, { input }) => {
-      return await Event.find({});
+    allowEvent: async (_, { input }) => {
+      const { searchEventByID, status, amountTicketToCreate } = input;
+
+      const selectType = Object.keys(amountTicketToCreate);
+      console.log(selectType);
+      if (selectType.length === 0) return "No ticket selected";
+
+      const eventFound = await Event.findById(searchEventByID).populate(
+        "ticketTypeID"
+      );
+      if (!eventFound) return "not found event";
+      eventFound.status = status;
+      await eventFound.save();
+
+      console.log("event found", eventFound);
+
+      const reducerTicket = (acc, type) => {
+        const list = amountTicketToCreate[type].list;
+        const quantity = amountTicketToCreate[type].quantity;
+        if (list.length !== quantity.length) return acc;
+        let index = 0;
+
+        let obj = [];
+        for (const i of quantity.values()) {
+          obj.push(
+            Array(i).fill({ eventID: eventFound._id, seatName: list[index] })
+          );
+          // obj.push({ [i]: quantity[index] });
+          // create several tickets by number of quantity
+          // const ticketAvailable = await TicketAvailable({ eventID: event._id });
+
+          index++;
+        }
+        // console.log(obj);
+
+        // const accumulator = acc.concat({ list, quantity });
+
+        return obj;
+        // return acc.concat({ list, quantity });
+      };
+
+      const ticketsType = selectType.reduce(reducerTicket, []);
+
+      if (ticketsType.length === 0)
+        return "values between list and quantity are out of range";
+
+      console.log(ticketsType);
+
+      let resultsSaved = 0;
+      for await (const nameTicket of ticketsType) {
+
+        await TicketAvailable.insertMany(nameTicket)
+
+        resultsSaved += nameTicket.length;
+      }
+
+      // for (const type of selectType) {
+      //   const list = amountTicketToCreate[type].list;
+      //   const quantity = amountTicketToCreate[type].quantity;
+      //   if (list.length !== quantity.length)
+      //     return "values between list and quantity are out of range";
+
+      //   // const ticketType = await new TicketAvailable({ eventID: eventFound._id, })
+      // }
+
+      return `${resultsSaved} tickets has been added with ${Object.values(
+        selectType
+      )} to ${Object.values(
+        amountTicketToCreate[selectType[0]].list
+      )} with ${Object.values(amountTicketToCreate[selectType[0]].quantity)}`;
     },
     sendNotification: async (_, { input }) => {
       const registrationTokens = [

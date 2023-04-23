@@ -63,6 +63,7 @@ const eventSchema = new Schema(
     },
     status: {
       type: String,
+      enum: ["active", "noActive"],
       default: "noActive",
     },
     dateEvent: {

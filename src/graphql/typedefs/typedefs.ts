@@ -476,6 +476,112 @@ type outOfTicketAvailable {
 }
 # End to create Event to User
 
+# Start to allowEvent
+enum ticketTypeSoccer {
+  GENERAL,
+  PREFERENCIAL,
+  TRIBUNA,
+  PALCO
+}
+enum catalogSports{
+  Basketball,
+  EcuaVolley,
+  Fights,
+  Horses,
+  Other,
+}
+enum ticketTypeSports {
+  GENERAL,
+  PREFERENCIAL,
+  TRIBUNA,
+  PALCO
+}
+enum ticketTypeMuseums {
+  GENERAL,
+}
+enum ticketTypeNationalParks {
+  GENERAL,
+}
+enum ticketTypeSocialEvents {
+  GENERAL,
+  PREFERENCIAL,
+}
+enum ticketTypeConcerts {
+  GENERAL,
+  PREFERENCIAL,
+  BUTACA,
+  GOLDEN_BOX,
+  TOP_BOX,
+  PREMIUM_BOX,
+}
+enum ticketTypeTeathers {
+  START_BOX,
+  BUTACAS_VIP,
+  PLATEA_BAJA,
+  LUNETA_BAJA,
+  LUNETA_ALTA
+}
+enum ticketTypeCars {
+  GENERAL,
+  PREFERENCIAL,
+}
+input inCreateTicketsSoccer {
+  list: [ticketTypeSoccer]
+  quantity: [Int!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsSports {
+  list: [ticketTypeSports]
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsMuseums {
+  list: ticketTypeMuseums
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsNationalParks {
+  list: ticketTypeNationalParks
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsSocialEvents {
+  list: ticketTypeSocialEvents
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsConcerts {
+  list: ticketTypeConcerts
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsTeathers {
+  list: ticketTypeTeathers
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inCreateTicketsCars {
+  list: ticketTypeCars
+  quantity: [String!]!
+  nameSpecific: [String]
+}
+input inTicketsToCreate {
+  soccers: inCreateTicketsSoccer
+  sports: inCreateTicketsSports
+  museums: inCreateTicketsMuseums
+  nationalParks: inCreateTicketsNationalParks
+  socialEvents: inCreateTicketsSocialEvents
+  concerts: inCreateTicketsConcerts
+  teathers: inCreateTicketsTeathers
+  cars: inCreateTicketsCars
+}
+input inputOfAllowEvent{
+  searchEventByID: String!
+  status: String!
+  amountTicketToCreate: inTicketsToCreate
+}
+# End to allowEvent
+
 
 
 # START MAIN QUERIES
@@ -616,7 +722,7 @@ type Mutation {
   createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable 
 
   #Update State
-  updateState(input: StateInput): Event
+  allowEvent(input: inputOfAllowEvent): String
 
 
   #Notifications

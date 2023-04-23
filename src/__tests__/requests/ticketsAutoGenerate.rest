@@ -1,0 +1,28 @@
+@url=http://localhost:4000/
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation AllowEvent($input: inputOfAllowEvent) {
+  allowEvent(input: $input)
+}
+
+
+{
+  "input": {
+    "searchEventByID": "6442e990b202c34f4f9e4923",
+    "status": "active",
+    "amountTicketToCreate": {
+      "soccers": {
+        "list": [
+          "GENERAL",
+          "PREFERENCIAL",
+          "TRIBUNA",
+          "PALCO"
+        ],
+        "quantity": [23, 23,23, 23]
+      }
+    }
+  }
+}

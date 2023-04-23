@@ -2,12 +2,11 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const EventCostSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
   eventID: {
+    type: Schema.Types.ObjectId,
+    ref: "Event"
+  },
+  name: {
     type: String,
     required: true,
     trim: true,
