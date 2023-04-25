@@ -23,10 +23,10 @@ const eventCategorySchema = new Schema(
     icon: String,
     urlImg: String,
   },
-  // {
-  //   toJSON: { virtuals: true },
-  //   toObject: { virtuals: true },
-  // }
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
 eventCategorySchema.set("toJSON", {

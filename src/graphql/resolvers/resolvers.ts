@@ -14,6 +14,7 @@ import TicketType from "../schemas/TicketType.js";
 import simple from "../../__tests__/simple.js";
 import UserEvent from "../schemas/UserEvent.js";
 import TicketAvailable from "../schemas/TicketAvailable.js";
+import TestSchedule from "../schemas/TestSchedule.js";
 //import {FCM} from 'fcm-node';
 
 //     let serverKey = process.env.SERVER_KEY;
@@ -55,12 +56,8 @@ const optsDB = { runValidators: true, context: "query", new: true };
 
 export const resolvers = {
   Query: {
-    getUsers: async () => {
-      return await User.find();
-    },
-    getEventCategories: async (_, args, ctx) => {
-      return await EventCategory.find({});
-    },
+    getUsers: async () => await User.find(),
+    getEventCategories: async () => await EventCategory.find({}),
     getEvents: async (_, { offset = 0, limit = 5, input }, ctx) => {
       try {
         const typeOfModality: TTypeOfOnline = input.typeOfModality;
@@ -237,19 +234,18 @@ export const resolvers = {
         return "Error while the user creation";
       }
     },
-    updateUser: async (_, { input }, ctx) => {
-      // not implementaded yet because is not tested
-      try {
-        const { firebaseID } = input;
-        const updatedUser = await User.findOneAndUpdate(
-          firebaseID,
-          input,
-          optsDB
-        );
-        return updatedUser;
-      } catch (error) {
-        return;
-      }
+    testing: async () => {
+      const d = { dayNumber: 19, attendFrom: "any", attendTo: "some" };
+
+      const array = Array(7);
+
+      const newArray = array.fill(d, 0, 7);
+
+      console.log("newArray", newArray)
+      const test = await new TestSchedule({ scheduleDetails: newArray });
+      await test.save()
+      console.log(test)
+      return JSON.stringify(test, null, 2);
     },
     createEvent: async (_, { input }, ctx) => {
       try {
@@ -303,21 +299,7 @@ export const resolvers = {
         });
       }
     },
-    updateEvent: async (_, { input }) => {
-      // not implementaded yet because is not tested
-      try {
-        if (input.eventID !== null) {
-          const updatedUser = await User.findOneAndUpdate(
-            input.eventID,
-            input,
-            optsDB
-          );
-          return updatedUser;
-        }
-      } catch (error) {
-        throw new GraphQLError("so" + input + error);
-      }
-    },
+
     createStage: async (_, { input }) => {
       try {
         const beforeEventCategory = Object.assign({}, input.eventCategory);
@@ -461,8 +443,7 @@ export const resolvers = {
 
       let resultsSaved = 0;
       for await (const nameTicket of ticketsType) {
-
-        await TicketAvailable.insertMany(nameTicket)
+        await TicketAvailable.insertMany(nameTicket);
 
         resultsSaved += nameTicket.length;
       }

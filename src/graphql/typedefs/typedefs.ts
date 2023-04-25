@@ -1,6 +1,6 @@
 export const typeDefs = `#graphql
-"Here declaring us the types "
-  #types
+  
+  # ======= TYPES =========
   type Address {
   city: String!
   country: String!
@@ -36,6 +36,7 @@ type Event {
   sportType: String
 }
 type EventCategory {
+  id: String!
   categoryType: String!
   name: String!,
   shortDescription: String!,
@@ -139,40 +140,116 @@ type UserEvent {
   eventID: [String]!
   eventCostID: [String]!
 }
-"[API](https://www.apollographql.com/tutorials/side-quest-intermediate-schema-design/04-interfaces)!"
-interface interfaceAddress{
-  city: String!
-  country: String!
-  mainStreet: String!
-  numberStreet: String!
-  state: String
-  secondStreet: String
-  reference: String
-  lat: String
-  long: String
-  languages: [String]
-  mapsURL: String
+  
+  # ======= TYPES =========
+
+
+  # ======= QUERIES =========
+# Start to get Events
+enum categoryOfEvent {
+  SOCCER
+  SPORTS
+  MUSEUM
+  PARK
+  SOCIALEVENT
+  CONCERT
+  TEATHER
+  CARS
 }
-"values with *!* are required"
-#inputs
-input UserInput {
+enum enumTypeOfModality {
+  ONLINE
+  PRESENTIAL
+}
+input inputOfGetEvent {
+  categoryOfEvent: categoryOfEvent
+  typeOfModality: enumTypeOfModality
+}
+type outGetEvents {
+  eventCategoryID: outOfEventCategory
+  ticketTypeID: outOfTicketType
+  stageID: outOfStage
+  scheduleID: outOfSchedule
+  eventName: String!
+  artistName: String!
+  shortDescription: String!
+  mainDescription: String!
+  dateEvent: String!
+  banners: [String]
+  videoImg: String
+  status: String
+  hourEvent: String
+  urlEvent: String
+  ticketsAvailable: Int
+  online: String
+  concertPlacesIMG: String
+  visitorTeam: String
+  homeTeam: String
+  sportType: String
+}
+# End to get Events
+
+# Start to get Events by User
+input inOfGetEventByUser {
   name: String!
-  lastName: String!
-  firebaseID: String!
-  email: String!
-  status: Boolean
-  birthday: String
-  role: String
-  telephone: String
-  fullAddress: String
-  country: String
-  city: String
-  gender: String
-  profileImg: String
+  firebaseID: String
 }
+input inputOfGetEventByUser {
+  user: inOfGetEventByUser
+}
+type outGetEventByUser {
+  user: User
+  event: Event
+  eventCost: EventCost
+}
+# End to get Events by User
+
+# Start to get Stage By Address
+input inputOfGetStagesByAddress {
+  city: String
+  country: String
+}
+type outputOfGetStages {
+  addressID: outOfAddress
+  eventCategoryID: outOfEventCategory
+  name: String!
+  description: String!
+  longDescription: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  openFrom: String!
+  closeTo: String!
+  daysOpen: [Int]
+  onlineLink: String
+}
+# End to get Stage By Address
+
+# Start DetailEventInput
+input DetailEventInput {
+  costs: String
+  typeTicket: String
+}
+# End DetailEventInput
+
+
+# Start Notifications
+input inputNotification {
+  title: String
+  body: String
+  logo: String
+  urlDynamic: String
+}
+# End Notifications
+
+  # ======= QUERIES =========
+
+
+
+  # ======= MUTATIONS =========
 
 # Start to create Event
-"""[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
+"""
+[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
 """
 input inputOfEventCategory {
   categoryType: categoryOfEvent!
@@ -192,7 +269,6 @@ input inputOfTicketType {
   currency: String!
   ticketsAvailable: String!
 }
-
 input inputOfStage {
   address: inputOfAddress
   name: String!
@@ -206,7 +282,6 @@ input inputOfStage {
   daysOpen: [Int]
   onlineLink: String
 }
-
 input inputOfAddress {
   city: String!
   country: String!
@@ -220,13 +295,11 @@ input inputOfAddress {
   languages: [String]
   mapsURL: String
 }
-
 input inputOfSchedule {
   dayNumber: Int!
   attendFrom: String!
   attendTo: String!
 }
-
 input inputOfEventProps {
   eventName: String!
   artistName: String!
@@ -245,7 +318,6 @@ input inputOfEventProps {
   homeTeam: String
   sportType: String
 }
-
 input EventInput {
   eventCategory: inputOfEventCategory
   ticketType: inputOfTicketType
@@ -262,12 +334,12 @@ input intputOfCreateStage {
   address: inputOfAddress
   stageParams: inputOfStage
 }
-type outputOfCreateStage{
+type outputOfCreateStage {
   eventCategory: outputOfEventCategory
   address: outOfAddress
   stageParams: outOfStageParams
 }
-type outputOfEventCategory{
+type outputOfEventCategory {
   name: String
   shortDescription: String
   longDescription: String
@@ -286,66 +358,8 @@ type outOfStageParams {
   daysOpen: [Int]
   onlineLink: String
 }
-
 # End to create Stage
 
-input EventTypeOnline {
-  online: Boolean
-}
-input AddressInput{
-  city: String!
-  country: String!
-  state: String!
-  mainStreet: String!
-  secondStreet: String
-  numberStreet: String!
-  reference: String!
-  lat: String!
-  long: String!
-  languages: [String]
-  mapsURL: String
-}
-input EventCategoryInput{
-  name: String
-  shortDescription: String
-  longDescription: String
-  icon: String
-  urlImg: String
-}
-
-
-input StageInput {
-  addressID: AddressInput
-  eventCategoryID: EventCategoryInput
-  name: String!
-  description: String!
-  longDescription: String!
-  banners: [String!]
-  videoURL: String
-  capacity: Int
-  openFrom: String!
-  closeTo: String!
-  daysOpen: [Int]
-  onlineLink: String
-}
-
-input DetailEventInput {
-  costs: String
-  typeTicket: String
-}
-
-input StateInput{
-  state: String
-}
-
-input inputNotification {
-  title: String
-  body: String
-  logo: String
-  urlDynamic: String
-}
-
-# Output
 # Start Output to create Event
 type outCreateEvent {
   eventCategoryRef: outOfEventCategory
@@ -355,7 +369,6 @@ type outCreateEvent {
   addressRef: outOfAddress
   eventPropsRef: outOfEventProps
 }
-
 type outOfEventCategory {
   categoryType: String!
   name: String!
@@ -364,7 +377,6 @@ type outOfEventCategory {
   icon: String
   urlImg: String
 }
-
 type outOfTicketType {
   name: String!
   description: String!
@@ -373,7 +385,6 @@ type outOfTicketType {
   currency: String!
   ticketsAvailable: String!
 }
-
 type outOfStage {
   address: outOfAddress
   name: String!
@@ -387,7 +398,6 @@ type outOfStage {
   daysOpen: [Int]
   onlineLink: String
 }
-
 type outOfAddress {
   city: String!
   country: String!
@@ -401,13 +411,11 @@ type outOfAddress {
   languages: [String]
   mapsURL: String
 }
-
 type outOfSchedule {
   dayNumber: Int!
   attendFrom: String!
   attendTo: String!
 }
-
 type outOfEventProps {
   eventName: String!
   artistName: String!
@@ -429,8 +437,8 @@ type outOfEventProps {
 # End Output to create Event
 
 # Start to create Event to User
-"To create a ticket is necessary to find an searchEvent with the param: **search** by **name** and user by **name**" 
-input inUser{
+"To create a ticket is necessary to find an searchEvent with the param: **search** by **name** and user by **name**"
+input inUser {
   name: String!
   lastName: String!
   firebaseID: String!
@@ -453,15 +461,15 @@ input inTicketProps {
   status: String
   isReserved: Boolean
 }
-"To create a ticket is necessary to find an event with the param: **search** by **name** and User by **name** for the moment name" 
+"To create a ticket is necessary to find an event with the param: **search** by **name** and User by **name** for the moment name"
 input inSearchEvent {
   name: String
   eventID: String
 }
-input inputOfCreateTicket{
-searchUser: inUser
-searchEvent: inSearchEvent
-ticketProps: inTicketProps
+input inputOfCreateTicket {
+  searchUser: inUser
+  searchEvent: inSearchEvent
+  ticketProps: inTicketProps
 }
 type outOfTicketAvailable {
   userID: String
@@ -478,52 +486,52 @@ type outOfTicketAvailable {
 
 # Start to allowEvent
 enum ticketTypeSoccer {
-  GENERAL,
-  PREFERENCIAL,
-  TRIBUNA,
+  GENERAL
+  PREFERENCIAL
+  TRIBUNA
   PALCO
 }
-enum catalogSports{
-  Basketball,
-  EcuaVolley,
-  Fights,
-  Horses,
-  Other,
+enum catalogSports {
+  Basketball
+  EcuaVolley
+  Fights
+  Horses
+  Other
 }
 enum ticketTypeSports {
-  GENERAL,
-  PREFERENCIAL,
-  TRIBUNA,
+  GENERAL
+  PREFERENCIAL
+  TRIBUNA
   PALCO
 }
 enum ticketTypeMuseums {
-  GENERAL,
+  GENERAL
 }
 enum ticketTypeNationalParks {
-  GENERAL,
+  GENERAL
 }
 enum ticketTypeSocialEvents {
-  GENERAL,
-  PREFERENCIAL,
+  GENERAL
+  PREFERENCIAL
 }
 enum ticketTypeConcerts {
-  GENERAL,
-  PREFERENCIAL,
-  BUTACA,
-  GOLDEN_BOX,
-  TOP_BOX,
-  PREMIUM_BOX,
+  GENERAL
+  PREFERENCIAL
+  BUTACA
+  GOLDEN_BOX
+  TOP_BOX
+  PREMIUM_BOX
 }
 enum ticketTypeTeathers {
-  START_BOX,
-  BUTACAS_VIP,
-  PLATEA_BAJA,
-  LUNETA_BAJA,
+  START_BOX
+  BUTACAS_VIP
+  PLATEA_BAJA
+  LUNETA_BAJA
   LUNETA_ALTA
 }
 enum ticketTypeCars {
-  GENERAL,
-  PREFERENCIAL,
+  GENERAL
+  PREFERENCIAL
 }
 input inCreateTicketsSoccer {
   list: [ticketTypeSoccer]
@@ -575,7 +583,7 @@ input inTicketsToCreate {
   teathers: inCreateTicketsTeathers
   cars: inCreateTicketsCars
 }
-input inputOfAllowEvent{
+input inputOfAllowEvent {
   searchEventByID: String!
   status: String!
   amountTicketToCreate: inTicketsToCreate
@@ -583,150 +591,83 @@ input inputOfAllowEvent{
 # End to allowEvent
 
 
-
-# START MAIN QUERIES
-# ----
-# INPUTS
-# Start to get Events
-enum categoryOfEvent {
-  SOCCER
-  SPORTS
-  MUSEUM
-  PARK
-  SOCIALEVENT
-  CONCERT
-  TEATHER
-  CARS
-}
-enum enumTypeOfModality {
-  ONLINE
-  PRESENTIAL
-}
-input inputOfGetEvent {
-  categoryOfEvent: categoryOfEvent
-  typeOfModality: enumTypeOfModality
-}
-# End to get Events
-
-#  Start to get Events by User
-input inOfGetEventByUser {
+#Start to create user
+input UserInput {
   name: String!
-  firebaseID: String
-}
-input inputOfGetEventByUser {
-  user: inOfGetEventByUser
-}
-type outGetEventByUser {
-  user: User
-  event: Event
-  eventCost: EventCost
-}
-#  End to get Events by User
-
-# Start to get Stage By Address
-input inputOfGetStagesByAddress {
-  city: String
+  lastName: String!
+  firebaseID: String!
+  email: String!
+  status: Boolean
+  birthday: String
+  role: String
+  telephone: String
+  fullAddress: String
   country: String
+  city: String
+  gender: String
+  profileImg: String
 }
-type outputOfGetStages {
-  addressID: outOfAddress
-  eventCategoryID: outOfEventCategory
-  name: String!
-  description: String!
-  longDescription: String!
-  banners: [String!]
-  videoURL: String
-  capacity: Int
-  openFrom: String!
-  closeTo: String!
-  daysOpen: [Int]
-  onlineLink: String
+# End to create user
+
+
+# Start to testing
+input inputOfTesting {
+    in: [String!]!
 }
-# End to get Stage By Address
+# End to testing
+
+
+  # ======= MUTATIONS =========
 
 
 
-# ----
-# END INPUTS
-
-#START OUTPUTS
-type outGetEvents {
-  eventCategoryID: outOfEventCategory
-  ticketTypeID: outOfTicketType
-  stageID: outOfStage
-  scheduleID: outOfSchedule
-  eventName: String!
-  artistName: String!
-  shortDescription: String!
-  mainDescription: String!
-  dateEvent: String!
-  banners: [String]
-  videoImg: String
-  status: String
-  hourEvent: String
-  urlEvent: String
-  ticketsAvailable: Int
-  online: String
-  concertPlacesIMG: String
-  visitorTeam: String
-  homeTeam: String
-  sportType: String
-}
-#END OUTPUTS
-
-# END MAIN QUERIES
-
-
-type UpdatedOutput {
-  message: String
-  UpdatedUser: User
-}
-
-type OutputEventCategory {
-  eventID: [String!]
-  name: String
-  shortDescription: String
-  longDescription: String
-  icon: String
-  urlImg: String
-}
-
-type Query {
+  # ======= MAIN QUERIES && MUTATIONS =========
+  type Query {
   getUsers: [User]
-  
+
   #Get Events
   getEventCategories: [EventCategory]
 
-  getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]   
+  getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]
 
-  getEventByUser(input: inputOfGetEventByUser, offset: Int, limit: Int): outGetEventByUser 
+  getEventByUser(
+    input: inputOfGetEventByUser
+    offset: Int
+    limit: Int
+  ): outGetEventByUser
 
-  getStages(input: inputOfGetStagesByAddress, offset: Int, limit: Int): [outputOfGetStages]
+  getStages(
+    input: inputOfGetStagesByAddress
+    offset: Int
+    limit: Int
+  ): [outputOfGetStages]
 
   getDetailEvent(input: DetailEventInput): [Event]
-
 }
+
+# =================================================================
+
 type Mutation {
   #Users
   createUser(input: UserInput): String
-  updateUser(input: UserInput): [UpdatedOutput]
 
   #Events
   createEvent(input: EventInput): outCreateEvent
-  updateEvent(input: UserInput): [UpdatedOutput]
+
+  testing(input: inputOfTesting): String
 
   #Stages
   createStage(input: intputOfCreateStage): outputOfCreateStage
 
   #Assing Ticket to User
-  createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable 
+  createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable
 
   #Update State
   allowEvent(input: inputOfAllowEvent): String
-
 
   #Notifications
   sendNotification(input: inputNotification): String
 }
 
+  # ======= MAIN QUERIES && MUTATIONS =========
 `;

@@ -1,7 +1,3 @@
-# check the port only for testing
-
-#MUTATION
-## partial data (end json) because of the USEREVENTS still not is available only exists user 
 @url=http://localhost:4000/
 ###
 POST {{url}}
