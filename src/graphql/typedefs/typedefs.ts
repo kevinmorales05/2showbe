@@ -196,6 +196,18 @@ type outGetEvents {
 }
 # End to get Events
 
+# Start to get Events Costs
+""" **eventID:** to find an event"""
+input inputOfGetEventCosts {
+  eventID: String!
+}
+type outOfGetEventCostos {
+  eventDetails: outOfEventDetails
+  costsAndTicketType: outOfTicketType 
+}
+# End to get Events Costs
+
+
 # Start to get Events by User
 input inOfGetEventByUser {
   name: String!
@@ -321,7 +333,7 @@ input inputOfEventDetails {
   hourEvent: String!
   banners: [inputOfBannersEvent]
   videoImg: String
-  sellStatus: Boolean!
+  saleStatus: Boolean!
   urlEvent: String
   ticketsAvailable: Int
   modality: [String!]
@@ -366,7 +378,7 @@ type outOfTicketTypeDetails {
   section: String!
   cost: Float!
   currency: String!
-  ticketsAvailable: String!
+  ticketsAvailable: Int!
   id: String!
 }
 type outOfStage {
@@ -419,7 +431,7 @@ type outOfEventDetails {
   dateEvent: String!
   banners: [outOfBanners]
   videoImg: String
-  status: String
+  saleStatus: String
   hourEvent: String!
   urlEvent: String
   ticketsAvailable: Int
@@ -438,7 +450,6 @@ type outOfEventDetails {
 
 
 # Start to create Stage
-# OJO
 input inputOfCreateStage {
   eventCategory: inputOfEventCategory
   address: inputOfAddress
@@ -476,53 +487,57 @@ type outOfStageDetails {
 
 
 
-# Start to create Event to User
-"To create a ticket is necessary to find an searchEvent with the param: **search** by **name** and user by **name**"
-input inUser {
+# Start to assign or create Ticket to User
+"""
+**modality:** eg. ["presential", "online", "other"] \n
+**seatSection:** eg. "GENERAL" "PREFERENCIAL" "TRIBUNA" "PALCO" \n
+**seatName:** example: '23A' '77W' and so forth the seat depict \n
+**status:** eg.  "redeemed"   "active"    "noActive"    "outOfDate"\n
+**isReserved:** reserving ticket to user.
+"""
+input inTicketDetails {
+  # buyDate: String!
+  # ticketCode: String
+  modality: [String!]
+  seatSection: String!
+  seatName: String!
+  status: String!
+  isReserved: Boolean!
+}
+
+"""
+**userFirebaseId:** firebaseID user \n
+**eventID:** which event gets will asign \n
+**ticketDetails:** params to asign a ticket to user
+"""
+input inputOfCreateTicketToUser {
+  userFirebaseID: String!
+  eventID: String!
+  ticketDetails: inTicketDetails
+}
+type outOfCreateTicketToUser {
+  userDetails: outOfUser
+  eventDetail: outOfEventDetails
+  ticketDetails: outOfTicketAvailable
+}
+type outOfUser{
   name: String!
   lastName: String!
   firebaseID: String!
-  email: String!
   status: Boolean
-  birthday: String
-  role: String
-  telephone: String
-  fullAddress: String
-  country: String
-  city: String
-  gender: String
-  profileImg: String
-}
-input inTicketDetails {
-  buyDate: String!
-  type: String
-  ticketCode: String
-  seatName: String
-  status: String
-  isReserved: Boolean
-}
-"To create a ticket is necessary to find an event with the param: **search** by **name** and User by **name** for the moment name"
-input inSearchEvent {
-  name: String
-  eventID: String
-}
-input inputOfCreateTicket {
-  searchUser: inUser
-  searchEvent: inSearchEvent
-  ticketDetails: inTicketDetails
+  _id: String!
 }
 type outOfTicketAvailable {
-  userID: String
-  eventID: String
-  ticketTypeID: String
   buyDate: String!
-  type: String
-  ticketCode: String
-  seatName: String
-  status: String
-  isReserved: Boolean
+  modality: [String]
+  seatSection: String!
+  seatName: String!
+  ticketCode: String!
+  status: String!
+  isReserved: Boolean!
+  _id: String!
 }
-# End to create Event to User
+# End to assign or create Ticket to User
 
 # Start to allowEvent
 enum ticketTypeSoccer {
@@ -623,13 +638,12 @@ input inTicketsToCreate {
   teathers: inCreateTicketsTeathers
   cars: inCreateTicketsCars
 }
+"**Search:**create tickets thourhg an event already created"
 input inputOfAllowEvent {
-  searchEventByID: String!
-  status: String!
-  amountTicketToCreate: inTicketsToCreate
+  eventID: String!
+  saleStatus: Boolean!
 }
 # End to allowEvent
-
 
 #Start to create user
 input UserInput {
@@ -650,62 +664,62 @@ input UserInput {
 # End to create user
 
 
-# Start to testing
-input inputOfTesting {
-    schedule: [inputOfSchedule!]!
-}
-# End to testing
-
-
   # ======= MUTATIONS =========
 
 
 
-  # ======= MAIN QUERIES && MUTATIONS =========
+  # ======= QUERIES && MUTATIONS RESOLVERS =========
+
+  "Query to get all Users"
   type Query {
   getUsers: [User]
-
-  #Get Events
+  
+  "Query to get all Event Categories"
   getEventCategories: [EventCategory]
 
-  getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]
-
-  getEventByUser(
-    input: inputOfGetEventByUser
-    offset: Int
-    limit: Int
-  ): outGetEventByUser
-
+  "Query to get all Stages with pagination by 10"
   getStages(
     input: inputOfGetStagesByAddress
     offset: Int
     limit: Int
   ): [outputOfGetStages]
 
-  getDetailEvent(input: inputOfSchedule): [Event]
+  "Query to get all Events with pagination by 5"
+  getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]
+
+  "Query to get events by costs and type of ticket"
+  getEventCosts(input: inputOfGetEventCosts): outOfGetEventCostos
+
+
+  "Query to get a ticket bought by an User"
+  getEventByUser(
+    input: inputOfGetEventByUser
+    offset: Int
+    limit: Int
+  ): outGetEventByUser
+  
 }
 
 # =================================================================
 
 type Mutation {
-  #Users
+  "Create an new user for the platform"
   createUser(input: UserInput): String
 
-  #Events
+  "Create an new Event from an Stage already created"
   createEvent(input: inputEvent): outCreateEvent
 
-  testing(input: inputOfTesting): String
-
-  #Stages
-  createStage(input: inputOfCreateStage): outputOfCreateStage
-
-  #Assing Ticket to User
-  createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable
-
-  #Update State
+  "Create ticket automaticatelly from an event already created"
   allowEvent(input: inputOfAllowEvent): String
 
-  #Notifications
+  "Create an new Stage"
+  createStage(input: inputOfCreateStage): outputOfCreateStage
+
+  "Allow to an user can buy a ticket"
+  createTicketToUser(input: inputOfCreateTicketToUser): outOfCreateTicketToUser
+  # outOfCreateToUser
+
+  "Notifications section"
   sendNotification(input: inputNotification): String
 }
 

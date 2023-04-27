@@ -12,7 +12,7 @@ interface IEvent {
   mainDescription: string;
   banners?: [string];
   videoImg?: string;
-  status?: string;
+  saleStatus?: string;
   dateEvent: string;
   hourEvent?: string;
   urlEvent?: string;
@@ -63,7 +63,7 @@ const eventSchema = new Schema(
     videoImg: {
       type: String,
     },
-    sellStatus: {
+    saleStatus: {
       type: Boolean,
       default: false,
     },

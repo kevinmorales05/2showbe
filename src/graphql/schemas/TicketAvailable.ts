@@ -17,20 +17,27 @@ const TicketAvailableSchema = new Schema(
     },
     buyDate: {
       type: String,
-      //fixed for the future
-      // required: true,
+      // unique: true,
     },
-    type: {
-      // fix this should be an array wrapping****
-      type: String,
-      enum: ["online", "physical"],
-      default: "physical",
-    },
+    modality: [
+      {
+        type: String,
+        enum: ["online", "presential", "other"],
+        default: "physical",
+      },
+    ],
+
     ticketCode: {
       type: String,
+      // unique: true,
+    },
+    seatSection: {
+      type: String,
+      required: true,
     },
     seatName: {
       type: String,
+      // unique: true,
     },
     status: {
       type: String,
@@ -40,6 +47,7 @@ const TicketAvailableSchema = new Schema(
     },
     isReserved: {
       type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
