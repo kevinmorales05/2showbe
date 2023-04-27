@@ -21,113 +21,119 @@ import TestSchedule from "../schemas/TestSchedule.js";
 
 // let fcm = new FCM(serverKey);
 
-// enum ETypeOfEvent {
-//   SOCCER = "SOCCER",
-//   SPORTS = "SPORTS",
-//   MUSEUM = "MUSEUM",
-//   PARK = "PARK",
-//   SOCIALEVENT = "SOCIALEVENT",
-//   CONCERT = "CONCERT",
-//   TEATHER = "TEATHER",
-//   CARS = "CARS",
-// }
-
-enum ETypeOfEvent {
-  SOCCER,
-  SPORTS,
-  MUSEUM,
-  PARK,
-  SOCIALEVENT,
-  CONCERT,
-  TEATHER,
-  CARS,
+enum EEventType {
+  soccer,
+  sports,
+  museum,
+  park,
+  social_event,
+  concert,
+  teather,
+  cars,
+  other,
 }
-type TTypeOfEvent = keyof typeof ETypeOfEvent;
-//        ^?
+type TEventType = keyof typeof EEventType;
 
-enum ETypeOfOnline {
-  ONLINE,
-  PRESENTIAL,
+enum EModalityType {
+  online,
+  presential,
 }
-type TTypeOfOnline = keyof typeof ETypeOfEvent;
-//        ^?
+type TModalityType = keyof typeof EModalityType;
 
-const optsDB = { runValidators: true, context: "query", new: true };
+const optsDBValidators = { runValidators: true, context: "query", new: true };
+
+const arraySliced = (array, offset, limit) => {
+  console.log(offset, limit);
+  if (limit !== undefined || limit !== null) {
+    if (offset !== undefined || offset !== null) {
+      return array.slice(offset, offset + limit);
+    }
+    return array.slice(0, limit);
+  }
+  console.log("return", array);
+  return array;
+};
 
 export const resolvers = {
   Query: {
     getUsers: async () => await User.find(),
     getEventCategories: async () => await EventCategory.find({}),
-    getEvents: async (_, { offset = 0, limit = 5, input }, ctx) => {
+    getEvents: async (_, { input, offset = 0, limit = 5 }, ctx) => {
       try {
-        const typeOfModality: TTypeOfOnline = input.typeOfModality;
-        const categoryOfEvent: TTypeOfEvent = input.categoryOfEvent;
+        function arrayMapped(array) {
+          return array.map((v) => {
+            return {
+              eventCategoryID: v.eventCategoryID,
+              ticketTypeID: v.ticketTypeID,
+              stageID: v.stageID,
+              scheduleID: v.scheduleID,
+              eventDetails: v["_doc"],
+            };
+          });
+        }
 
-        const enumOnliKeys = Object.keys(ETypeOfOnline).filter((v) =>
-          isNaN(Number(v))
-        );
-        const enumCateKeys = Object.keys(ETypeOfEvent).filter((v) =>
-          isNaN(Number(v))
-        );
+        const eventCategory: TEventType =
+          input.eventType !== null ? input.eventType : false;
+        const modality: TModalityType =
+          input.modalityType !== (null || undefined)
+            ? input.modalityType
+            : false;
 
-        const boolModality = enumOnliKeys.includes(typeOfModality)
-          ? true
-          : false;
-        const boolCategoryOfEvent = enumCateKeys.includes(categoryOfEvent)
-          ? true
-          : false;
-
-        if (boolModality) {
+        if (modality && eventCategory) {
+          // https://www.mongodb.com/docs/manual/tutorial/query-arrays/
+          // or --> { "$in" : modality} } I think one value
+          // search null values --> db.collection.find({"keyWithArray":{$elemMatch:{"$in":[null], "$exists":true}}})
           const event = await Event.find({
-            online: typeOfModality.toLowerCase(),
+            modality: {
+              $all: modality,
+            },
           }).populate("eventCategoryID ticketTypeID stageID scheduleID");
 
-          if (limit !== undefined) {
-            if (offset !== undefined) {
-              return event.slice(offset, offset + limit);
-            }
-            return event.slice(0, limit);
-          }
-          return event;
-        }
-        if (boolCategoryOfEvent) {
-          const event = await Event.find();
-          const out = event.filter(
-            async (item) =>
-              (await item.eventCategoryID?.categoryType) ===
-              categoryOfEvent.toString()
+          const eventFiltered = event.filter(
+            (v) => v.eventCategoryID["categoryType"] === eventCategory
           );
-          if (limit !== undefined) {
-            if (offset !== undefined) {
-              return out.slice(offset, offset + limit);
-            }
-            return out.slice(0, limit);
-          }
-          return out;
+
+          const eventValidated = eventFiltered !== null ? eventFiltered : false;
+          if (!eventValidated)
+            return new GraphQLError(`EventCategory not Found ${eventCategory}`);
+
+          const eventSliced = arraySliced(eventValidated, offset, limit);
+          const eventsMapped = arrayMapped(eventSliced);
+
+          return eventsMapped;
         }
-        if (boolModality && boolCategoryOfEvent) {
+
+        if (eventCategory) {
+          const event = await Event.find({}).populate(
+            "eventCategoryID ticketTypeID stageID scheduleID"
+          );
+
+          const eventFiltered = event.filter(
+            async (v) =>
+              (await v?.eventCategoryID["categoryType"]) === eventCategory
+          );
+
+          const eventValidated = eventFiltered !== null ? eventFiltered : false;
+          if (!eventValidated)
+            return new GraphQLError(`EventCategory not Found ${eventCategory}`);
+
+          const eventSliced = arraySliced(eventValidated, offset, limit);
+          const eventsMapped = arrayMapped(eventSliced);
+          console.log("category");
+          return eventsMapped;
+        }
+
+        if (modality) {
           const event = await Event.find({
-            online: typeOfModality.toLowerCase(),
+            modality: {
+              $all: modality,
+            },
           }).populate("eventCategoryID ticketTypeID stageID scheduleID");
-          const out = event.filter(
-            async (item) =>
-              (await item.eventCategoryID?.categoryType) ===
-              categoryOfEvent.toString()
-          );
-          if (limit !== undefined) {
-            if (offset !== undefined) {
-              return out.slice(offset, offset + limit);
-            }
-            return out.slice(0, limit);
-          }
-          return out;
-        } else {
-          throw new GraphQLError(
-            `unknown input type: ${JSON.stringify(input)}`,
-            {
-              extensions: { code: "BAD_USER_INPUT", http: { status: 400 } },
-            }
-          );
+
+          const eventSliced = arraySliced(event, offset, limit);
+          const eventsMapped = arrayMapped(eventSliced);
+          console.log("modality");
+          return eventsMapped;
         }
       } catch (err) {
         throw new GraphQLError(`Error: ${JSON.stringify(err)}`, {
@@ -151,68 +157,77 @@ export const resolvers = {
       };
     },
     getStages: async (_, { offset = 0, limit = 10, input }) => {
-      const city = input.city !== undefined ? input.city.toLowerCase() : false;
-      const country =
-        input.country !== undefined ? input.country.toLowerCase() : false;
-
-      if (city && country) {
-        const stage = await Stage.find().populate("addressID eventCategoryID");
-        const filteredStage = stage.filter(
-          async (i) =>
-            (await i.addressID?.city.toLowerCase()) === city &&
-            (await i.addressID?.country.toLowerCase()) === country
-        );
-        if (limit !== undefined) {
-          if (offset !== undefined) {
-            return filteredStage.slice(offset, offset + limit);
-          }
-          return filteredStage.slice(0, limit);
+      try {
+        function arrayMapped(array) {
+          return array.map((v) => {
+            return {
+              address: v,
+              eventCategory: v.virtualStageID[0].eventCategoryID[0],
+              stageDetails: v.virtualStageID[0],
+            };
+          });
         }
-        return filteredStage;
-      }
+        const city = input.city !== (undefined || null) ? input.city : false;
+        const country =
+          input.country !== (undefined || null) ? input.country : false;
 
-      if (city) {
-        const stage = await Stage.find().populate("addressID");
-        const filteredStage = stage.filter(
-          async (i) => (await i.addressID?.city.toLowerCase()) === city
-        );
-        if (limit !== undefined) {
-          if (offset !== undefined) {
-            return filteredStage.slice(offset, offset + limit);
-          }
-          return filteredStage.slice(0, limit);
-        }
-        return filteredStage;
-      }
+        if (city && country) {
+          // https://www.mongodb.com/docs/v6.0/reference/operator/query/regex/
+          const address = await Address.find({
+            city: {
+              $regex: city,
+              $options: "i",
+            },
+            country: {
+              $regex: country,
+              $options: "i",
+            },
+          }).populate({
+            path: "virtualStageID",
+            populate: { path: "eventCategoryID" },
+          });
 
-      if (country) {
-        const stage = await Stage.find().populate("addressID");
-        const filteredStage = stage.filter(
-          async (i) => (await i.addressID?.country.toLowerCase()) === country
-        );
-        if (limit !== undefined) {
-          if (offset !== undefined) {
-            return filteredStage.slice(offset, offset + limit);
-          }
-          return filteredStage.slice(0, limit);
+          const addressSliced = arraySliced(address, offset, limit);
+          const addressMapped = arrayMapped(addressSliced);
+          return addressMapped;
         }
-        return filteredStage;
-      } else {
-        throw new GraphQLError(`unknown input type: ${JSON.stringify(input)}`, {
-          extensions: { code: "BAD_USER_INPUT", http: { status: 400 } },
+
+        if (city) {
+          const address = await Address.find({
+            city: {
+              $regex: city,
+              $options: "i",
+            },
+          }).populate({
+            path: "virtualStageID",
+            populate: { path: "eventCategoryID" },
+          });
+
+          const addressSliced = arraySliced(address, offset, limit);
+          const addressMapped = arrayMapped(addressSliced);
+          return addressMapped;
+        }
+
+        if (country) {
+          const address = await Address.find({
+            country: {
+              $regex: country,
+              $options: "i",
+            },
+          }).populate({
+            path: "virtualStageID",
+            populate: { path: "eventCategoryID" },
+          });
+
+          const addressSliced = arraySliced(address, offset, limit);
+          const addressMapped = arrayMapped(addressSliced);
+          return addressMapped;
+        }
+      } catch (e) {
+        throw new GraphQLError(`Error: ${JSON.stringify(e)}`, {
+          extensions: { code: "INTERNAL_SERVER_ERROR", http: { status: 400 } },
         });
       }
-
-      if (input !== null && input.country !== null) {
-        const address = await new Address({
-          city: input.city,
-          country: input.country,
-        });
-
-        const stage = await Stage.find({ addressID: address.id });
-        return stage;
-      }
-      return await Stage.find({});
     },
     getDetailEvent: async (_, { input }) => {
       if (input !== null) {
@@ -234,60 +249,66 @@ export const resolvers = {
         return "Error while the user creation";
       }
     },
-    testing: async () => {
-      const d = { dayNumber: 19, attendFrom: "any", attendTo: "some" };
+    testing: async (_, { input }) => {
+      const dd = input.schedule;
 
-      const array = Array(7);
+      // const d = { dayNumber: 19, attendFrom: "any", attendTo: "some" };
+      // const array = Array(7);
+      // const newArray = array.fill(d, 0, 7);
+      // console.log("newArray", newArray)
 
-      const newArray = array.fill(d, 0, 7);
-
-      console.log("newArray", newArray)
-      const test = await new TestSchedule({ scheduleDetails: newArray });
-      await test.save()
-      console.log(test)
+      const test = await new TestSchedule({ scheduleDetails: dd });
+      await test.save();
+      console.log(test);
       return JSON.stringify(test, null, 2);
     },
     createEvent: async (_, { input }, ctx) => {
       try {
-        const eventCategory = await new EventCategory(input.eventCategory);
-        const ticketType = await new TicketType(input.ticketType);
-        const stage = await new Stage(input.stage);
-        const schedule = await new Schedule(input.schedule);
-        const address = await new Address(input.address);
-        const event = await new Event(input.eventProps);
+        if (typeof input.stageID !== "string" && input.stageID === "")
+          return "Invalid stage ID";
 
-        await eventCategory.save();
+        // Found stage by id
+        const stage = await Stage.findById(input.stageID).populate(
+          "addressID eventCategoryID"
+        );
+
+        if (stage === null || stage === undefined)
+          return new GraphQLError(`Stage not Found by id: ${input.stage}`);
+
+        const ticketType = await new TicketType({
+          ticketTypeDetails: input.ticketType,
+        });
+
+        const schedule = await new Schedule({
+          scheduleDetails: input.schedule,
+        });
+        const event = await new Event(input.eventDetails);
+
         await ticketType.save();
-        await stage.save();
         await schedule.save();
-        await address.save();
         await event.save();
 
-        // saving reference
-        eventCategory.eventID = event._id;
+        // saving references to event
         ticketType.eventID = event._id;
-        stage.addressID = address._id;
-        stage.eventCategoryID = eventCategory._id;
         schedule.eventID = event._id;
-        event.eventCategoryID = eventCategory._id;
+
+        console.log("firstid check", stage.eventCategoryID[0]);
+        event.eventCategoryID = stage.eventCategoryID[0];
         event.ticketTypeID = ticketType._id;
         event.stageID = stage._id;
         event.scheduleID = schedule._id;
 
-        await eventCategory.save();
         await ticketType.save();
-        await stage.save();
         await schedule.save();
-        await address.save();
         await event.save();
 
         const out = {
-          eventCategoryRef: eventCategory,
-          ticketTypeRef: ticketType,
-          stageRef: stage,
-          scheduleRef: schedule,
-          addressRef: address,
-          eventPropsRef: event,
+          eventCategory: stage.eventCategoryID,
+          ticketType,
+          stage,
+          schedule,
+          address: stage.addressID,
+          eventDetails: event,
         };
         return out;
       } catch (error) {
@@ -299,36 +320,42 @@ export const resolvers = {
         });
       }
     },
-
     createStage: async (_, { input }) => {
       try {
-        const beforeEventCategory = Object.assign({}, input.eventCategory);
-        beforeEventCategory.categoryType =
-          beforeEventCategory.categoryType.toLowerCase();
+        const {
+          eventCategory: evByCategory,
+          address: inAddress,
+          stageDetails,
+        } = input;
+        // console.log(input);
+        if (typeof input !== undefined) {
+          const stage = await new Stage(stageDetails);
+          const eventCategory = await new EventCategory(evByCategory);
+          const address = await new Address(inAddress);
+          await stage.save(stageDetails);
 
-        if (input !== null) {
-          const stage = await new Stage(input.stageParams);
-          const eventCategory = await new EventCategory(beforeEventCategory);
-          const address = await new Address(input.address);
-
-          await stage.save();
           await eventCategory.save();
           await address.save();
 
           // saving reference
-          // eventCategory.eventID = event._id;
-          stage.addressID = address._id;
-          stage.eventCategoryID = eventCategory._id;
+          // to eventCategory.eventID is still without id because when we create an event in that moment will populate that id.
 
+          stage.addressID = address._id;
+
+          // a stage can have several category of events
+          stage.eventCategoryID = stage.eventCategoryID.concat(
+            eventCategory._id
+          );
           await stage.save();
 
-          return {
-            eventCategory: eventCategory,
-            address: address,
-            stageParams: stage,
+          // how is the first time which we create an eventCategory is wrapped in an array
+          const out = {
+            eventCategory: [eventCategory],
+            address,
+            stageDetails: stage,
+            id: stage.id,
           };
-
-          return stage;
+          return out;
         }
       } catch (error) {
         throw new GraphQLError("so" + input + error);
@@ -404,7 +431,7 @@ export const resolvers = {
         "ticketTypeID"
       );
       if (!eventFound) return "not found event";
-      eventFound.status = status;
+      eventFound['status'] = status;
       await eventFound.save();
 
       console.log("event found", eventFound);

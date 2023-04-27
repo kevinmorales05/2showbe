@@ -42,8 +42,17 @@ const addressSchema = new Schema({
     default: [],
   },
   mapsURL: String,
+}, {
+      toJSON: { virtuals: true },
+    toObject: { virtuals: true },
 });
 
+// This is similar like populate but it's necessary to specify before toJSON & toObject the virtuals to true
+addressSchema.virtual("virtualStageID", {
+  ref: "Stage",
+  localField: "_id",
+  foreignField: "addressID",
+});
 
 addressSchema.set("toJSON", {
   transform: (document, returnedObject) => {

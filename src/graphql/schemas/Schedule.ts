@@ -3,9 +3,13 @@ const { Schema, model } = mongoose;
 
 const scheduleSchema = new Schema({
   eventID: {type: Schema.Types.ObjectId, ref: "Event" },
-  dayNumber: { type: Number, required: true },
-  attendFrom: { type: String, required: true },
-  attendTo: { type: String, required: true },
+  scheduleDetails: [
+    new Schema({
+      dayNumber: { type: Number, required: true },
+      attendFrom: { type: String, required: true },
+      attendTo: { type: String, required: true },
+    }),
+  ],
 });
 
 scheduleSchema.set("toJSON", {

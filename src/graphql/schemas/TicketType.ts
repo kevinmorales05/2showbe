@@ -7,32 +7,38 @@ const ticketTypeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Event",
     },
-    name: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    section: {
-      type: String,
-      required: true,
-    },
-    cost: {
-      type: String,
-      required: true,
-    },
-    currency: {
-      type: String,
-      required: true,
-    },
-    ticketsAvailable: {
-      type: String,
-      required: true,
-      enum: ["yes", "no"],
-    },
-  },
+    ticketTypeDetails: [
+      {
+        name: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
+          required: true,
+        },
+        section: {
+          type: String,
+          required: true,
+        },
+        cost: {
+          type: String,
+          required: true,
+        },
+        currency: {
+          type: String,
+          required: true,
+        },
+        ticketsAvailable: {
+          // type: String,
+          // required: true,
+          // enum: ["yes", "no"],
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+  }
   // {
   //   toJSON: { virtuals: true },
   //   toObject: { virtuals: true },
@@ -46,6 +52,5 @@ ticketTypeSchema.set("toJSON", {
     delete returnedObject.__v;
   },
 });
-
 
 export default model("TicketType", ticketTypeSchema);

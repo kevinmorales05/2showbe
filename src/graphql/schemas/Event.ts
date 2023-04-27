@@ -43,7 +43,7 @@ const eventSchema = new Schema(
     },
     artistName: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
     },
     shortDescription: {
@@ -54,17 +54,18 @@ const eventSchema = new Schema(
       type: String,
       required: true,
     },
-    banners: {
-      type: [String],
-      required: true,
-    },
+    banners: [
+      {
+        promoVideo: { type: String },
+        bannersUrls: [{ type: String }],
+      },
+    ],
     videoImg: {
       type: String,
     },
-    status: {
-      type: String,
-      enum: ["active", "noActive"],
-      default: "noActive",
+    sellStatus: {
+      type: Boolean,
+      default: false,
     },
     dateEvent: {
       type: String,
@@ -72,17 +73,23 @@ const eventSchema = new Schema(
     },
     hourEvent: {
       type: String,
+      required: true,
     },
     urlEvent: {
       type: String,
+      require: true,
     },
     ticketsAvailable: {
       type: Number,
     },
-    online: {
+    modality: [{
       type: String,
       default: "presential",
-      enum: ["online", "presential"],
+      required: true,
+    }],
+    isOnline: {
+      type: Boolean,
+      required: true,
     },
     concertPlacesIMG: {
       type: String,
@@ -95,7 +102,9 @@ const eventSchema = new Schema(
       type: String,
     },
     sportType: {
-      type: String, // soccer, basketball, volley, etc..
+      type: String,
+      enum: ["soccer", "basketball", "volley", "other"],
+      // soccer, basketball, volley, etc..
       default: "empty",
     },
 
@@ -170,7 +179,6 @@ const eventSchema = new Schema(
 eventSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
-    // delete returnedObject._id;
     delete returnedObject.__v;
   },
 });

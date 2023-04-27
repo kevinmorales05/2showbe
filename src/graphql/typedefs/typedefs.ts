@@ -29,7 +29,7 @@ type Event {
   hourEvent: String
   urlEvent: String
   ticketsAvailable: Int
-  online: String
+  isOnline: Boolean
   concertPlacesIMG: String
   visitorTeam: String
   homeTeam: String
@@ -146,45 +146,53 @@ type UserEvent {
 
   # ======= QUERIES =========
 # Start to get Events
-enum categoryOfEvent {
-  SOCCER
-  SPORTS
-  MUSEUM
-  PARK
-  SOCIALEVENT
-  CONCERT
-  TEATHER
-  CARS
+enum inEventType {
+  soccer
+  sports
+  museum
+  park
+  socialevent
+  concert
+  teather
+  cars
+  other
 }
-enum enumTypeOfModality {
-  ONLINE
-  PRESENTIAL
+enum inModalityType {
+  online 
+   presential
+    other
 }
+
+""" **eventType:** depict categoryType of an event
+**modalityType:** depict [modality] of an event """
 input inputOfGetEvent {
-  categoryOfEvent: categoryOfEvent
-  typeOfModality: enumTypeOfModality
+  eventType: inEventType
+  modalityType: [inModalityType]
 }
 type outGetEvents {
   eventCategoryID: outOfEventCategory
   ticketTypeID: outOfTicketType
   stageID: outOfStage
   scheduleID: outOfSchedule
-  eventName: String!
-  artistName: String!
-  shortDescription: String!
-  mainDescription: String!
-  dateEvent: String!
-  banners: [String]
-  videoImg: String
-  status: String
-  hourEvent: String
-  urlEvent: String
-  ticketsAvailable: Int
-  online: String
-  concertPlacesIMG: String
-  visitorTeam: String
-  homeTeam: String
-  sportType: String
+  eventDetails: outOfEventDetails
+  # eventName: String!
+  # artistName: String
+  # shortDescription: String!
+  # mainDescription: String!
+  # dateEvent: String!
+  # banners: [outOfBanners]
+  # videoImg: String
+  # status: String
+  # hourEvent: String!
+  # urlEvent: String
+  # ticketsAvailable: Int
+  # modality: [String!]
+  # isOnline: Boolean!
+  # concertPlacesIMG: String
+  # visitorTeam: String
+  # homeTeam: String
+  # sportType: String
+  # id: String!
 }
 # End to get Events
 
@@ -209,18 +217,9 @@ input inputOfGetStagesByAddress {
   country: String
 }
 type outputOfGetStages {
-  addressID: outOfAddress
-  eventCategoryID: outOfEventCategory
-  name: String!
-  description: String!
-  longDescription: String!
-  banners: [String!]
-  videoURL: String
-  capacity: Int
-  openFrom: String!
-  closeTo: String!
-  daysOpen: [Int]
-  onlineLink: String
+  address: outOfAddress
+  eventCategory: outOfEventCategory
+  stageDetails: outOfStageDetails
 }
 # End to get Stage By Address
 
@@ -249,10 +248,21 @@ input inputNotification {
 
 # Start to create Event
 """
-[x]**categoryType**: soccer, sports, museum, park, social-event, concert, teather, cars."
+**categoryType**: it could one of them below
+      \n
+      [
+        "soccer",
+        "sports",
+        "museum",
+        "park",
+        "social-event",
+        "concert",
+        "teather",
+        "cars",
+      ],
 """
 input inputOfEventCategory {
-  categoryType: categoryOfEvent!
+  categoryType: inEventType!
   name: String!
   shortDescription: String!
   longDescription: String
@@ -260,17 +270,15 @@ input inputOfEventCategory {
   urlImg: String
 }
 
-"[x]**ticketsAvailable**: 'yes' or 'no' "
 input inputOfTicketType {
   name: String!
   description: String!
   section: String!
   cost: Float!
   currency: String!
-  ticketsAvailable: String!
+  ticketsAvailable: Int!
 }
-input inputOfStage {
-  address: inputOfAddress
+input inputOfStageDetails {
   name: String!
   description: String!
   longDescription: String!
@@ -300,74 +308,44 @@ input inputOfSchedule {
   attendFrom: String!
   attendTo: String!
 }
-input inputOfEventProps {
+input inputOfBannersEvent {
+promoVideo: String
+bannersUrls: [String]
+}
+input inputOfEventDetails {
   eventName: String!
-  artistName: String!
+  artistName: String
   shortDescription: String!
   mainDescription: String!
   dateEvent: String!
-  banners: [String]
+  hourEvent: String!
+  banners: [inputOfBannersEvent]
   videoImg: String
-  status: String
-  hourEvent: String
+  sellStatus: Boolean!
   urlEvent: String
   ticketsAvailable: Int
-  online: String
+  modality: [String!]
+  isOnline: Boolean!
   concertPlacesIMG: String
   visitorTeam: String
   homeTeam: String
   sportType: String
 }
-input EventInput {
-  eventCategory: inputOfEventCategory
-  ticketType: inputOfTicketType
-  stage: inputOfStage
-  schedule: inputOfSchedule
-  address: inputOfAddress
-  eventProps: inputOfEventProps
+input inputEvent {
+  stageID: String!
+  ticketType: [inputOfTicketType!]
+  schedule: [inputOfSchedule!]
+  eventDetails: inputOfEventDetails
 }
-# End to create Event
 
-# Start to create Stage
-input intputOfCreateStage {
-  eventCategory: inputOfEventCategory
-  address: inputOfAddress
-  stageParams: inputOfStage
-}
-type outputOfCreateStage {
-  eventCategory: outputOfEventCategory
-  address: outOfAddress
-  stageParams: outOfStageParams
-}
-type outputOfEventCategory {
-  name: String
-  shortDescription: String
-  longDescription: String
-  icon: String
-  urlImg: String
-}
-type outOfStageParams {
-  name: String!
-  description: String!
-  longDescription: String!
-  openFrom: String!
-  closeTo: String!
-  banners: [String!]
-  videoURL: String
-  capacity: Int
-  daysOpen: [Int]
-  onlineLink: String
-}
-# End to create Stage
-
-# Start Output to create Event
+# Start Outputs to create Event
 type outCreateEvent {
-  eventCategoryRef: outOfEventCategory
-  ticketTypeRef: outOfTicketType
-  stageRef: outOfStage
-  scheduleRef: outOfSchedule
-  addressRef: outOfAddress
-  eventPropsRef: outOfEventProps
+  eventCategoryID: [outOfEventCategory]
+  ticketTypeID: outOfTicketType
+  stageID: outOfStage
+  scheduleID: outOfSchedule
+  address: outOfAddress
+  eventDetails: outOfEventDetails
 }
 type outOfEventCategory {
   categoryType: String!
@@ -376,14 +354,20 @@ type outOfEventCategory {
   longDescription: String
   icon: String
   urlImg: String
+  id: String!
 }
 type outOfTicketType {
+  ticketTypeDetails: [outOfTicketTypeDetails]
+  _id: String!
+}
+type outOfTicketTypeDetails {
   name: String!
   description: String!
   section: String!
   cost: Float!
   currency: String!
   ticketsAvailable: String!
+  id: String!
 }
 type outOfStage {
   address: outOfAddress
@@ -397,6 +381,7 @@ type outOfStage {
   capacity: Int
   daysOpen: [Int]
   onlineLink: String
+  id: String!
 }
 type outOfAddress {
   city: String!
@@ -412,29 +397,84 @@ type outOfAddress {
   mapsURL: String
 }
 type outOfSchedule {
+  scheduleDetails: [outOfScheduleDetails]
+  _id: String!
+}
+type outOfScheduleDetails {
   dayNumber: Int!
   attendFrom: String!
   attendTo: String!
+  _id: String!
 }
-type outOfEventProps {
+type outOfBanners {
+  promoVideo: String
+  bannersUrls: [String]
+  _id: String!
+}
+type outOfEventDetails {
   eventName: String!
-  artistName: String!
+  artistName: String
   shortDescription: String!
   mainDescription: String!
   dateEvent: String!
-  banners: [String]
+  banners: [outOfBanners]
   videoImg: String
   status: String
-  hourEvent: String
+  hourEvent: String!
   urlEvent: String
   ticketsAvailable: Int
-  online: String
+  modality: [String!]
+  isOnline: Boolean!
   concertPlacesIMG: String
   visitorTeam: String
   homeTeam: String
   sportType: String
+  _id: String!
 }
-# End Output to create Event
+
+# End Outputs to create Event
+# End to create Event
+
+
+
+# Start to create Stage
+# OJO
+input inputOfCreateStage {
+  eventCategory: inputOfEventCategory
+  address: inputOfAddress
+  stageDetails: inputOfStageDetails
+}
+type outputOfCreateStage {
+  eventCategory: [outputOfEventCategory]
+  address: outOfAddress
+  stageDetails: outOfStageDetails
+  id: String!
+}
+type outputOfEventCategory {
+  categoryType: String!
+  name: String!
+  shortDescription: String!
+  longDescription: String
+  icon: String
+  urlImg: String
+}
+
+type outOfStageDetails {
+  name: String!
+  description: String!
+  longDescription: String!
+  openFrom: String!
+  closeTo: String!
+  banners: [String!]
+  videoURL: String
+  capacity: Int
+  daysOpen: [Int]
+  onlineLink: String
+  id: String!
+}
+# End to create Stage
+
+
 
 # Start to create Event to User
 "To create a ticket is necessary to find an searchEvent with the param: **search** by **name** and user by **name**"
@@ -453,7 +493,7 @@ input inUser {
   gender: String
   profileImg: String
 }
-input inTicketProps {
+input inTicketDetails {
   buyDate: String!
   type: String
   ticketCode: String
@@ -469,7 +509,7 @@ input inSearchEvent {
 input inputOfCreateTicket {
   searchUser: inUser
   searchEvent: inSearchEvent
-  ticketProps: inTicketProps
+  ticketDetails: inTicketDetails
 }
 type outOfTicketAvailable {
   userID: String
@@ -612,7 +652,7 @@ input UserInput {
 
 # Start to testing
 input inputOfTesting {
-    in: [String!]!
+    schedule: [inputOfSchedule!]!
 }
 # End to testing
 
@@ -642,7 +682,7 @@ input inputOfTesting {
     limit: Int
   ): [outputOfGetStages]
 
-  getDetailEvent(input: DetailEventInput): [Event]
+  getDetailEvent(input: inputOfSchedule): [Event]
 }
 
 # =================================================================
@@ -652,12 +692,12 @@ type Mutation {
   createUser(input: UserInput): String
 
   #Events
-  createEvent(input: EventInput): outCreateEvent
+  createEvent(input: inputEvent): outCreateEvent
 
   testing(input: inputOfTesting): String
 
   #Stages
-  createStage(input: intputOfCreateStage): outputOfCreateStage
+  createStage(input: inputOfCreateStage): outputOfCreateStage
 
   #Assing Ticket to User
   createTicketToUser(input: inputOfCreateTicket): outOfTicketAvailable

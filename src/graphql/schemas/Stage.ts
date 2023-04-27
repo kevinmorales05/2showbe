@@ -7,10 +7,10 @@ const stageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Address"
     },
-    eventCategoryID: {
+    eventCategoryID: [{
       type: Schema.Types.ObjectId,
       ref: "EventCategory",
-    },
+    }],
     name: {
       type: String,
       required: true,
