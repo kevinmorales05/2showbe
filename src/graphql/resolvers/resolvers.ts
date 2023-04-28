@@ -106,7 +106,7 @@ export const resolvers = {
         });
       }
     },
-    getEvents: async (_, { input, offset = 0, limit = 5 }, ctx) => {
+    getEvents: async (_, { offset = 0, limit = 5, input }, ctx) => {
       try {
         function arrayMapped(array) {
           return array.map((v) => {
@@ -203,20 +203,66 @@ export const resolvers = {
       }
       return await Event.find({});
     },
-    getEventByUser: async (_, { offset = 0, limit = 5, input }) => {
-      // not full implemented  still because of I haven't clearly the USEREVENTS when only exists user
-      const user = await User.find({ user: input.user.name }).populate(
-        "userEventID"
-      );
-      const userEvent = await UserEvent.find().populate("eventID eventCostID");
-      const eventProp = userEvent.map(async (i) => await i?.eventID);
-      const eventCostProp = userEvent.map(async (i) => await i?.eventCostID);
+    getUserTickets: async (_, { offset = 0, limit = 5, input }) => {
+      try {
+        const { userID } = input;
+        const userEvent = await UserEvent.find({ userID })
+          .populate("userID eventID")
+          .populate({ path: "eventID", populate: { path: "ticketTypeID" } });
 
-      return {
-        user: user[0],
-        event: eventProp,
-        eventCost: eventCostProp,
-      };
+        if (userEvent.length === 0) return new GraphQLError(`No User ${input}`);
+
+        function reducer(acc, curr, index) {
+          const {
+            ticketTypeID: { ticketTypeDetails },
+          } = curr;
+          let foundTickets = [];
+
+          for (const id of userEvent[0].eventCostID) {
+            foundTickets = foundTickets.concat(
+              ticketTypeDetails.filter(
+                (v) => v._id.toString() === id.toString()
+              )
+            );
+          }
+          if (foundTickets.length === 0) return acc;
+
+          // const out = acc.concat(curr);
+          // out.buyTicketsDetails = foundTickets;
+          // return out;
+
+          let out = Object.assign({}, curr['_doc'], {buyTicketsDetails: foundTickets})
+          
+          console.log("out", out)
+          // curr['buyTicketsDetails'] = {foundTickets};
+          // curr[0]['buyTicketsDetails'] = {foundTickets};
+
+          return acc.concat(out);
+
+        }
+
+        const costsTickets = userEvent[0].eventID.reduce(reducer, []);
+
+        console.log("userEvent", userEvent[0].eventID);
+        console.log("costs found it: ", costsTickets);
+        console.log("specific: ", costsTickets[0]["buyTicketsDetails"]);
+
+        const outAux = {
+          userDetails: userEvent[0].userID,
+          buyDetails: {
+            event: costsTickets,
+          },
+        };
+
+        return outAux;
+      } catch (error) {
+        throw new GraphQLError(`Error saving event ${error}`, {
+          extensions: {
+            code: "BAD_USER_INPUT",
+            http: { status: 400 },
+          },
+        });
+      }
     },
   },
 
@@ -318,6 +364,7 @@ export const resolvers = {
           address: stage.addressID,
           eventDetails: event,
         };
+        console.log("out", out);
         return out;
       } catch (error) {
         throw new GraphQLError(`Error saving event ${error}`, {
@@ -367,6 +414,7 @@ export const resolvers = {
         const { userFirebaseID, eventID, ticketDetails } = input;
         const { modality, seatSection, seatName, status, isReserved } =
           ticketDetails;
+
         const user = await User.find({ firebaseID: userFirebaseID });
 
         if (user === null || user === undefined || user.length === 0)
@@ -384,19 +432,20 @@ export const resolvers = {
           return new GraphQLError(`No modality with ${[...new Set(modality)]}`);
 
         const tickets = event.ticketTypeID["ticketTypeDetails"];
-        const findSection = tickets.some((v) => v.section === seatSection);
-        if (!findSection) return new GraphQLError(`No Found ${seatSection}`);
-
+        const findSection = tickets.filter((v) => v.section === seatSection);
+        if (findSection.length === 0)
+          return new GraphQLError(`No Found ${seatSection}`);
+        if (findSection[0].ticketsAvailable === 0)
+          return new GraphQLError(`No tickets available please create more`);
         // everything is ok from now
         const optsDBValidators = {
           runValidators: true,
           context: "query",
           new: true,
         };
-
-        const opts = {
+        const updateTicket = {
           buyDate: new Date(),
-          modality,
+          modality: findModality,
           // fixed this behaviour to the future
           ticketCode: (Math.random() * 77777777777).toString(),
           seatSection,
@@ -405,7 +454,7 @@ export const resolvers = {
           isReserved,
           userID: user[0]._id,
           eventID: event._id,
-          ticketTypeID: event.ticketTypeID._id
+          ticketTypeID: event.ticketTypeID._id,
         };
         const assignTicket = await TicketAvailable.findOneAndUpdate(
           {
@@ -414,44 +463,72 @@ export const resolvers = {
             status: "noActive",
             userID: null,
           },
-          opts,
+          updateTicket,
           optsDBValidators
         );
 
-        // await assignTicket.save();
+        if (assignTicket === null)
+          return new GraphQLError(`No assigned ticket there was an error`);
+
+        // update ticketSection && event the ticketsAvailable number
+        findSection[0].ticketsAvailable -= 1;
+        event.ticketsAvailable -= 1;
+        await event.save();
+
+        // https://www.mongodb.com/docs/v6.0/reference/operator/update/set/
+        // https://www.mongodb.com/docs/v6.0/reference/operator/projection/elemMatch/
+        // https://www.mongodb.com/docs/v6.0/reference/operator/update-array/
+        await TicketType.findOneAndUpdate(
+          {
+            ticketTypeDetails: { $elemMatch: { section: seatSection } },
+            _id: event.ticketTypeID._id,
+          },
+          {
+            $set: { "ticketTypeDetails.$": findSection },
+          },
+          optsDBValidators
+        );
+
+        // assign references to User
+        const isContainsEvent = user[0].userEventID.includes(event._id);
+
+        if (!isContainsEvent) {
+          user[0].userEventID = user[0].userEventID.concat(event._id);
+          await user[0].save();
+        }
+
+        // assign references to UserEvent
+        // https://www.mongodb.com/docs/v6.0/reference/operator/update/addToSet/
+        await UserEvent.updateOne(
+          { userID: user[0]._id },
+          {
+            // $set: {
+            $push: {
+              eventCostID: { $each: [findSection[0]._id] },
+            },
+            $addToSet: {
+              eventID: { $each: [event._id] },
+            },
+          },
+          // },
+          { upsert: true }
+        );
+
+        console.log("assignTicket", assignTicket);
 
         const out = {
+          assignTicketDetails: assignTicket,
+          eventDetails: event,
           userDetails: user[0],
-          eventDetail: event,
-          ticketDetails: assignTicket,
         };
-
-        console.log(user)
         return out;
-
-        // console.log("tickets", tickets, findModality);
-        return "something";
-
-        // throw new GraphQLError(
-        //   `Event or User not found - ${searchEvent} ${searchUser}`,
-        //   {
-        //     extensions: {
-        //       code: "BAD_USER_INPUT",
-        //       http: { status: 400 },
-        //     },
-        //   }
-        // );
-        // throw new GraphQLError(
-        //   `Malformet input - ${searchEvent} ${searchUser}`,
-        //   {
-        //     extensions: {
-        //       code: "GRAPHQL_PARSE_FAILED",
-        //       http: { status: 400 },
-        //     },
-        //   }
-        // );
       } catch (error) {
-        throw new GraphQLError(error);
+        throw new GraphQLError(`Malformet input ${error}`, {
+          extensions: {
+            code: "BAD_USER_INPUT",
+            http: { status: 400 },
+          },
+        });
       }
     },
     sendNotification: async (_, { input }) => {

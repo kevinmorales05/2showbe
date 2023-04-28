@@ -208,20 +208,40 @@ type outOfGetEventCostos {
 # End to get Events Costs
 
 
-# Start to get Events by User
-input inOfGetEventByUser {
-  name: String!
-  firebaseID: String
+# Start to get User Tickets
+input inputOfUserTickets {
+  userID: String!
 }
-input inputOfGetEventByUser {
-  user: inOfGetEventByUser
+type outGetUserTickets {
+  userDetails: outOfUser
+  buyDetails: outOfBuyDetails
 }
-type outGetEventByUser {
-  user: User
-  event: Event
-  eventCost: EventCost
+type outOfBuyDetails {
+  event: [outOfBuyEvent]
+}
+type outOfBuyEvent {
+  buyTicketsDetails: [outOfTicketTypeDetails]
+  eventName: String!
+  artistName: String
+  shortDescription: String!
+  mainDescription: String!
+  dateEvent: String!
+  banners: [outOfBanners]
+  videoImg: String
+  saleStatus: String
+  hourEvent: String!
+  urlEvent: String
+  ticketsAvailable: Int
+  modality: [String!]
+  isOnline: Boolean!
+  concertPlacesIMG: String
+  visitorTeam: String
+  homeTeam: String
+  sportType: String
+  _id: String!
 }
 # End to get Events by User
+
 
 # Start to get Stage By Address
 input inputOfGetStagesByAddress {
@@ -352,10 +372,10 @@ input inputEvent {
 
 # Start Outputs to create Event
 type outCreateEvent {
-  eventCategoryID: [outOfEventCategory]
-  ticketTypeID: outOfTicketType
-  stageID: outOfStage
-  scheduleID: outOfSchedule
+  eventCategory: [outOfEventCategory]
+  ticketType: outOfTicketType
+  stage: outOfStage
+  schedule: outOfSchedule
   address: outOfAddress
   eventDetails: outOfEventDetails
 }
@@ -379,7 +399,7 @@ type outOfTicketTypeDetails {
   cost: Float!
   currency: String!
   ticketsAvailable: Int!
-  id: String!
+  _id: String!
 }
 type outOfStage {
   address: outOfAddress
@@ -516,9 +536,9 @@ input inputOfCreateTicketToUser {
   ticketDetails: inTicketDetails
 }
 type outOfCreateTicketToUser {
+  assignTicketDetails: outOfTicketAvailable
+  eventDetails: outOfEventDetails
   userDetails: outOfUser
-  eventDetail: outOfEventDetails
-  ticketDetails: outOfTicketAvailable
 }
 type outOfUser{
   name: String!
@@ -692,11 +712,11 @@ input UserInput {
 
 
   "Query to get a ticket bought by an User"
-  getEventByUser(
-    input: inputOfGetEventByUser
+  getUserTickets(
+    input: inputOfUserTickets
     offset: Int
     limit: Int
-  ): outGetEventByUser
+  ): outGetUserTickets
   
 }
 

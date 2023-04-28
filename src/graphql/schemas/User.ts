@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 const UserSchema = new Schema(
   {
-    userEventID: { type: Schema.Types.ObjectId, ref: "UserEvent" },
+    userEventID: [{ type: Schema.Types.ObjectId, ref: "UserEvent" }],
     name: {
       type: String,
       required: true,
