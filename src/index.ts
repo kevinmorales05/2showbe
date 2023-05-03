@@ -1,10 +1,19 @@
-import connectDB  from "./db/config.js";
-import createApolloServer from "./lib/apolloServer.js";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { resolvers } from "./resolvers/resolvers.js";
+import { typeDefs } from "./typedefs/typedefs.js";
+import { connectDB } from "./db/config.js";
+import { PORT } from "./utils/config.js";
 
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 connectDB();
 
-if (process.env.NODE_ENV !== "test") {
-  const { url } = await createApolloServer();
-  console.log(`🚀 Query endpoint ready at ${url}`);
-}
+const { url } = await startStandaloneServer(server, {
+  listen: { port: PORT },
+});
 
+console.log(`🚀  Server ready at: ${url}`);
