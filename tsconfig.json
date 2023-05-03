@@ -9,9 +9,6 @@
       "esModuleInterop": true,
       "types": ["node"],
       "sourceMap": true, // to debugging
-      "skipLibCheck": true,
     },
-    "moduleDirectories": ["node_modules", "src"],
-    "include": ["./src/**/*.tsx", "./src/**/*.ts"] // pinpoint the source root
-    // "exclude": ["src/__tests__"],
+    "include": ["src/**/*"], // pinpoint the source root
   }
