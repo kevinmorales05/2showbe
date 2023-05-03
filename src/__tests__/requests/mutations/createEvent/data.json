@@ -1,0 +1,77 @@
+{
+  "input": {
+    "eventCategory": [
+      {
+        "categoryType": "soccer",
+        "name": "Futbol Profesional",
+        "shortDescription": "Deporte de balón",
+        "longDescription": "Este deporte necesitA de 11 jugadores por equipo para jugar",
+        "icon": "ballon-soccer.svg",
+        "urlImg": "messi-web.png"
+      }
+    ],
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Asiento común con las comodidades basicas para apoyar al equipo deportivo",
+        "section": "GENERAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      }
+    ],
+    "schedule": [
+      {
+        "dayNumber": 6,
+        "attendFrom": "17:30",
+        "attendTo": "22:00"
+      }
+    ],
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Naciones Unidas",
+      "numberStreet": "Oe2-49",
+      "reference": "Frente al Quicentro Norte",
+      "lat": "23423423234234",
+      "long": "23432832983238",
+      "secondStreet": "Shyris",
+      "mapsURL": "googlemap.238238.com",
+      "languages": ["Español"]
+    },
+    "eventDetails": {
+      "eventName": "UNIVERSIDAD CATÓLICA vs LIGA",
+      "shortDescription": "Partido decisivo para cuartos de final",
+      "mainDescription": "Ven y disfruta de este decisivo partido",
+      "dateEvent": "27-11-2023",
+      "hourEvent": "17:30",
+      "banners": [
+        {
+          "promoVideo": "video_1.mp4",
+          "bannersUrls": ["banner1.com", "banner2.com", "banner3.com"]
+        }
+      ],
+      "videoImg": null,
+      "saleStatus": false,
+      "urlEvent": "url.com",
+      "ticketsAvailable": 300,
+      "isOnline": true,
+      "visitorTeam": "UNIVERSIDAD CATÓLICA",
+      "homeTeam": "LIGA",
+      "sportType": "soccer"
+    },
+    "stage": {
+      "daysOpen": [6],
+      "onlineLink": "partidoliga.com",
+      "capacity": 3000,
+      "videoURL": "videopartidoliga.com",
+      "banners": ["banner1.com", "banner2.com", "banner3.com"],
+      "closeTo": "22:00",
+      "openFrom": "17:30",
+      "longDescription": "Estadio de la Liga",
+      "description": "Estadio Olimpico Atahualpa",
+      "name": "Estadio"
+    }
+  }
+}

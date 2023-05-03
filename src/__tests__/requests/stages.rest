@@ -7,9 +7,10 @@ POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
-mutation CreateStage($input: intputOfCreateStage) {
+mutation CreateStage($input: inputOfCreateStage) {
   createStage(input: $input) {
     eventCategory {
+      categoryType
       name
       shortDescription
       longDescription
@@ -29,7 +30,7 @@ mutation CreateStage($input: intputOfCreateStage) {
       languages
       mapsURL
     }
-    stageParams {
+    stageDetails {
       name
       description
       longDescription
@@ -40,46 +41,50 @@ mutation CreateStage($input: intputOfCreateStage) {
       capacity
       daysOpen
       onlineLink
+      id
     }
+    id
   }
 }
 
 {
-  "input": {
-    "eventCategory": {
-      "categoryType": "TEATHER",
-      "name": "La funcion de Nicolas",
-      "shortDescription": "Desde un corto periodo de tiempo cuenta la historia de un huerfano atado a su madastra que lucha vilmente para ser libre"
-    },
-    "address": {
-      "city": "Quito",
-      "country": "Ecuador",
-      "state": "Pichincha",
-      "mainStreet": "Los olivos",
-      "numberStreet": "oe23-2",
-      "reference": "frente a la casa musical Parra",
-      "lat": "239283923",
-      "long": "23849u23489"
-    },
-    "stageParams": {
+    "input": {
+      "eventCategory": 
+        {
+          "categoryType": "soccer",
+          "name": "Futbol Profesional",
+          "shortDescription": "Deporte de balón",
+          "longDescription": "Este deporte necesitA de 11 jugadores por equipo para jugar",
+          "icon": "ballon-soccer.svg",
+          "urlImg": "messi-web.png"
+        }
+      ,
       "address": {
-        "country": "Ecuador",
         "city": "Quito",
+        "country": "Ecuador",
         "state": "Pichincha",
-        "mainStreet": "Los olivos",
-        "numberStreet": "Oe23-38",
-        "reference": "Frente a la casa musical Parra",
-        "lat": "239283923",
-        "long": "23849u23489"
+        "mainStreet": "Naciones Unidas",
+        "numberStreet": "Oe2-49",
+        "reference": "Frente al Quicentro Norte",
+        "lat": "23423423234234",
+        "long": "23432832983238",
+        "secondStreet": "Shyris",
+        "mapsURL": "googlemap.238238.com",
+        "languages": ["Español"]
       },
-      "name": "Teatro Monumental",
-      "description": "Teatro Publico Monumental",
-      "longDescription": "Abierto para toda clase de publico",
-      "openFrom": "12:00",
-      "closeTo": "22:00",
-      "banners": ["log.png", "other.png"]
+      "stageDetails": {
+        "daysOpen": [6],
+        "onlineLink": "partidoliga.com",
+        "capacity": 3000,
+        "videoURL": "videopartidoliga.com",
+        "banners": ["banner1.com", "banner2.com", "banner3.com"],
+        "closeTo": "22:00",
+        "openFrom": "17:30",
+        "longDescription": "Estadio de la Liga",
+        "description": "Estadio Olimpico Atahualpa",
+        "name": "Estadio"
+      }
     }
-  }
 }
 
 

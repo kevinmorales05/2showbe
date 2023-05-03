@@ -1,0 +1,72 @@
+{
+  "input": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Asiento común con las comodidades basicas para apoyar al equipo deportivo",
+        "section": "GENERAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "PREFERENCIA",
+        "description": "Asiento con mejores prestaciónes y con mejor vista a la cancha",
+        "section": "PREFERENCIA",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "TRIBUNA",
+        "description": "Asiento preferido por los hinchas y tiene mejor visibilidad del equipo y la hinchada.",
+        "section": "TRIBUNA",
+        "cost": 20,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "PALCO",
+        "description": "Asiento destacable para personas que pueden ver claramente el partido, frente a frente el equipo en la cancha",
+        "section": "PALCO",
+        "cost": 30,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      }
+    ],
+    "schedule": [
+      {
+        "dayNumber": 2,
+        "attendFrom": "17:30",
+        "attendTo": "22:00"
+      }
+    ],
+    "eventDetails": {
+      "eventName": "UNIVERSIDAD CATÓLICA vs LIGA",
+      "shortDescription": "El mejor partido de la temporada",
+      "mainDescription": "El partido definira quien pasara a cuartos de final",
+      "dateEvent": "27-11-2023",
+      "hourEvent": "17:30",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": [
+            "banner1.com",
+            "banner2.com",
+            "banner3.com"
+          ]
+        }
+      ],
+      "videoImg": "videoLiga.mp4",
+      "saleStatus": false,
+      "urlEvent": "partidodecuartos.com",
+      "ticketsAvailable": 350,
+      "isOnline": true,
+      "visitorTeam": "LIGA",
+      "homeTeam": "UNIVERSIDAD CATÓLICA",
+      "sportType": "soccer",
+      "modality": ["presential", "online"]
+    }
+  }
+}

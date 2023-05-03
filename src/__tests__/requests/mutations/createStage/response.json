@@ -1,0 +1,51 @@
+{
+    "data": {
+      "createStage": {
+        "eventCategory": [
+          {
+            "name": "Futbol Profesional",
+            "shortDescription": "Deporte de balón",
+            "longDescription": "Este deporte necesitA de 11 jugadores por equipo para jugar",
+            "icon": "ballon-soccer.svg",
+            "urlImg": "messi-web.png",
+            "categoryType": "soccer"
+          }
+        ],
+        "address": {
+          "city": "Quito",
+          "country": "Ecuador",
+          "state": "Pichincha",
+          "mainStreet": "Naciones Unidas",
+          "numberStreet": "Oe2-49",
+          "reference": "Frente al Quicentro Norte",
+          "lat": "23423423234234",
+          "long": "23432832983238",
+          "secondStreet": "Shyris",
+          "languages": [
+            "Español"
+          ],
+          "mapsURL": "googlemap.238238.com"
+        },
+        "stageDetails": {
+          "name": "Estadio",
+          "description": "Estadio Olimpico Atahualpa",
+          "longDescription": "Estadio de la Liga",
+          "openFrom": "17:30",
+          "closeTo": "22:00",
+          "banners": [
+            "banner1.com",
+            "banner2.com",
+            "banner3.com"
+          ],
+          "videoURL": "videopartidoliga.com",
+          "capacity": 3000,
+          "daysOpen": [
+            6
+          ],
+          "onlineLink": "partidoliga.com",
+          "id": "6448763024f99385a6e59be3"
+        },
+        "id": "6448763024f99385a6e59be3"
+      }
+    }
+  }
