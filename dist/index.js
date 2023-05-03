@@ -1,16 +1,8 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import { resolvers } from './resolvers/resolvers.js';
-import { typeDefs } from './typedefs/typedefs.js';
-import * as dotenv from 'dotenv';
-import { connectDB } from './db/config.js';
-dotenv.config();
-const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-});
+import connectDB from "./db/config.js";
+import createApolloServer from "./lib/apolloServer.js";
 connectDB();
-const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-});
-console.log(`🚀  Server ready at: ${url}`);
+if (process.env.NODE_ENV !== "test") {
+    const { url } = await createApolloServer();
+    console.log(`🚀 Query endpoint ready at ${url}`);
+}
+//# sourceMappingURL=index.js.map

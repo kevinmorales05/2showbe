@@ -1,0 +1,276 @@
+@url=http://localhost:4000/
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query GetEvents($input: inputOfGetEvent) {
+  getEvents(input: $input) {
+    eventCategoryID {
+      categoryType
+      name
+      shortDescription
+      longDescription
+      icon
+      urlImg
+      id
+    }
+    ticketTypeID {
+      ticketTypeDetails {
+        name
+        description
+        section
+        cost
+        currency
+        ticketsAvailable
+        _id
+      }
+      _id
+    }
+    stageID {
+      address {
+        city
+        country
+        state
+        mainStreet
+        numberStreet
+        reference
+        lat
+        long
+        secondStreet
+        languages
+        mapsURL
+      }
+      name
+      description
+      longDescription
+      openFrom
+      closeTo
+      banners
+      videoURL
+      capacity
+      daysOpen
+      onlineLink
+      id
+    }
+    scheduleID {
+      scheduleDetails {
+        dayNumber
+        attendFrom
+        attendTo
+        _id
+      }
+      _id
+    }
+    eventDetails {
+      eventName
+      artistName
+      shortDescription
+      mainDescription
+      dateEvent
+      banners {
+        promoVideo
+        bannersUrls
+        _id
+      }
+      videoImg
+      saleStatus
+      hourEvent
+      urlEvent
+      ticketsAvailable
+      modality
+      isOnline
+      concertPlacesIMG
+      visitorTeam
+      homeTeam
+      sportType
+      _id
+    }
+  }
+}
+
+{
+  "input": {
+    "eventType": "soccer",
+    "modalityType": ["presential", "online"]
+  }
+}
+
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation CreateEvent($input: inputEvent) {
+  createEvent(input: $input) {
+    eventCategory {
+      categoryType
+      name
+      shortDescription
+      longDescription
+      icon
+      urlImg
+      id
+    }
+    ticketType {
+      ticketTypeDetails {
+        name
+        description
+        section
+        cost
+        currency
+        ticketsAvailable
+        _id
+      }
+      _id
+    }
+    stage {
+      name
+      description
+      longDescription
+      openFrom
+      closeTo
+      banners
+      videoURL
+      capacity
+      daysOpen
+      onlineLink
+      id
+    }
+    schedule {
+      scheduleDetails {
+        dayNumber
+        attendFrom
+        attendTo
+        _id
+      }
+      _id
+    }
+    address {
+      city
+      country
+      state
+      mainStreet
+      numberStreet
+      reference
+      lat
+      long
+      secondStreet
+      languages
+      mapsURL
+    }
+    eventDetails {
+      eventName
+      artistName
+      shortDescription
+      mainDescription
+      dateEvent
+      banners {
+        promoVideo
+        bannersUrls
+        _id
+      }
+      videoImg
+      saleStatus
+      hourEvent
+      urlEvent
+      ticketsAvailable
+      modality
+      isOnline
+      concertPlacesIMG
+      visitorTeam
+      homeTeam
+      sportType
+      _id
+    }
+  }
+}
+
+{
+  "input": {
+    "stageID": "644c0d8b7ded43bae6f52d1f",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Asiento común con las comodidades basicas para apoyar al equipo deportivo",
+        "section": "GENERAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "PREFERENCIAL",
+        "description": "Asiento con mejores prestaciónes y con mejor vista a la cancha",
+        "section": "PREFERENCIAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "TRIBUNA",
+        "description": "Asiento preferido por los hinchas y tiene mejor visibilidad del equipo y la hinchada.",
+        "section": "TRIBUNA",
+        "cost": 20,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "PALCO",
+        "description": "Asiento destacable para personas que pueden ver claramente el partido, frente a frente el equipo en la cancha",
+        "section": "PALCO",
+        "cost": 30,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      }
+    ],
+    "schedule": [
+      {
+        "dayNumber": 2,
+        "attendFrom": "17:30",
+        "attendTo": "22:00"
+      }
+    ],
+    "eventDetails": {
+      "eventName": "UNIVERSIDAD CATÓLICA vs LIGA",
+      "shortDescription": "El mejor partido de la temporada",
+      "mainDescription": "El partido definira quien pasara a cuartos de final",
+      "dateEvent": "27-11-2023",
+      "hourEvent": "17:30",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": [
+            "banner1.com",
+            "banner2.com",
+            "banner3.com"
+          ]
+        }
+      ],
+      "videoImg": "videoLiga.mp4",
+      "saleStatus": false,
+      "urlEvent": "partidodecuartos.com",
+      "ticketsAvailable": 350,
+      "isOnline": true,
+      "visitorTeam": "LIGA",
+      "homeTeam": "UNIVERSIDAD CATÓLICA",
+      "sportType": "soccer",
+      "modality": ["presential", "online"]
+    }
+  }
+}
+
+###
+POST {{url}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation AllowEvent($input: inputOfAllowEvent) {
+  allowEvent(input: $input)
+}
+
+{
+  "input": {
+    "eventID": "644c0d9e7ded43bae6f52d30",
+    "saleStatus": true
+  }
+}
