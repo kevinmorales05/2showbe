@@ -103,9 +103,7 @@ const eventSchema = new Schema(
     },
     sportType: {
       type: String,
-      enum: ["soccer", "basketball", "volley", "other"],
-      // soccer, basketball, volley, etc..
-      default: "empty",
+      enum: ["soccer", "basketball", "volley", "other", ""],
     },
 
     // PREVIOUS ATTRIBUTES

@@ -1,0 +1,15 @@
+{
+    "input": {
+        "eventID": "1238293",
+        "updateTicketType": [
+            {
+                "name": "GENERAL",
+                "description": "Entrada para visitantes y extranjeros",
+                "section": "GENERAL",
+                "cost": 1,
+                "currency": "USD",
+                "ticketsAvailable": 200
+              }
+        ]
+    }
+}

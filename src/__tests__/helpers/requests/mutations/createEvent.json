@@ -1,0 +1,735 @@
+{
+  "input": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Entrada para visitantes y extranjeros",
+        "section": "GENERAL",
+        "cost": 1,
+        "currency": "USD",
+        "ticketsAvailable": 175
+      },
+      {
+        "name": "GENERAL_NINOS",
+        "description": "Entrada para niños y personas de la tercera edad",
+        "section": "GENERAL_NINOS",
+        "cost": 0.25,
+        "currency": "USD",
+        "ticketsAvailable": 175
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "17:00",
+        "attendFrom": "9:30",
+        "dayNumber": 0
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "9:30",
+        "dayNumber": 1
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "9:30",
+        "dayNumber": 2
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "9:30",
+        "dayNumber": 3
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "9:30",
+        "dayNumber": 4
+      },
+      {
+        "attendTo": "18:00",
+        "attendFrom": "8:00",
+        "dayNumber": 5
+      },
+      {
+        "attendTo": "18:00",
+        "attendFrom": "8:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "Museo Sucre",
+      "shortDescription": "Ven, disfruta y mira todas las artesanias Quiteños junto con la exhibición de nuevos patrimonios nacionales del país.",
+      "mainDescription": "Cultura patrimonio y cultura en un solo lugar en este evento",
+      "dateEvent": "todos los días",
+      "hourEvent": "9:30",
+      "banners": [
+        {
+          "promoVideo": "museoVideoPromo.mp4",
+          "bannersUrls": [
+            "bannerMuseo1.com",
+            "bannerMuseo2.com",
+            "bannerMuseo3.com"
+          ]
+        }
+      ],
+      "videoImg": "videoMuseo.mp4",
+      "saleStatus": false,
+      "urlEvent": "museoPage.com",
+      "ticketsAvailable": 350,
+      "isOnline": false,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input1": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "EXTRANJERO_NO_RESIDENTE",
+        "description": "Turistas extranjeros no residentes en el Ecuador mayores de 12 años",
+        "section": "EXTRANJERO_NO_RESIDENTE",
+        "cost": 100,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "EXTRANJERO_NO_RESIDENTE_NINO",
+        "description": "Turistas extranjeros no residentes en el Ecuador menores de 12 años.",
+        "section": "EXTRANJERO_NO_RESIDENTE_NINO",
+        "cost": 50,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "EXTRANJERO_NO_RESIDENTE_MERCOSUR",
+        "description": "Turistas extranjeros no residentes en el Ecuador, mayores de 12 años, nacionales de uno de los países pertenecientes a la Comunidad Andina de Naciones o al Mercosur.",
+        "section": "EXTRANJERO_NO_RESIDENTE_MERCOSUR",
+        "cost": 50,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "EXTRANJERO_NO_RESIDENTE_NINO_MERCOSUR",
+        "description": "Turistas extranjeros no residentes en el Ecuador, menores de 12 años, nacionales de uno de los países pertenecientes a la Comunidad Andina de Naciones o al Mercosur.",
+        "section": "EXTRANJERO_NO_RESIDENTE_NINO_MERCOSUR",
+        "cost": 25,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "ESTUDIANTE_EXTRANJERO",
+        "description": "Turistas, estudiantes extranjeros no residentes en el Ecuador que se encuentren matriculados en instituciones educativas nacionales.",
+        "section": "ESTUDIANTE_EXTRANJERO",
+        "cost": 25,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "TURISTA_NACIONAL",
+        "description": "Turistas nacionales o extranjeros residentes en el Ecuador, mayores de 12 años.",
+        "section": "TURISTA_NACIONAL",
+        "cost": 6,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "TURISTA_NACIONAL_NINO",
+        "description": "Turistas nacionales o extranjeros residentes en el Ecuador, menores de 12 años.",
+        "section": "TURISTA_NACIONAL_NINO",
+        "cost": 3,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "",
+        "attendFrom": "",
+        "dayNumber": 0
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 1
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 2
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 3
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 4
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 5
+      },
+      {
+        "attendTo": "17:00",
+        "attendFrom": "6:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "Islas Galápagos",
+      "shortDescription": "Ven, disfruta y mira las atracciónes turisticas de las islas Galápagos y contribuye con la preserva ecológica del turismo Ecuatoriano.",
+      "mainDescription": "Atractivo turistico del Ecuador ",
+      "dateEvent": "Martes a Domingo",
+      "hourEvent": "6:00",
+      "banners": [
+        {
+          "promoVideo": "islasVideoPromo.mp4",
+          "bannersUrls": [
+            "islaBanner1.com",
+            "islaBanner2.com",
+            "islaBanner3.com"
+          ]
+        }
+      ],
+      "videoImg": "galapagosVideo.mp4",
+      "saleStatus": false,
+      "urlEvent": "",
+      "ticketsAvailable": 800,
+      "isOnline": false,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input2": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "ADULTOS",
+        "description": "Entrada general adulto",
+        "section": "ADULTOS",
+        "cost": 4,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      },
+      {
+        "name": "NINOS",
+        "description": "Entrada general niños",
+        "section": "NINOS",
+        "cost": 2,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      },
+      {
+        "name": "ESTUDIANTES",
+        "description": "Entrada general estudiantes",
+        "section": "ESTUDIANTES",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      },
+      {
+        "name": "ADULTO_MAYOR",
+        "description": "Entrada general adulto mayor o tercera edad",
+        "section": "ADULTO_MAYOR",
+        "cost": 2,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      },
+      {
+        "name": "DISCAPACITADOS_CARNET",
+        "description": "Entrada general a personas discapacitadas con el previo carnet de verificación.",
+        "section": "DISCAPACITADOS_CARNET",
+        "cost": 0,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      },
+      {
+        "name": "GUIA_ESPECIALIZADA",
+        "description": "Entrada general con guía personalizada",
+        "section": "GUIA_ESPECIALIZADA",
+        "cost": 15,
+        "currency": "USD",
+        "ticketsAvailable": 50
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 0
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 1
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 2
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 3
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 4
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 5
+      },
+      {
+        "attendTo": "15:00",
+        "attendFrom": "10:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "Evento Social los Orquidearios.",
+      "shortDescription": "Espacio para ayudar a causas beneficas de los jardines botanicos",
+      "mainDescription": "Gestión benefica pra la naturalez",
+      "dateEvent": "LUNES A DOMINGO Y FERIADOS",
+      "hourEvent": "10:00",
+      "banners": [
+        {
+          "promoVideo": "eventSocialVideoPromo.mp4",
+          "bannersUrls": [
+            "socialEBanner1.com",
+            "socialEBanner2.com",
+            "socialEBanner3.com"
+          ]
+        }
+      ],
+      "videoImg": "videoSocialEvent.mp4",
+      "saleStatus": false,
+      "urlEvent": "videoSocialEventPageFacebook.com",
+      "ticketsAvailable": 300,
+      "isOnline": false,
+      "visitorTeam": "LIGA",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input3": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL_BLOQUE_E",
+        "description": "Asiento general de bloque E numerado.",
+        "section": "GENERAL_BLOQUE_E",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "GENERAL_BLOQUE_D",
+        "description": "Asiento general de bloque D numerado.",
+        "section": "GENERAL_BLOQUE_D",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "GENERAL_BLOQUE_F",
+        "description": "Asiento general de bloque F numerado.",
+        "section": "GENERAL_BLOQUE_F",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "GENERAL_BLOQUE_C",
+        "description": "Asiento general de bloque C numerado.",
+        "section": "GENERAL_BLOQUE_C",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "GENERAL_BLOQUE_G",
+        "description": "Asiento general de bloque G numerado.",
+        "section": "GENERAL_BLOQUE_G",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "PREFERENCIAL",
+        "description": "Asiento preferencial numerado.",
+        "section": "PREFERENCIAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 500
+      },
+      {
+        "name": "BUTACAS",
+        "description": "Butacas de asientos numerados.",
+        "section": "BUTACAS",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "GOLDEN_BOX",
+        "description": "Asiento GOLDEN BOX numerado.",
+        "section": "GOLDEN_BOX",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 200
+      },
+      {
+        "name": "TOP_BOX",
+        "description": "Asiento TOP BOX numerado.",
+        "section": "TOP_BOX",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 200
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "23:00",
+        "attendFrom": "20:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "Concierto de Plan B, Maluma, Banda 24 de Mayo y mas artistas invitados ",
+      "shortDescription": "Ven y disfruta de los artistas reguetoneros de la epoca y miralos por la gira de Sudamerica y tambien artistas invitados como la banda de 24 de Mayo, grupo Nectar y mas.. , ",
+      "mainDescription": "La compra de la entrada te permitira disfrutar de un evento musical sin precedentes con nuevos artistas Reguetoneros y Ecuatorianos que se dan paso en el salon de la fama. ",
+      "dateEvent": "27-11-2023",
+      "hourEvent": "19:00",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": [
+            "bannerConcert1.com",
+            "bannerConcert2.com",
+            "bannerConcert3.com"
+          ]
+        }
+      ],
+      "videoImg": "videoArtistasMusicales.mp4",
+      "saleStatus": false,
+      "urlEvent": "artistasMusicalesPage.com",
+      "ticketsAvailable": 350,
+      "isOnline": true,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential", "online"]
+    }
+  },
+  "input4": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL_LATERAL",
+        "description": "Ticket de público en general para área lateral izquierdo o derecho.",
+        "section": "GENERAL_LATERAL",
+        "cost": 21,
+        "currency": "USD",
+        "ticketsAvailable": 102
+      },
+      {
+        "name": "GENERAL_CENTRAL",
+        "description": "Ticket de público en general para área central.",
+        "section": "GENERAL_CENTRAL",
+        "cost": 27,
+        "currency": "USD",
+        "ticketsAvailable": 74
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "22:00",
+        "attendFrom": "20:00",
+        "dayNumber": 4
+      },
+      {
+        "attendTo": "22:00",
+        "attendFrom": "20:00",
+        "dayNumber": 5
+      },
+      {
+        "attendTo": "20:00",
+        "attendFrom": "18:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "Cumbia para Llevar",
+      "shortDescription": "Vol. 1 La Cumbia del Amor - Con Moserrath Astudillo y Las Chiquititas de la Cumbia.",
+      "mainDescription": "Es un proyecto de cumbia, performance y stand up en el que vamos a hacer un recorrido por los flechazos del amor genuino y recuerdos que nos traen esas viejas canciones que bailábamos hasta las 15 en las fiestas de los papas, adornadas de sabores, colores, personajes e historias para contar.",
+      "dateEvent": "Del 5 de mayo al 30 de julio",
+      "hourEvent": "20:00",
+      "banners": [
+        {
+          "promoVideo": "teatherVideoPromo.mp4",
+          "bannersUrls": [
+            "teatherBanner1.com",
+            "teatherBanner2.com",
+            "teatherBanner3.com"
+          ]
+        }
+      ],
+      "videoImg": "https://www.youtube.com/watch?v=yss6XLulY7Y",
+      "saleStatus": false,
+      "urlEvent": "https://elteatro.com.ec/cumbia-para-llevar/",
+      "ticketsAvailable": 176,
+      "isOnline": true,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input5": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "ADULTO",
+        "description": "Entrada general para Adulto y personas mayores a 12 años.",
+        "section": "ADULTO",
+        "cost": 3,
+        "currency": "USD",
+        "ticketsAvailable": 200
+      },
+      {
+        "name": "ADULTO_MAYOR",
+        "description": "Entrada general para  Adulto de Tercera Edad.",
+        "section": "ADULTO_MAYOR",
+        "cost": 2,
+        "currency": "USD",
+        "ticketsAvailable": 200
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "20:00",
+        "attendFrom": "10:00",
+        "dayNumber": 4
+      },
+      {
+        "attendTo": "20:00",
+        "attendFrom": "10:00",
+        "dayNumber": 5
+      },
+      {
+        "attendTo": "20:00",
+        "attendFrom": "10:00",
+        "dayNumber": 6
+      }
+    ],
+    "eventDetails": {
+      "eventName": "MOTOR SHOW ECUADOR 2023",
+      "shortDescription": "¡Las mejores marcas estarán aquí! \nDel 28, 29 al 30 de Julio del 2023 en el Centro de Exposiciones Quito.",
+      "mainDescription": "El festival inaugurado en 2022 reúne a todos los actores de la industria automotriz para revelar el futuro de la movilidad en Ecuador. Contaremos con shows de marcas, capacitaciones, actividades, streamings y todo lo relacionado con el mundo del automotriz en un solo lugar.",
+      "dateEvent": "28, 29 y 30 de Julio del 2023",
+      "hourEvent": "10:00",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": ["banner1.com", "banner2.com", "banner3.com"]
+        }
+      ],
+      "videoImg": "showcarVideo.mp4",
+      "saleStatus": false,
+      "urlEvent": "https://www.motorshowecuador.com/expositores-2023/",
+      "ticketsAvailable": 200,
+      "isOnline": false,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input6": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Entrada general para la Feria del Caballo.",
+        "section": "GENERAL",
+        "cost": 8,
+        "currency": "USD",
+        "ticketsAvailable": 300
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "",
+        "attendFrom": "8:00",
+        "dayNumber": 4
+      }
+    ],
+    "eventDetails": {
+      "eventName": "XXV FERIA DEL CABALLO DE PURA RAZA ESPAÑOLA",
+      "name": "XXV FERIA DEL CABALLO DE PURA RAZA ESPAÑOLA",
+      "shortDescription": "XXV FERIA DEL CABALLO DE PURA RAZA ESPAÑOLA\nSe podrá admirar la destreza y versatilidad del caballo pura raza española en distintas disciplinas como:\nDoma vaquera, alta escuela, adiestramiento, salto, enganches y voulting. Se podrá admirar la destreza y versatilidad del caballo pura raza española en distintas disciplinas.",
+      "mainDescription": "15 AÑOS DE FERIAS SHOW - CULTURA - FLAMENCO",
+      "dateEvent": "Del 14 al 16 de Abril del 2023",
+      "hourEvent": "8:00",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": ["banner1.com", "banner2.com", "banner3.com"]
+        }
+      ],
+      "videoImg": "feriaCaballoVideo.mp4",
+      "saleStatus": false,
+      "urlEvent": "feriaCaballoVideoPage.com",
+      "ticketsAvailable": 300,
+      "isOnline": false,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "",
+      "modality": ["presential"]
+    }
+  },
+  "input7": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Entrada General",
+        "section": "GENERAL",
+        "cost": 20,
+        "currency": "USD",
+        "ticketsAvailable": 200
+      },
+      {
+        "name": "PALCO",
+        "description": "Entrada de Palco",
+        "section": "PALCO",
+        "cost": 35,
+        "currency": "USD",
+        "ticketsAvailable": 100
+      },
+      {
+        "name": "RINGSIDE",
+        "description": "Entrada Ringside",
+        "section": "RINGSIDE",
+        "cost": 45,
+        "currency": "USD",
+        "ticketsAvailable": 60
+      },
+      {
+        "name": "VIP_RINGSIDE",
+        "description": "Entrada VIP Ringside",
+        "section": "VIP_RINGSIDE",
+        "cost": 20,
+        "currency": "USD",
+        "ticketsAvailable": 60
+      }
+    ],
+    "schedule": [
+      {
+        "attendTo": "20:00",
+        "attendFrom": "15:00",
+        "dayNumber": 5
+      }
+    ],
+    "eventDetails": {
+      "eventName": "QUORUM FIGHT NIGHT IV - BOXING IS BACK",
+      "shortDescription": "BONE VS VERDUGO",
+      "mainDescription": "Regresa a la capital lo mejor del boxeo profesional junto a los mayores exponentes del país y la región 🇪🇨🇲🇽🇻🇪🇺🇸🇵🇪\n¡El mejor boxeador que ha producido el Ecuador en toda su historia regresa para brindarnos un espectáculo de primer nivel! Erick Bone, protagonizará la pelea estelar por el Ranking Mundial versus un experimentado mexicano. Además, contaremos con peleas internacionales por clasificatorios al Ranking Mundial y al Ranking Nacional.",
+      "dateEvent": "18-03-2023",
+      "hourEvent": "15:00",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": ["banner1.com", "banner2.com", "banner3.com"]
+        }
+      ],
+      "videoImg": "videoFight.mp4",
+      "saleStatus": false,
+      "urlEvent": "",
+      "ticketsAvailable": 420,
+      "isOnline": false,
+      "visitorTeam": "",
+      "homeTeam": "",
+      "sportType": "fights",
+      "modality": ["presential"]
+    }
+  },
+  "input8": {
+    "stageID": "6448763024f99385a6e59be3",
+    "ticketType": [
+      {
+        "name": "GENERAL",
+        "description": "Asiento común con las comodidades basicas para apoyar al equipo deportivo",
+        "section": "GENERAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 4000
+      },
+      {
+        "name": "PREFERENCIAL",
+        "description": "Asiento con mejores prestaciónes y con mejor vista a la cancha",
+        "section": "PREFERENCIAL",
+        "cost": 10,
+        "currency": "USD",
+        "ticketsAvailable": 2000
+      },
+      {
+        "name": "TRIBUNA",
+        "description": "Asiento preferido por los hinchas y tiene mejor visibilidad del equipo y la hinchada.",
+        "section": "TRIBUNA",
+        "cost": 20,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      },
+      {
+        "name": "PALCO",
+        "description": "Asiento destacable para personas que pueden ver claramente el partido, frente a frente el equipo en la cancha",
+        "section": "PALCO",
+        "cost": 30,
+        "currency": "USD",
+        "ticketsAvailable": 1000
+      }
+    ],
+    "schedule": [
+      {
+        "dayNumber": 2,
+        "attendFrom": "17:30",
+        "attendTo": "22:00"
+      }
+    ],
+    "eventDetails": {
+      "eventName": "UNIVERSIDAD CATÓLICA vs LIGA",
+      "shortDescription": "Vamos por la Copa!!!",
+      "mainDescription": "El partido definira quien pasara a cuartos de final",
+      "dateEvent": "27-11-2023",
+      "hourEvent": "17:30",
+      "banners": [
+        {
+          "promoVideo": "videoPromo.mp4",
+          "bannersUrls": ["banner1.com", "banner2.com", "banner3.com"]
+        }
+      ],
+      "videoImg": "videoLiga.mp4",
+      "saleStatus": false,
+      "urlEvent": "partidodecuartos.com",
+      "ticketsAvailable": 350,
+      "isOnline": true,
+      "visitorTeam": "LIGA",
+      "homeTeam": "UNIVERSIDAD CATÓLICA",
+      "sportType": "soccer",
+      "modality": ["presential", "online"]
+    }
+  }
+}

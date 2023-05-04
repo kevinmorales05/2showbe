@@ -150,8 +150,8 @@ enum inEventType {
   soccer
   sports
   museum
-  park
-  socialevent
+  national_park
+  social_event
   concert
   teather
   cars
@@ -286,8 +286,8 @@ input inputNotification {
         "soccer",
         "sports",
         "museum",
-        "park",
-        "social-event",
+        "national_park",
+        "social_event",
         "concert",
         "teather",
         "cars",
@@ -314,13 +314,16 @@ input inputOfStageDetails {
   name: String!
   description: String!
   longDescription: String!
-  openFrom: String!
-  closeTo: String!
   banners: [String!]
   videoURL: String
   capacity: Int
-  daysOpen: [Int]
   onlineLink: String
+  daysOpen: [inputOfDaysOpen]
+}
+input inputOfDaysOpen {
+  openFrom: String!
+  closeTo: String!
+  dayOpen: Int!
 }
 input inputOfAddress {
   city: String!
@@ -386,7 +389,7 @@ type outOfEventCategory {
   longDescription: String
   icon: String
   urlImg: String
-  id: String!
+  _id: String!
 }
 type outOfTicketType {
   ticketTypeDetails: [outOfTicketTypeDetails]
@@ -406,14 +409,12 @@ type outOfStage {
   name: String!
   description: String!
   longDescription: String!
-  openFrom: String!
-  closeTo: String!
   banners: [String!]
   videoURL: String
   capacity: Int
-  daysOpen: [Int]
+  daysOpen: [outOfDaysOpen]
   onlineLink: String
-  id: String!
+  _id: String!
 }
 type outOfAddress {
   city: String!
@@ -479,7 +480,6 @@ type outputOfCreateStage {
   eventCategory: [outputOfEventCategory]
   address: outOfAddress
   stageDetails: outOfStageDetails
-  id: String!
 }
 type outputOfEventCategory {
   categoryType: String!
@@ -489,22 +489,31 @@ type outputOfEventCategory {
   icon: String
   urlImg: String
 }
-
 type outOfStageDetails {
   name: String!
   description: String!
   longDescription: String!
-  openFrom: String!
-  closeTo: String!
   banners: [String!]
   videoURL: String
   capacity: Int
-  daysOpen: [Int]
+  daysOpen: [outOfDaysOpen]
   onlineLink: String
-  id: String!
+  _id: String!
+}
+type outOfDaysOpen {
+  openFrom: String!
+  closeTo: String!
+  dayOpen: Int!
 }
 # End to create Stage
 
+
+# Start Assign Category to Stage
+input inputOfAssignCategoryToStage {
+  eventCategory: inputOfEventCategory
+  stageIDToAssign: String!
+}
+# End Assign Category to Stage
 
 
 # Start to assign or create Ticket to User
@@ -558,6 +567,13 @@ type outOfTicketAvailable {
   _id: String!
 }
 # End to assign or create Ticket to User
+
+# Start of Update Tickets to Event 
+input inputOfUpdateTicketsEvent {
+  eventID: String!
+  updateTicketType: [inputOfTicketType]
+}
+# End Tickets to Event 
 
 # Start to allowEvent
 enum ticketTypeSoccer {
@@ -697,21 +713,28 @@ input UserInput {
   "Query to get all Event Categories"
   getEventCategories: [EventCategory]
 
-  "Query to get all Stages with pagination by 10"
+  """Query to get all Stages\n
+    **Default offset & limit are **: 0 & 10
+  """
   getStages(
     input: inputOfGetStagesByAddress
     offset: Int
     limit: Int
   ): [outputOfGetStages]
 
-  "Query to get all Events with pagination by 5"
+  
+  """Query to get all Events\n
+    **Default offset & limit are **: 0 & 5
+  """
   getEvents(input: inputOfGetEvent, offset: Int, limit: Int): [outGetEvents]
 
   "Query to get events by costs and type of ticket"
   getEventCosts(input: inputOfGetEventCosts): outOfGetEventCostos
 
 
-  "Query to get a ticket bought by an User"
+  """Query to get a ticket bought by an User\n
+    **Default offset & limit are **: 0 & 5
+  """
   getUserTickets(
     input: inputOfUserTickets
     offset: Int
@@ -735,9 +758,14 @@ type Mutation {
   "Create an new Stage"
   createStage(input: inputOfCreateStage): outputOfCreateStage
 
+  "Assign category to Event"
+  assignCategoryToStage(input: inputOfAssignCategoryToStage): String!
+
   "Allow to an user can buy a ticket"
   createTicketToUser(input: inputOfCreateTicketToUser): outOfCreateTicketToUser
-  # outOfCreateToUser
+  
+  "Update ticket of an Event"
+  updateTicketsEvent(input: inputOfUpdateTicketsEvent): String!
 
   "Notifications section"
   sendNotification(input: inputNotification): String
