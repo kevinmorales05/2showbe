@@ -210,7 +210,8 @@ export const resolvers = {
           .populate("userID eventID")
           .populate({ path: "eventID", populate: { path: "ticketTypeID" } });
 
-        if (userEvent.length === 0) return new GraphQLError(`No User ${input}`);
+        if (userEvent.length === 0)
+          return new GraphQLError(`No tickets to User ${input.userID}`);
 
         function reducer(acc, curr, index) {
           const {
@@ -227,25 +228,17 @@ export const resolvers = {
           }
           if (foundTickets.length === 0) return acc;
 
-          // const out = acc.concat(curr);
-          // out.buyTicketsDetails = foundTickets;
-          // return out;
-
-          let out = Object.assign({}, curr['_doc'], {buyTicketsDetails: foundTickets})
-          
-          console.log("out", out)
-          // curr['buyTicketsDetails'] = {foundTickets};
-          // curr[0]['buyTicketsDetails'] = {foundTickets};
-
+          let out = Object.assign({}, curr["_doc"], {
+            buyTicketsDetails: foundTickets,
+          });
           return acc.concat(out);
-
         }
 
         const costsTickets = userEvent[0].eventID.reduce(reducer, []);
 
-        console.log("userEvent", userEvent[0].eventID);
-        console.log("costs found it: ", costsTickets);
-        console.log("specific: ", costsTickets[0]["buyTicketsDetails"]);
+        // console.log("userEvent", userEvent[0].eventID);
+        // console.log("costs found it: ", costsTickets);
+        // console.log("specific: ", costsTickets[0]["buyTicketsDetails"]);
 
         const outAux = {
           userDetails: userEvent[0].userID,
@@ -317,6 +310,58 @@ export const resolvers = {
         throw new GraphQLError("so" + input + error);
       }
     },
+    assignCategoryToStage: async (_, { input }) => {
+      try {
+        const stage = await Stage.findById(input.stageIDToAssign);
+        if (stage === undefined || stage === null)
+          return new GraphQLError(
+            `Not Found stage with id: ${input.stageIDToAssign}`
+          );
+        const eventCategory = new EventCategory(input.eventCategory);
+        await eventCategory.save();
+        console.log("whats: ", eventCategory, "and stage", stage);
+        stage.eventCategoryID = stage.eventCategoryID.concat(eventCategory._id);
+        await stage.save();
+        return `Stage ${stage.name} assigned a new category of type ${eventCategory.categoryType}`;
+      } catch (error) {
+        throw new GraphQLError(`Error while the user creation ${input}`);
+      }
+    },
+    updateTicketsEvent: async (_, { input }) => {
+      try {
+        const event = await Event.findById(input.eventID).populate(
+          "ticketTypeID"
+        );
+        if (event === undefined || event === null)
+          return new GraphQLError(`Not Found Stage with id: ${input.eventID}`);
+        const optsDBValidators = {
+          runValidators: true,
+          context: "query",
+          new: true,
+          upsert: true,
+        };
+        const eventCategory = await TicketType.findByIdAndUpdate(
+          event.ticketTypeID,
+          {
+            $addToSet: {
+              ticketTypeDetails: { $each: input.updateTicketType },
+            },
+          },
+          optsDBValidators
+        );
+        await eventCategory.save();
+
+        return `Current tickets in Event ${
+          event.eventName
+        } now are ${eventCategory.ticketTypeDetails.map(
+          (_) => _.name
+        )} with tickets available ${eventCategory.ticketTypeDetails.map(
+          (_) => _.ticketsAvailable
+        )}`;
+      } catch (error) {
+        throw new GraphQLError(`Error while the user creation ${input}`);
+      }
+    },
     createEvent: async (_, { input }, ctx) => {
       try {
         if (typeof input.stageID !== "string" && input.stageID === "")
@@ -337,6 +382,15 @@ export const resolvers = {
         const schedule = await new Schedule({
           scheduleDetails: input.schedule,
         });
+
+        // sum the total ticketsAvailable without to put it manually in the input to avoid errors of count
+        const totalTicketsAvailable = input.ticketType.reduce(
+          (acc, curr) => acc + curr.ticketsAvailable,
+          0
+        );
+        input.eventDetails.ticketsAvailable = totalTicketsAvailable;
+        console.log("ticketsAvailable", input.eventDetails.ticketsAvailable);
+
         const event = await new Event(input.eventDetails);
 
         await ticketType.save();
@@ -364,7 +418,7 @@ export const resolvers = {
           address: stage.addressID,
           eventDetails: event,
         };
-        console.log("out", out);
+        // console.log("out", out);
         return out;
       } catch (error) {
         throw new GraphQLError(`Error saving event ${error}`, {
