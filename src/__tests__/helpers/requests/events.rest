@@ -1,4 +1,5 @@
-@url=http://localhost:4000/
+# @url=http://localhost:4000/
+@url=https://twoshowbe.onrender.com/
 ###
 POST {{url}}
 Content-Type: application/json
@@ -188,7 +189,7 @@ mutation CreateEvent($input: inputEvent) {
 
 {
   "input": {
-    "stageID": "644c0d8b7ded43bae6f52d1f",
+    "stageID": "64522a4dcc93f0189ff1d533",
     "ticketType": [
       {
         "name": "GENERAL",
