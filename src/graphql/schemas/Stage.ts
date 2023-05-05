@@ -11,6 +11,20 @@ const stageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "EventCategory",
     }],
+    daysOpen: [{
+      closeTo: {
+        type: String,
+        required: true,
+      },
+      openFrom: {
+        type: String,
+        required: true,
+      },
+      dayOpen: {
+        type: Number,
+        required: true,
+      },
+    }],
     name: {
       type: String,
       required: true,
@@ -23,24 +37,12 @@ const stageSchema = new Schema(
       type: String,
       required: true,
     },
-    openFrom: {
-      type: String,
-      required: true,
-    },
-    closeTo: {
-      type: String,
-      required: true,
-    },
     banners: {
       type: [String],
       required: true,
     },
     videoURL: String,
     capacity: Number,
-    daysOpen: {
-      type: [Number],
-      default: [],
-    },
     onlineLink: {
       type: String,
     },

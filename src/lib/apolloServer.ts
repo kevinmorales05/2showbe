@@ -7,7 +7,6 @@ import { unwrapResolverError } from '@apollo/server/errors';
 import { resolvers } from "../graphql/resolvers/resolvers.js";
 import { typeDefs } from "../graphql/typedefs/typedefs.js";
 import config from "../utils/config.js";
-import dataTest from "../__tests__/simple.js";
 
 export interface MyContext {
   dataSources: {
