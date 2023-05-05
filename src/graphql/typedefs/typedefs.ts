@@ -150,11 +150,15 @@ enum inEventType {
   # sports
   soccer
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 795466b (add eventcatefories new types)
   volleyball
   ecuavolley
   horses
   fights
   othersport
+<<<<<<< HEAD
 =======
   sports
   museum
@@ -164,6 +168,8 @@ enum inEventType {
   teather
   cars
 >>>>>>> fade471 (add an option to add new eventCategory to event)
+=======
+>>>>>>> 795466b (add eventcatefories new types)
   other
 
   museums
@@ -301,6 +307,9 @@ input inputNotification {
         [
         "soccer",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 795466b (add eventcatefories new types)
         "volleyball",
         "ecuavolley",
         "horses",
@@ -313,6 +322,7 @@ input inputNotification {
         "social_events",
         "concerts",
         "teathers",
+<<<<<<< HEAD
 =======
         "sports",
         "museum",
@@ -321,6 +331,8 @@ input inputNotification {
         "concert",
         "teather",
 >>>>>>> fade471 (add an option to add new eventCategory to event)
+=======
+>>>>>>> 795466b (add eventcatefories new types)
         "cars",
       ],
 """
