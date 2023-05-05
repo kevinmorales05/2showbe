@@ -1,9 +1,5 @@
-<<<<<<< HEAD:src/__tests__/requests/events.rest
-@url=http://localhost:4000/
-=======
 # @url=http://localhost:4000/
 @url=https://twoshowbe.onrender.com/
->>>>>>> origin/master:src/__tests__/helpers/requests/events.rest
 ###
 POST {{url}}
 Content-Type: application/json
@@ -193,11 +189,7 @@ mutation CreateEvent($input: inputEvent) {
 
 {
   "input": {
-<<<<<<< HEAD:src/__tests__/requests/events.rest
-    "stageID": "644c0d8b7ded43bae6f52d1f",
-=======
     "stageID": "64522a4dcc93f0189ff1d533",
->>>>>>> origin/master:src/__tests__/helpers/requests/events.rest
     "ticketType": [
       {
         "name": "GENERAL",

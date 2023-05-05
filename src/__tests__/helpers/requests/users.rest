@@ -1,74 +1,11 @@
-<<<<<<< HEAD:src/__tests__/requests/users.rest
-@url=http://localhost:4000/
-=======
 # @url=http://localhost:4000/
 @url=https://twoshowbe.onrender.com/
->>>>>>> origin/master:src/__tests__/helpers/requests/users.rest
 
 ###
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 
-<<<<<<< HEAD:src/__tests__/requests/users.rest
-mutation CreateTicketToUser($input: inputOfCreateTicketToUser) {
-  createTicketToUser(input: $input) {
-    assignTicketDetails {
-      buyDate
-      modality
-      seatSection
-      seatName
-      ticketCode
-      status
-      isReserved
-      _id
-    }
-    eventDetails {
-      eventName
-      artistName
-      shortDescription
-      mainDescription
-      dateEvent
-      banners {
-        promoVideo
-        bannersUrls
-        _id
-      }
-      videoImg
-      saleStatus
-      hourEvent
-      urlEvent
-      ticketsAvailable
-      modality
-      isOnline
-      concertPlacesIMG
-      visitorTeam
-      homeTeam
-      sportType
-      _id
-    }
-    userDetails {
-      name
-      lastName
-      firebaseID
-      status
-      _id
-    }
-  }
-}
-
-{
-  "input": {
-    "userFirebaseID": "randomnumber",
-    "eventID": "644c0d9e7ded43bae6f52d30",
-    "ticketDetails": {
-      "modality": ["presential"],
-      "seatSection": "GENERAL",
-      "seatName": "10A",
-      "status": "active",
-      "isReserved": true,
-    }
-=======
 query GetUsers {
   getUsers {
     name
@@ -84,7 +21,6 @@ query GetUsers {
     city
     gender
     profileImg
->>>>>>> origin/master:src/__tests__/helpers/requests/users.rest
   }
 }
 
@@ -117,10 +53,7 @@ mutation CreateUser($input: UserInput) {
 }
 
 ###
-<<<<<<< HEAD:src/__tests__/requests/users.rest
-=======
 ###
->>>>>>> origin/master:src/__tests__/helpers/requests/users.rest
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
@@ -187,10 +120,7 @@ mutation CreateTicketToUser($input: inputOfCreateTicketToUser) {
 
 
 ###
-<<<<<<< HEAD:src/__tests__/requests/users.rest
-=======
 ###
->>>>>>> origin/master:src/__tests__/helpers/requests/users.rest
 POST {{url}}
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
