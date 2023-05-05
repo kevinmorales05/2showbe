@@ -1,0 +1,9 @@
+{
+    "input": {
+      "eventType": "soccer",
+      "modalityType": ["presential"]
+    },
+    "offset": 0,
+    "limit": 0
+  }
+  

@@ -1,0 +1,462 @@
+{
+  "input": {
+    "eventCategory": {
+      "categoryType": "museum",
+      "name": "Atractivo turistico",
+      "shortDescription": "Evento relacionado a la cultura ancestral de Quito",
+      "longDescription": "La compra de la entrada del Museo esta disponible para todo el mundo",
+      "icon": "museo.svg",
+      "urlImg": "museo.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Centro historico venezuela",
+      "numberStreet": "Oe7-77",
+      "reference": "Frente a la plaza San Francisco",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "Cuicocha",
+      "mapsURL": "googlemap.777.com",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "17:00",
+          "openFrom": "9:30",
+          "dayOpen": 0
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "9:30",
+          "dayOpen": 1
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "9:30",
+          "dayOpen": 2
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "9:30",
+          "dayOpen": 3
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "9:30",
+          "dayOpen": 4
+        },
+        {
+          "closeTo": "18:00",
+          "openFrom": "8:00",
+          "dayOpen": 5
+        },
+        {
+          "closeTo": "18:00",
+          "openFrom": "8:00",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "museumOnline.com",
+      "capacity": 200,
+      "videoURL": "museumSucreOnline.com",
+      "banners": ["museum1.com", "museum2.com", "museum3.com"],
+      "longDescription": "Este evento contiene mucha artesiania proviente de la epoca del General y presidente Sucre.",
+      "description": "No se permite bebidas alcoholicas \n Ingrese a los niños con adulto a cargo",
+      "name": "Museo Sucre"
+    }
+  },
+  "input1": {
+    "eventCategory": {
+      "categoryType": "national_park",
+      "name": "Atractivo turistico de especies y animales del Ecuador",
+      "shortDescription": "Evento relacionado a la fauna y flora de las Islas Galápagos",
+      "longDescription": "La compra de la entrada esta abierta todo el público con excepciones de impuestos para extranjeros quienes ayuden al turismo del Ecuador",
+      "icon": "galapagos.svg",
+      "urlImg": "galapagos.png"
+    },
+    "address": {
+      "city": "Puerto Baquerizo Moreno",
+      "country": "Ecuador",
+      "state": "Galápagos",
+      "mainStreet": " Puerto ayora",
+      "numberStreet": "C10GY5",
+      "reference": "Frente a la plaza central de la biblioteca de Alamy",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "Villamil",
+      "mapsURL": "googlemap.777.com",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "",
+          "openFrom": "",
+          "dayOpen": 0
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 1
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 2
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 3
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 4
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 5
+        },
+        {
+          "closeTo": "17:00",
+          "openFrom": "6:00",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "galapagosPage.com",
+      "capacity": 1000,
+      "videoURL": "islaIsabel_galápagos.com",
+      "banners": ["isla1.com", "isla2.com", "isla3.com"],
+      "longDescription": "Este lugar de ensueño es para los aventureros que le gusta la naturaleza y la preservación de la especie.",
+      "description": "No se permite bebidas alcoholicas \n Ingrese a los niños con adulto a cargo",
+      "name": "Parque Nacional Islas Galápagos "
+    }
+  },
+  "input2": {
+    "eventCategory": {
+      "categoryType": "social_events",
+      "name": "Lugar para recaudación de eventos sociales.",
+      "shortDescription": "Confraternidad  y recaudación de fondos.",
+      "longDescription": "Lugar para recaudar fontos para eventos conmemorativos, festivales, fechas civicas u otra ocación que permita que el anfitrión permita recaudar fondos para una causa benefica",
+      "icon": "social_event.svg",
+      "urlImg": "social_event.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Pasaje # 34, Rumipamba",
+      "numberStreet": " E6-264",
+      "reference": "Interior Parque La Carolina.",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "Av Shyris",
+      "mapsURL": "https://maps.google.com/maps?ll=-0.182929,-78.485328&z=17&t=m&hl=es&gl=EC&mapclient=embed&cid=2749290381209859836",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 0
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 1
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 2
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 3
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 4
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 5
+        },
+        {
+          "closeTo": "15:00",
+          "openFrom": "10:00",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "social_event.com",
+      "capacity": 250,
+      "videoURL": "social_event.com",
+      "banners": ["sociale1.com", "sociale2.com", "sociale3.com"],
+      "longDescription": "Lugar que permite la gestión y preservación  Jardín Botánicos y espacio para entablar conversación con personas que tengan el mismo enfoque atravez de la naturaleza.",
+      "description": "No se permite bebidas alcoholicas \n Ingrese a los niños con adulto a cargo\nTu apoyo en este espacio preserva la Naturaleza",
+      "name": "Plaza Orquidearios"
+    }
+  },
+  "input3": {
+    "eventCategory": {
+      "categoryType": "concert",
+      "name": "Evento para conciertos",
+      "shortDescription": "Evento musical",
+      "longDescription": "Evento que puede contener varios artistas músicales.",
+      "icon": "concert.svg",
+      "urlImg": "concert.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Ladron de Guevara",
+      "numberStreet": "170136",
+      "reference": "Frente a la concentración deportiva de Pichincha.",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "José María Velasco Ibarra",
+      "mapsURL": "googlemap.777.com",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "22:00",
+          "openFrom": "20:00",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "coliseoRuminahuiPageFacebook.com",
+      "capacity": 15500,
+      "videoURL": "coliseoRumiVideo.com",
+      "banners": ["coliseo1.com", "coliseo2.com", "coliseo3.com"],
+      "longDescription": "Coliseo que alberga gran cantidad de personas.",
+      "description": "El Coliseo Rumiñahui llena las expectativas de muchas personas en este lugar",
+      "name": "Coliseo General Rumiñahui"
+    }
+  },
+  "input4": {
+    "eventCategory": {
+      "categoryType": "teather",
+      "name": "Teatro humoristico para todos las edades.",
+      "shortDescription": "Teatro de arte humoristico.",
+      "longDescription": "Teatro para observar todas las formas, sabores y colores del arte humoristico.",
+      "icon": "teather.svg",
+      "urlImg": "teather.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Amazonas",
+      "numberStreet": "oe2-838",
+      "reference": "Dentro del centro comercial CCI segundo piso.",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "Naciones Unidas",
+      "mapsURL": "googlemap.777.com",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "22:00",
+          "openFrom": "20:00",
+          "dayOpen": 4
+        },
+        {
+          "closeTo": "22:00",
+          "openFrom": "20:00",
+          "dayOpen": 5
+        },
+        {
+          "closeTo": "20:00",
+          "openFrom": "18:00",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "administracion@elteatro.com.ec",
+      "capacity": 176,
+      "videoURL": "teatherNameVideo.com",
+      "banners": ["teather1.com", "teather2.com", "teather3.com"],
+      "longDescription": "Teatro con bastante trayectoria y experiencia con el publico de caracter humoristico que ofrece adentro del Centro Comercial CCI, alado del parque La Carolina",
+      "description": "Lugar con las comodidades necesarias.",
+      "name": "Teatro CCI"
+    }
+  },
+  "input5": {
+    "eventCategory": {
+      "categoryType": "cars",
+      "name": "Espectáculos de carros a nivel nacional.",
+      "shortDescription": "Carros de exhibición",
+      "longDescription": "Evento que busca poner a exhibición carros de varias gamas.",
+      "icon": "cars.svg",
+      "urlImg": "cars.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Av. Río Amazonas 3461",
+      "numberStreet": "170135",
+      "reference": "Frente al parque la Carolina",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "",
+      "mapsURL": "googlemap.777.com",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "17:30",
+          "openFrom": "10:30",
+          "dayOpen": 4
+        },
+        {
+          "closeTo": "17:30",
+          "openFrom": "10:30",
+          "dayOpen": 5
+        },
+        {
+          "closeTo": "17:30",
+          "openFrom": "10:30",
+          "dayOpen": 6
+        }
+      ],
+      "onlineLink": "centroDeExposicionesQuito.com",
+      "capacity": 500,
+      "videoURL": "centroDeExposicionesQuitoVideo.com",
+      "banners": ["cars1.com", "cars2.com", "cars3.com"],
+      "longDescription": "Lugar de exposiciones de todo tipo de categoria",
+      "description": "Lugar que apoya el crecimiento de medianas y pequeñas empresas con exposiciones de todo tipo de categoria.",
+      "name": "Centro de Exposiciones Quito"
+    }
+  },
+  "input6": {
+    "eventCategory": {
+      "categoryType": "horses",
+      "name": "Evento y exposición de caballos",
+      "shortDescription": "Evento y Feria de Caballos.",
+      "longDescription": "Evento que permite observar y ver los diferentes razas de caballos y sus disciplinas.",
+      "icon": "horses.svg",
+      "urlImg": "horses.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Quito Tenis y Golf Club",
+      "numberStreet": "postal 170134",
+      "reference": "Quito Tenis y Golf Club",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "",
+      "mapsURL": "WG23+887",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "",
+          "openFrom": "8:00",
+          "dayOpen": 4
+        }
+      ],
+      "onlineLink": "quitoTenis.com",
+      "capacity": 2000,
+      "videoURL": "quitoTenisVideo.com",
+      "banners": ["quitoTenis1.com", "quitoTenis2.com", "quitoTenis3.com"],
+      "longDescription": "El Club cuenta con los salones ideales para todo tipo de eventos: matrimonios, fiestas de cumpleaños, almuerzos, eventos corporativos, seminarios, conciertos, salas de reuniones ejecutivas, entre otros. Para información sobre reservas, contáctanos.",
+      "description": "El mejor Club, las mejores instalaciones, el mejor ambiente ¡Visítanos!"
+    }
+  },
+  "input7": {
+    "eventCategory": {
+      "categoryType": "fights",
+      "name": "Evento de peleas",
+      "shortDescription": "Evento de entretenimiento de peleas",
+      "longDescription": "Este tipo de eventos la pelea se concreta en un ring con dos contrincantes.",
+      "icon": "fights.svg",
+      "urlImg": "fights.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Urb. Santa Lucía, pasaje A ",
+      "numberStreet": "170904",
+      "reference": "Paseo San Francisco, Cumbayá - Quito 170904",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "Vía Interoceánica",
+      "mapsURL": "https://www.google.com/search?q=quorum+quito+eventos+capacidad&oq=quorum+quito+eventos+capacidad&aqs=chrome..69i57j33i160l4.9094j0j9&sourceid=chrome&ie=UTF-8#",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "20:00",
+          "openFrom": "15:00",
+          "dayOpen": 5
+        }
+      ],
+      "onlineLink": "",
+      "capacity": 500,
+      "videoURL": "quorumQuitoVideo.com",
+      "banners": ["quorum1.com", "quorum2.com", "quorum3.com"],
+      "longDescription": "El Centro de Convenciones, con un total de 8.070 m2 (86.833 ft²), tiene una capacidad global para 2200 personas y puede subdividirse en tres partes, adicionando 15 salones de distintas capacidades que pueden replegarse o expandirse de acuerdo a las necesidades logísticas de cada evento.",
+      "description": "Quorum Quito encontrarás espacios y ambientes versátiles y multifuncionales con salones modulares, oficinas temporales y salas de reuniones",
+      "name": "Centro de Convenciones Quorum"
+    }
+  },
+  "input8": {
+    "eventCategory": {
+      "categoryType": "soccer",
+      "name": "Evento de deportes que se juega 11 jugadores por equipo",
+      "shortDescription": "Evento de entretenimiento de futbol",
+      "longDescription": "El futbol se concreta en la cancha de jugadores.",
+      "icon": "soccer.svg",
+      "urlImg": "soccer.png"
+    },
+    "address": {
+      "city": "Quito",
+      "country": "Ecuador",
+      "state": "Pichincha",
+      "mainStreet": "Av. Naciones Unidas",
+      "numberStreet": "170135",
+      "reference": "Frente al Quicentro Norte",
+      "lat": "9823498273977793777",
+      "long": "129347775792375676777",
+      "secondStreet": "6 de Diciembre",
+      "mapsURL": "RGFF+284",
+      "languages": ["Español"]
+    },
+    "stageDetails": {
+      "daysOpen": [
+        {
+          "closeTo": "22:00",
+          "openFrom": "17:30:",
+          "dayOpen": 2
+        }
+      ],
+      "onlineLink": "",
+      "capacity": 35.724,
+      "videoURL": "stadiumVideo.com",
+      "banners": ["stadium1.com", "stadium2.com", "stadium3.com"],
+      "longDescription": " es un escenario deportivo ubicado en la Avenida 6 de Diciembre y Naciones Unidas, en el sector de El Batán, al norte de la capital.",
+      "description": "El Estadio Olímpico Atahualpa is un stadio multiproposito de Quito. Actualmente usado principalmentepara eventos de futbol",
+      "name": "Estadio Olímpico Atahualpa"
+    }
+  }
+}
