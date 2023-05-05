@@ -55,3 +55,4 @@ export const typeDefs = `#graphql
     sendNotification(input: inputNotification): String
   }
 `;
+//# sourceMappingURL=typedefs.js.map
