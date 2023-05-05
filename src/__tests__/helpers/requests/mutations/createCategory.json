@@ -1,0 +1,101 @@
+{
+  "input": {
+    "eventCategory": {
+      "categoryType": "museum",
+      "name": "Atractivo turistico",
+      "shortDescription": "Evento relacionado a la cultura ancestral de Quito",
+      "longDescription": "La compra de la entrada del Museo esta disponible para todo el mundo",
+      "icon": "museo.svg",
+      "urlImg": "museo.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input1": {
+    "eventCategory": {
+      "categoryType": "national_park",
+      "name": "Atractivo turistico de especies y animales del Ecuador",
+      "shortDescription": "Evento relacionado a la fauna y flora de las Islas Galápagos",
+      "longDescription": "La compra de la entrada esta abierta todo el público con excepciones de impuestos para extranjeros quienes ayuden al turismo del Ecuador",
+      "icon": "galapagos.svg",
+      "urlImg": "galapagos.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input2": {
+    "eventCategory": {
+      "categoryType": "social_events",
+      "name": "Lugar para recaudación de eventos sociales.",
+      "shortDescription": "Confraternidad  y recaudación de fondos.",
+      "longDescription": "Lugar para recaudar fontos para eventos conmemorativos, festivales, fechas civicas u otra ocación que permita que el anfitrión permita recaudar fondos para una causa benefica",
+      "icon": "social_event.svg",
+      "urlImg": "social_event.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input3": {
+    "eventCategory": {
+      "categoryType": "concert",
+      "name": "Evento para conciertos",
+      "shortDescription": "Evento musical",
+      "longDescription": "Evento que puede contener varios artistas músicales.",
+      "icon": "concert.svg",
+      "urlImg": "concert.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input4": {
+    "eventCategory": {
+      "categoryType": "teather",
+      "name": "Teatro humoristico para todos las edades.",
+      "shortDescription": "Teatro de arte humoristico.",
+      "longDescription": "Teatro para observar todas las formas, sabores y colores del arte humoristico.",
+      "icon": "teather.svg",
+      "urlImg": "teather.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input5": {
+    "eventCategory": {
+        "categoryType": "cars",
+        "name": "Espectáculos de carros a nivel nacional.",
+        "shortDescription": "Carros de exhibición",
+        "longDescription": "Evento que busca poner a exhibición carros de varias gamas.",
+        "icon": "cars.svg",
+        "urlImg": "cars.png"
+      },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input6": {
+    "eventCategory": {
+      "categoryType": "horses",
+      "name": "Evento y exposición de caballos",
+      "shortDescription": "Evento y Feria de Caballos.",
+      "longDescription": "Evento que permite observar y ver los diferentes razas de caballos y sus disciplinas.",
+      "icon": "horses.svg",
+      "urlImg": "horses.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input7": {
+    "eventCategory": {
+      "categoryType": "fights",
+      "name": "Evento de peleas",
+      "shortDescription": "Evento de entretenimiento de peleas",
+      "longDescription": "Este tipo de eventos la pelea se concreta en un ring con dos contrincantes.",
+      "icon": "fights.svg",
+      "urlImg": "fights.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  },
+  "input8": {
+    "eventCategory": {
+      "categoryType": "soccer",
+      "name": "Evento de deportes que se juega 11 jugadores por equipo",
+      "shortDescription": "Evento de entretenimiento de futbol",
+      "longDescription": "El futbol se concreta en la cancha de jugadores.",
+      "icon": "soccer.svg",
+      "urlImg": "soccer.png"
+    },
+    "stageIDToAssign": "123894729834292"
+  }
+}

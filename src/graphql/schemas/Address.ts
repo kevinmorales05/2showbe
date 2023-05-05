@@ -31,11 +31,9 @@ const AddressEventSchema = new Schema({
   },
   lat: {
     type: String,
-    required: true,
   },
   long: {
     type: String,
-    required: true,
   },
   languages: {
     type: [String],

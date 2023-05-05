@@ -10,6 +10,24 @@ const stageSchema = new Schema(
       type: [String],
       default: [],
     },
+    eventCategoryID: [{
+      type: Schema.Types.ObjectId,
+      ref: "EventCategory",
+    }],
+    daysOpen: [{
+      closeTo: {
+        type: String,
+        required: true,
+      },
+      openFrom: {
+        type: String,
+        required: true,
+      },
+      dayOpen: {
+        type: Number,
+        required: true,
+      },
+    }],
     name: {
       type: String,
       required: true,
@@ -28,18 +46,6 @@ const stageSchema = new Schema(
     },
     videoURL: String,
     capacity: Number,
-    openFrom: {
-      type: String,
-      required: true,
-    },
-    closeTo: {
-      type: String,
-      required: true,
-    },
-    daysOpen: {
-      type: [Number],
-      default: [],
-    },
     onlineLink: {
       type: String,
       default: "",
