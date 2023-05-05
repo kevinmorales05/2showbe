@@ -14,11 +14,10 @@ const userEventSchema = new Schema(
         ref: "Event",
       },
     ],
-    // or eventType which contains the same values of an event
+    // Save ticketType specificaly where an user buy a ticket instead of buy a ticket with "GENERAL" this id is saved.
     eventCostID: [
       {
         type: Schema.Types.ObjectId,
-        // ref: "TicketAvailable",
       },
     ],
   },
