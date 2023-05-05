@@ -147,15 +147,21 @@ type UserEvent {
   # ======= QUERIES =========
 # Start to get Events
 enum inEventType {
+  # sports
   soccer
-  sports
-  museum
-  national_park
-  social_event
-  concert
-  teather
-  cars
+  volleyball
+  ecuavolley
+  horses
+  fights
+  othersport
   other
+
+  museums
+  national_parks
+  social_events
+  concerts
+  teathers
+  cars
 }
 enum inModalityType {
   online 
@@ -280,16 +286,22 @@ input inputNotification {
 
 # Start to create Event
 """
-**categoryType**: it could one of them below
+**categoryType**: you can chose one of them below
       \n
-      [
+        [
         "soccer",
-        "sports",
-        "museum",
-        "national_park",
-        "social_event",
-        "concert",
-        "teather",
+        "volleyball",
+        "ecuavolley",
+        "horses",
+        "fights",
+        "fights",
+        "othersport",
+        "other",
+        "museums",
+        "national_parks",
+        "social_events",
+        "concerts",
+        "teathers",
         "cars",
       ],
 """
@@ -301,7 +313,6 @@ input inputOfEventCategory {
   icon: String
   urlImg: String
 }
-
 input inputOfTicketType {
   name: String!
   description: String!
@@ -332,8 +343,8 @@ input inputOfAddress {
   mainStreet: String!
   numberStreet: String!
   reference: String!
-  lat: String!
-  long: String!
+  lat: String
+  long: String
   secondStreet: String
   languages: [String]
   mapsURL: String

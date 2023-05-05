@@ -272,34 +272,41 @@ export const resolvers = {
     },
     createStage: async (_, { input }) => {
       try {
-        const {
-          eventCategory: evByCategory,
-          address: inAddress,
-          stageDetails,
-        } = input;
+        // when it's already in DB (eventCategory)only update if no, another way insert
+        // https://mongoosejs.com/docs/api/model.html#Model.bulkWrite()
+        // https://mongoosejs.com/docs/api/model.html#Model.updateOne()
+        // https://www.mongodb.com/docs/manual/reference/method/db.collection.update/
         if (typeof input !== undefined) {
-          const stage = await new Stage(stageDetails);
-          const eventCategory = await new EventCategory(evByCategory);
-          const address = await new Address(inAddress);
-          await stage.save(stageDetails);
+          const stage = await new Stage(input.stageDetails);
+          const eventCategory = await EventCategory.updateOne(
+            { categoryType: input.eventCategory.categoryType },
+            input.eventCategory,
+            { upsert: true }
+          );
+          const address = await new Address(input.address);
 
-          await eventCategory.save();
+          console.log("wtf: ", eventCategory, "id", eventCategory.upsertedId);
+
+          await stage.save();
+
+          // due to updateOne gives only the ObjectId inserted if exists it's not neccesary to do it again the ObjectId in stage because return null if exists.
+          if (eventCategory.upsertedCount === 1) {
+            const id: any = eventCategory.upsertedId;
+            stage.eventCategoryID = stage.eventCategoryID.concat(id);
+          }
           await address.save();
 
           // saving reference
           // to eventCategory.eventID is still without id because when we create an event in that moment will populate that id.
-
           stage.addressID = address._id;
 
           // a stage can have several category of events
-          stage.eventCategoryID = stage.eventCategoryID.concat(
-            eventCategory._id
-          );
+
           await stage.save();
 
           // how is the first time which we create an eventCategory is wrapped in an array
           const out = {
-            eventCategory: [eventCategory],
+            eventCategory: [input.eventCategory],
             address,
             stageDetails: stage,
             id: stage.id,
