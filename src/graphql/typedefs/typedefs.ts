@@ -149,11 +149,21 @@ type UserEvent {
 enum inEventType {
   # sports
   soccer
+<<<<<<< HEAD
   volleyball
   ecuavolley
   horses
   fights
   othersport
+=======
+  sports
+  museum
+  national_park
+  social_event
+  concert
+  teather
+  cars
+>>>>>>> fade471 (add an option to add new eventCategory to event)
   other
 
   museums
@@ -290,6 +300,7 @@ input inputNotification {
       \n
         [
         "soccer",
+<<<<<<< HEAD
         "volleyball",
         "ecuavolley",
         "horses",
@@ -302,6 +313,14 @@ input inputNotification {
         "social_events",
         "concerts",
         "teathers",
+=======
+        "sports",
+        "museum",
+        "national_park",
+        "social_event",
+        "concert",
+        "teather",
+>>>>>>> fade471 (add an option to add new eventCategory to event)
         "cars",
       ],
 """

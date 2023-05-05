@@ -71,8 +71,13 @@ const EventSchema = new Schema(
       type: String,
     },
     sportType: {
+<<<<<<< HEAD
       type: String, // soccer, basketball, volley, etc..
       default: "empty",
+=======
+      type: String,
+      enum: ["soccer", "basketball", "volley", "other", ""],
+>>>>>>> fade471 (add an option to add new eventCategory to event)
     },
 
     // PREVIOUS ATTRIBUTES
