@@ -156,18 +156,19 @@ export const resolvers = {
             "eventCategoryID ticketTypeID stageID scheduleID"
           );
 
-          const eventFiltered = event.filter(
-            async (v) =>
-              (await v?.eventCategoryID["categoryType"]) === eventCategory
-          );
+          // TODO: gives errors this line
+          // const eventFiltered = event.filter(
+          //   async (v) =>
+          //     (await v?.eventCategoryID["categoryType"]) === eventCategory
+          // );
 
-          const eventValidated = eventFiltered !== null ? eventFiltered : false;
-          if (!eventValidated)
-            return new GraphQLError(`EventCategory not Found ${eventCategory}`);
+          // const eventValidated = eventFiltered !== null ? eventFiltered : false;
+          // if (!eventValidated)
+          //   return new GraphQLError(`EventCategory not Found ${eventCategory}`);
 
-          const eventSliced = arraySliced(eventValidated, offset, limit);
-          const eventsMapped = arrayMapped(eventSliced);
-          return eventsMapped;
+          // const eventSliced = arraySliced(eventValidated, offset, limit);
+          // const eventsMapped = arrayMapped(eventSliced);
+          return event;
         }
 
         if (modality) {
